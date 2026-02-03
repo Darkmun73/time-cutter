@@ -1,0 +1,34 @@
+using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.InputSystem;
+
+[CreateAssetMenu(fileName = "InputReader", menuName = "Scriptable Objects/Input Reader")]
+public class InputReader : ScriptableObject, GameInput.IPlayerActions
+{
+    public event UnityAction<float> moveEvent;
+
+    private GameInput gameInput;
+
+    private void OnEnable()
+    {
+        if (gameInput == null)
+        {
+            gameInput = new GameInput();
+            gameInput.Player.SetCallbacks(this);
+        }
+        gameInput.Player.Enable();
+    }
+
+    private void OnDisable()
+    {
+        gameInput.Player.Disable();
+    }
+
+    public void OnMove(InputAction.CallbackContext context)
+    {
+        if (context.performed || context.canceled)
+        {
+            moveEvent.Invoke(context.ReadValue<float>());
+        }
+    }
+}
