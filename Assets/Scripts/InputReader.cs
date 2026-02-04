@@ -6,6 +6,7 @@ using UnityEngine.InputSystem;
 public class InputReader : ScriptableObject, GameInput.IPlayerActions
 {
     public event UnityAction<float> moveEvent;
+    public event UnityAction jumpEvent;
 
     private GameInput gameInput;
 
@@ -29,6 +30,14 @@ public class InputReader : ScriptableObject, GameInput.IPlayerActions
         if (context.performed || context.canceled)
         {
             moveEvent.Invoke(context.ReadValue<float>());
+        }
+    }
+
+    public void OnJump(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            jumpEvent.Invoke();
         }
     }
 }
