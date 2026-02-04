@@ -7,6 +7,7 @@ public class InputReader : ScriptableObject, GameInput.IPlayerActions
 {
     public event UnityAction<float> moveEvent;
     public event UnityAction jumpEvent;
+    public event UnityAction attackEvent;
 
     private GameInput gameInput;
 
@@ -38,6 +39,14 @@ public class InputReader : ScriptableObject, GameInput.IPlayerActions
         if (context.performed)
         {
             jumpEvent.Invoke();
+        }
+    }
+
+    public void OnAttack(InputAction.CallbackContext context)
+    {
+        if (context.performed || context.canceled)
+        {
+            attackEvent.Invoke();
         }
     }
 }

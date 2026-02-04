@@ -1,49 +1,66 @@
 using System;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
     // components
     private Rigidbody2D rb;
-    [SerializeField] private InputReader inputReader;
 
     // other
+    [SerializeField] private InputReader inputReader;
     [SerializeField] private ContactFilter2D ground;
     [SerializeField] private float movementSpeed = 10f;
     [SerializeField] private float jumpForce = 18;
 
     public bool IsTouchingGround => rb.IsTouching(ground);
-
-    // jumping
-    //[SerializeField] private float maxJumpHeight = 5f;
-    //[SerializeField] private float maxJumpTime = 2f;
-    //private float JumpForce => maxJumpHeight * 2f / (maxJumpTime / 2f);
+    private bool isFacingRight = true;
 
     [SerializeField] private float maxFallSpeed = 10f;
     private float horizontalMove;
 
+    // attack
+    public GameObject hitPrefab;
+    private bool isAttackEnded = true;
+    private Vector2 attackStartCoords = Vector2.zero;
+    private Vector2 attackEndCoords = Vector2.zero;
+
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        //rb.gravityScale = 0f;
-        //Physics2D.gravity = new(Physics2D.gravity.x, (float) (maxJumpHeight * -2f / Math.Pow(maxJumpTime / 2f, 2)));
-        //Debug.Log(rb.gravityScale);
-        //Debug.Log(Physics2D.gravity);
 
         inputReader.moveEvent += SetHorizontalMove;
         inputReader.jumpEvent += Jump;
+        inputReader.attackEvent += HandleAttack;
     }
 
     void FixedUpdate()
     {
-        //rb.AddForce(new(horizontalMove * speed * Time.fixedDeltaTime, rb.position.y));
-        //rb.MovePosition(new(rb.position.x + (horizontalMove * movementSpeed * Time.fixedDeltaTime), rb.position.y));
+        if ((isFacingRight && horizontalMove < 0) || 
+            (!isFacingRight && horizontalMove > 0))
+        {
+            ChangeDirection();
+        }
+
         rb.linearVelocityX = horizontalMove * movementSpeed;
-        //rb.linearVelocityY += (float) (maxJumpHeight * -2f / Math.Pow(maxJumpTime / 2f, 2)) * Time.fixedDeltaTime;
         if (rb.linearVelocityY < -maxFallSpeed)
             rb.linearVelocityY = -maxFallSpeed;
 
         
+    }
+
+    private void Flip()
+    {
+        Vector3 scale = transform.localScale;
+        scale.x *= -1;
+        transform.localScale = scale;
+    }
+
+    public void ChangeDirection()
+    {
+        Flip();
+        isFacingRight = !isFacingRight;
     }
 
     private void SetHorizontalMove(float value)
@@ -53,7 +70,33 @@ public class PlayerController : MonoBehaviour
 
     private void Jump()
     {
-        if (IsTouchingGround) // && rb.linearVelocityY == 0
+        if (IsTouchingGround)
             rb.linearVelocityY = jumpForce;
+    }
+
+    private void HandleAttack()
+    {
+        if (isAttackEnded)
+        {
+            attackStartCoords = Pointer.current.position.ReadValue();
+        } else
+        {
+            attackEndCoords = Pointer.current.position.ReadValue();
+            Attack(attackStartCoords, attackEndCoords);
+        }
+        isAttackEnded = !isAttackEnded;
+    }
+
+    private void Attack(Vector2 start, Vector2 end)
+    {
+        Vector2 playerDirection = isFacingRight ? Vector2.right : Vector2.left;
+
+        Vector2 hitDirection = end - start;
+        float zRotation = Vector2.SignedAngle(playerDirection, hitDirection);
+        Quaternion rotation = Quaternion.Euler(0, 0, zRotation);
+
+        Vector3 hitPosition = new(transform.position.x + playerDirection.x * 2, transform.position.y, transform.position.z);
+        GameObject hitObject = Instantiate(hitPrefab, hitPosition, rotation);
+        Destroy(hitObject, 1);
     }
 }
