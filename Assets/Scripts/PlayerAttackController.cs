@@ -3,19 +3,19 @@ using UnityEngine.InputSystem;
 
 public class PlayerAttackController : MonoBehaviour
 {
-    private PlayerController pc;
-
+    private PlayerController playerController;
+    [SerializeField] private InputReader inputReader;
     [SerializeField] private GameObject hitPrefab;
     private Vector2 attackVectorStartCoords = Vector2.zero;
     private Vector2 attackVectorEndCoords = Vector2.zero;
 
     void Start()
     {
-        pc = GetComponent<PlayerController>();
+        playerController = GetComponent<PlayerController>();
 
-        pc.InputReader.attackInitStartEvent += StartAttackInit;
-        pc.InputReader.attackInitEndEvent += EndAttackInit;
-        pc.InputReader.attackInitEndEvent += Attack;
+        inputReader.AttackInitializing += StartAttackInit;
+        inputReader.AttackInitialized += EndAttackInit;
+        inputReader.AttackInitialized += Attack;
     }
 
     private void StartAttackInit()
@@ -37,7 +37,7 @@ public class PlayerAttackController : MonoBehaviour
     // Make attack with vector from start to end
     private void Attack(Vector2 start, Vector2 end)
     {
-        Vector2 playerDirection = pc.IsFacingRight ? Vector2.right : Vector2.left;
+        Vector2 playerDirection = playerController.IsFacingRight ? Vector2.right : Vector2.left;
 
         Vector2 hitDirection = end - start;
         float zRotation = Vector2.SignedAngle(playerDirection, hitDirection);

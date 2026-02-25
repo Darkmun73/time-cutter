@@ -5,10 +5,10 @@ using UnityEngine.InputSystem;
 [CreateAssetMenu(fileName = "InputReader", menuName = "Scriptable Objects/Input Reader")]
 public class InputReader : ScriptableObject, GameInput.IPlayerActions
 {
-    public event UnityAction<float> moveEvent;
-    public event UnityAction jumpEvent;
-    public event UnityAction attackInitStartEvent;
-    public event UnityAction attackInitEndEvent;
+    public event UnityAction<float> Moving;
+    public event UnityAction Jumping;
+    public event UnityAction AttackInitializing;
+    public event UnityAction AttackInitialized;
 
     private GameInput gameInput;
 
@@ -27,31 +27,31 @@ public class InputReader : ScriptableObject, GameInput.IPlayerActions
         gameInput.Player.Disable();
     }
 
-    public void OnMove(InputAction.CallbackContext context)
+    public void OnMoving(InputAction.CallbackContext context)
     {
         if (context.performed || context.canceled)
         {
-            moveEvent.Invoke(context.ReadValue<float>());
+            Moving.Invoke(context.ReadValue<float>());
         }
     }
 
-    public void OnJump(InputAction.CallbackContext context)
+    public void OnJumping(InputAction.CallbackContext context)
     {
         if (context.performed)
         {
-            jumpEvent.Invoke();
+            Jumping.Invoke();
         }
     }
 
-    public void OnAttack(InputAction.CallbackContext context)
+    public void OnAttacking(InputAction.CallbackContext context)
     {
         if (context.performed)
         {
-            attackInitStartEvent.Invoke();
+            AttackInitializing.Invoke();
         }
         else if (context.canceled)
         {
-            attackInitEndEvent.Invoke();
+            AttackInitialized.Invoke();
         }
     }
 }

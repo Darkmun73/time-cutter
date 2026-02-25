@@ -1,42 +1,38 @@
 using System;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
-    // components
     private Rigidbody2D rb;
 
-    // other
-    [SerializeField] private ContactFilter2D ground;
-    [field: SerializeField] public InputReader InputReader {get; private set;}
+    [SerializeField] private PlayerData playerData;
+    [SerializeField] private PlayerEvents playerEvents;
 
-    public bool IsTouchingGround => rb.IsTouching(ground);
-    public bool IsFacingRight {get; private set;}
+    public bool IsTouchingGround => rb.IsTouching(playerData.Ground);
+    public bool IsFacingRight {get; private set;} = true;
 
-    [SerializeField] private float maxFallSpeed = 10f;
-
-    // move
-    [SerializeField] private float movementSpeed = 10f;
     private float horizontalMove;
-
-    // jump
-    [SerializeField] private float jumpHeight = 2f;
-    [SerializeField] private float jumpTime = 1f;
     private float jumpForce;
 
-    void Awake()
+    private float health;
+    public float Health
     {
-        SetUpJumpForce();
+        get { return health; }
+        set { health = value; playerEvents.OnHealthChanged(value);}
     }
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
 
-        InputReader.moveEvent += SetHorizontalMove;
-        InputReader.jumpEvent += Jump;
+        playerData.InputReader.Moving += SetHorizontalMove;
+        playerData.InputReader.Jumping += Jump;
+
+        SetUpJumpForce();
+        Health = playerData.MaxHealth;
     }
 
     void FixedUpdate()
@@ -47,16 +43,16 @@ public class PlayerController : MonoBehaviour
             ChangeDirection();
         }
 
-        rb.linearVelocityX = horizontalMove * movementSpeed;
-        if (rb.linearVelocityY < -maxFallSpeed)
-            rb.linearVelocityY = -maxFallSpeed;
+        rb.linearVelocityX = horizontalMove * playerData.MovementSpeed;
+        if (rb.linearVelocityY < -playerData.MaxFallSpeed)
+            rb.linearVelocityY = -playerData.MaxFallSpeed;
         
     }
 
     private void SetUpJumpForce()
     {
-        jumpForce = 4 * jumpHeight / jumpTime;
-        rb.gravityScale = 8 * jumpHeight / Mathf.Pow(jumpTime, 2) / (-Physics2D.gravity.y); 
+        jumpForce = 4 * playerData.JumpHeight / playerData.JumpTime;
+        rb.gravityScale = 8 * playerData.JumpHeight / Mathf.Pow(playerData.JumpTime, 2) / (-Physics2D.gravity.y); 
     }
 
     private void Flip()
