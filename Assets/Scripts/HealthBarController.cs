@@ -8,12 +8,20 @@ public class HealthBarController : MonoBehaviour
     [SerializeField] private PlayerData playerData;
     [SerializeField] private PlayerEvents playerEvents;
 
-    void Start()
+    void Awake()
     {
         healthBar = GetComponent<Slider>();
-
         SetMaxHealth(playerData.MaxHealth);
+    }
+
+    void OnEnable()
+    {
         playerEvents.HealthChanged += SetHealth;
+    }
+
+    void OnDisable()
+    {
+        playerEvents.HealthChanged -= SetHealth;
     }
 
     void SetMaxHealth(float value)

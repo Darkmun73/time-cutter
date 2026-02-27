@@ -9,11 +9,11 @@ public class PlayerEvents : ScriptableObject
 
     public void OnHealthChanged(float value)
     {
-        HealthChanged.Invoke(value);
+        HealthChanged?.Invoke(value);
     }
 
     public void OnPlayerDied()
     {
-        PlayerDied.Invoke();
+        PlayerDied?.Invoke();
     }
 }
