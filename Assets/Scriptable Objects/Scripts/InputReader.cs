@@ -27,7 +27,7 @@ public class InputReader : ScriptableObject, GameInput.IPlayerActions
         gameInput.Player.Disable();
     }
 
-    public void OnMoving(InputAction.CallbackContext context)
+    public void OnMove(InputAction.CallbackContext context)
     {
         if (context.performed || context.canceled)
         {
@@ -35,7 +35,7 @@ public class InputReader : ScriptableObject, GameInput.IPlayerActions
         }
     }
 
-    public void OnJumping(InputAction.CallbackContext context)
+    public void OnJump(InputAction.CallbackContext context)
     {
         if (context.performed)
         {
@@ -43,7 +43,7 @@ public class InputReader : ScriptableObject, GameInput.IPlayerActions
         }
     }
 
-    public void OnAttacking(InputAction.CallbackContext context)
+    public void OnAttack(InputAction.CallbackContext context)
     {
         if (context.performed)
         {

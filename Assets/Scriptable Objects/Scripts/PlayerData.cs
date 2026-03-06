@@ -8,8 +8,6 @@ public class PlayerData : ScriptableObject
     [field: SerializeField] public float JumpHeight {get; private set;} = 2f;
     [field: SerializeField] public float JumpTime {get; private set;} = 1f;
     [field: SerializeField] public float MaxHealth {get; private set;} = 100f;
-    [field: SerializeField] public float KnockbackForce {get; private set;} = 5f;
-    [field: SerializeField] public float KnockbackDuration {get; private set;} = 1f;
 
     [field: SerializeField] public ContactFilter2D Ground {get; private set;}
 }

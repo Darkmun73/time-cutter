@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
-public class Player : MonoBehaviour
+public class Player : MonoBehaviour, IKnockbackable
 {
     private Rigidbody2D rigidBody;
 
@@ -32,9 +32,14 @@ public class Player : MonoBehaviour
         }
     }
 
+    // knockback
+    private KnockbackController knockbackController;
+    public bool IsKnockedBack => knockbackController.IsKnockedBack;
+
     void Awake()
     {
         rigidBody = GetComponent<Rigidbody2D>();
+        knockbackController = GetComponent<KnockbackController>();
     }
 
     void Start()
