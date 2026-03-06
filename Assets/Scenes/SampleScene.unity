@@ -201,7 +201,7 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.6603774, g: 0.6603774, b: 0.6603774, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -1432,6 +1432,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
   inputReader: {fileID: 11400000, guid: 01ae7333c40c0ed419dfa404d1df66b7, type: 2}
+  acceleration: 50
+  deceleration: 50
+  maxSpeed: 15
 --- !u!70 &1791285999
 CapsuleCollider2D:
   m_ObjectHideFlags: 0

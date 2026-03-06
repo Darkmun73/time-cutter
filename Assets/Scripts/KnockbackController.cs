@@ -57,4 +57,15 @@ public class KnockbackController : MonoBehaviour
 
         IsKnockedBack = true;
     }
+
+    // public void Knockback(Vector3 source)
+    // {
+    //     Vector2 knockbackVector = (transform.position - source).normalized;
+    //     //rigidBody.linearVelocityX = knockbackVector.x * knockbackForce;
+        
+    //     Debug.Log(knockbackVector * knockbackForce);
+    //     rigidBody.AddForce(knockbackVector * knockbackForce, ForceMode2D.Impulse);
+
+    //     //IsKnockedBack = true;
+    // }
 }

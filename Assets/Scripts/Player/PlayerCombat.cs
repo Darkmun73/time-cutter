@@ -38,13 +38,20 @@ public class PlayerCombat : MonoBehaviour
     // Make attack with vector from start to end
     private void Attack(Vector2 start, Vector2 end)
     {
-        Vector2 playerDirection = player.IsFacingRight ? Vector2.right : Vector2.left;
+        Vector2 playerLookDirectionVector = player.LookDirection switch
+        {
+            Direction.Left => Vector2.left,
+            Direction.Right => Vector2.right,
+            Direction.Up => Vector2.up,
+            Direction.Down => Vector2.down,
+            _ => Vector2.zero
+        };
 
         Vector2 hitDirection = end - start;
-        float zRotation = Vector2.SignedAngle(playerDirection, hitDirection);
+        float zRotation = Vector2.SignedAngle(playerLookDirectionVector, hitDirection);
         Quaternion rotation = Quaternion.Euler(0, 0, zRotation);
 
-        Vector3 hitPosition = new(transform.position.x + playerDirection.x * 2, transform.position.y, transform.position.z);
+        Vector3 hitPosition = new(transform.position.x + playerLookDirectionVector.x * 2, transform.position.y, transform.position.z);
         GameObject hitObject = Instantiate(hitPrefab, hitPosition, rotation);
         Destroy(hitObject, 1);
     }

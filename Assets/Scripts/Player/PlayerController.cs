@@ -8,6 +8,9 @@ public class PlayerController : MonoBehaviour
     private Rigidbody2D rigidBody;
 
     [SerializeField] private InputReader inputReader;
+    [SerializeField] private float acceleration;
+    [SerializeField] private float deceleration;
+    [SerializeField] private float maxSpeed;
 
     private float horizontalMove;
 
@@ -32,11 +35,26 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
-        if ((player.IsFacingRight && horizontalMove < 0) || 
-            (!player.IsFacingRight && horizontalMove > 0))
+        if ((player.MoveDirection == Direction.Right && horizontalMove < 0) || 
+            (player.MoveDirection == Direction.Left && horizontalMove > 0))
         {
-            player.ChangeDirection();
+            player.ChangeMoveDirection();
         }
+
+        // if (horizontalMove != 0)
+        // {
+        //     rigidBody.linearDamping = 0;
+        //     rigidBody.AddForce(new(horizontalMove * acceleration, 0), ForceMode2D.Force);
+
+        //     if (Mathf.Abs(rigidBody.linearVelocityX) > maxSpeed) // возможно поменять на магнитуду
+        //     {
+        //         rigidBody.linearVelocityX = maxSpeed * Mathf.Sign(rigidBody.linearVelocityX);
+        //     }
+        // }  else
+        // {
+        //     rigidBody.linearDamping = 10;
+        //     //rigidBody.AddForce(new(rigidBody.linearVelocityX * -deceleration, 0), ForceMode2D.Force);
+        // }
 
         if (player is IKnockbackable knockbackObj && knockbackObj.IsKnockedBack) //&& (rigidBody.linearVelocityX > player.Data.MovementSpeed || rigidBody.linearVelocityX < -player.Data.MovementSpeed) )
             rigidBody.linearVelocityX += horizontalMove * 2f;// * knockbackSubstractionCoef;

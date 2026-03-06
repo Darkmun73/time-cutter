@@ -1,15 +1,22 @@
 using UnityEngine;
 
+
+public enum Direction {Left, Right, Up, Down}
+
 [RequireComponent(typeof(Rigidbody2D))]
+[RequireComponent(typeof(KnockbackController))]
 public class Player : MonoBehaviour, IKnockbackable
 {
+
     private Rigidbody2D rigidBody;
 
     [field: SerializeField] public PlayerData Data {get; private set;}
     [SerializeField] private PlayerEvents playerEvents;
 
     public bool IsTouchingGround => rigidBody.IsTouching(Data.Ground);
-    public bool IsFacingRight {get; private set;} = true;
+    public Direction MoveDirection {get; private set;} = Direction.Right;
+    public Direction LookDirection {get; private set;} = Direction.Right;
+    //public bool IsFacingRight {get; private set;} = true;
 
     public float JumpForce {get; private set;}
 
@@ -54,17 +61,29 @@ public class Player : MonoBehaviour, IKnockbackable
         rigidBody.gravityScale = 8 * Data.JumpHeight / Mathf.Pow(Data.JumpTime, 2) / (-Physics2D.gravity.y); 
     }
 
-    private void Flip()
+    private void HorizontalFlip()
     {
         Vector3 scale = transform.localScale;
         scale.x *= -1;
         transform.localScale = scale;
     }
 
-    public void ChangeDirection()
+    public void ChangeMoveDirection()
     {
-        Flip();
-        IsFacingRight = !IsFacingRight;
+        HorizontalFlip();
+        switch (MoveDirection)
+        {
+            
+            case Direction.Left:
+                MoveDirection = Direction.Right;
+                break;
+            case Direction.Right:
+                MoveDirection = Direction.Left;
+                break;
+        }
+
+        if (LookDirection != Direction.Up && LookDirection != Direction.Down)
+            LookDirection = MoveDirection;
     }
 
     public void Die()
