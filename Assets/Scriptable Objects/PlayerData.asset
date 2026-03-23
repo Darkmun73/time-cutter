@@ -17,8 +17,6 @@ MonoBehaviour:
   <JumpHeight>k__BackingField: 3
   <JumpTime>k__BackingField: 0.5
   <MaxHealth>k__BackingField: 100
-  <KnockbackForce>k__BackingField: 25
-  <KnockbackDuration>k__BackingField: 0.3
   <Ground>k__BackingField:
     useTriggers: 0
     useLayerMask: 0

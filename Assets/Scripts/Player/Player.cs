@@ -4,8 +4,7 @@ using UnityEngine;
 public enum Direction {Left, Right, Up, Down}
 
 [RequireComponent(typeof(Rigidbody2D))]
-[RequireComponent(typeof(KnockbackController))]
-public class Player : MonoBehaviour, IKnockbackable
+public class Player : MonoBehaviour
 {
 
     private Rigidbody2D rigidBody;
@@ -13,10 +12,21 @@ public class Player : MonoBehaviour, IKnockbackable
     [field: SerializeField] public PlayerData Data {get; private set;}
     [SerializeField] private PlayerEvents playerEvents;
 
+    [SerializeField] private GameObject look;
+
     public bool IsTouchingGround => rigidBody.IsTouching(Data.Ground);
-    public Direction MoveDirection {get; private set;} = Direction.Right;
-    public Direction LookDirection {get; private set;} = Direction.Right;
-    //public bool IsFacingRight {get; private set;} = true;
+
+    private Direction moveDirection = Direction.Right;
+    public Direction MoveDirection {
+        get { return moveDirection; }
+        set
+        {
+            moveDirection = value;
+            LookDirection = value;
+        }
+    }
+
+    public Direction LookDirection { get; set; } = Direction.Right;
 
     public float JumpForce {get; private set;}
 
@@ -39,14 +49,9 @@ public class Player : MonoBehaviour, IKnockbackable
         }
     }
 
-    // knockback
-    private KnockbackController knockbackController;
-    public bool IsKnockedBack => knockbackController.IsKnockedBack;
-
     void Awake()
     {
         rigidBody = GetComponent<Rigidbody2D>();
-        knockbackController = GetComponent<KnockbackController>();
     }
 
     void Start()

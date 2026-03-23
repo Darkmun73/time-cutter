@@ -19,7 +19,7 @@ public class PlayerCollisionHandler : MonoBehaviour
         {
             Enemy enemy = collision.gameObject.GetComponent<Enemy>();
             player.TakeDamage(enemy.Data.BaseDamage);
-            knockbackController.Knockback(collision.transform.position);
+            knockbackController?.Knockback(collision.transform.position);
         }
     }
 }

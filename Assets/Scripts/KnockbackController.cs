@@ -1,10 +1,8 @@
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
-[RequireComponent(typeof(IKnockbackable))]
 public class KnockbackController : MonoBehaviour
 {
-    private IKnockbackable knockbackObject; 
     private Rigidbody2D rigidBody; 
 
     [SerializeField] private float knockbackForce = 5f;
@@ -20,7 +18,6 @@ public class KnockbackController : MonoBehaviour
     void Awake()
     {
         rigidBody = GetComponent<Rigidbody2D>();
-        knockbackObject = GetComponent<IKnockbackable>(); 
 
         knockbackSubstractionCoef = Time.fixedDeltaTime * knockbackForce / knockbackDuration;
         Debug.Log(knockbackSubstractionCoef);

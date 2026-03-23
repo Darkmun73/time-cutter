@@ -1,3 +1,4 @@
+using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
@@ -5,7 +6,7 @@ using UnityEngine.InputSystem;
 [CreateAssetMenu(fileName = "InputReader", menuName = "Scriptable Objects/Input Reader")]
 public class InputReader : ScriptableObject, GameInput.IPlayerActions
 {
-    public event UnityAction<float> Moving;
+    public event UnityAction<Vector2> MovingAndLooking;
     public event UnityAction Jumping;
     public event UnityAction AttackInitializing;
     public event UnityAction AttackInitialized;
@@ -27,14 +28,6 @@ public class InputReader : ScriptableObject, GameInput.IPlayerActions
         gameInput.Player.Disable();
     }
 
-    public void OnMove(InputAction.CallbackContext context)
-    {
-        if (context.performed || context.canceled)
-        {
-            Moving.Invoke(context.ReadValue<float>());
-        }
-    }
-
     public void OnJump(InputAction.CallbackContext context)
     {
         if (context.performed)
@@ -52,6 +45,14 @@ public class InputReader : ScriptableObject, GameInput.IPlayerActions
         else if (context.canceled)
         {
             AttackInitialized.Invoke();
+        }
+    }
+
+    public void OnMoveAndLook(InputAction.CallbackContext context)
+    {
+        if (context.performed || context.canceled)
+        {
+            MovingAndLooking.Invoke(context.ReadValue<Vector2>());
         }
     }
 }
