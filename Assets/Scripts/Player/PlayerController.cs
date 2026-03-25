@@ -9,9 +9,6 @@ public class PlayerController : MonoBehaviour
     private KnockbackController knockbackController;
 
     [SerializeField] private InputReader inputReader;
-    [SerializeField] private float acceleration;
-    [SerializeField] private float deceleration;
-    [SerializeField] private float maxSpeed;
 
     private float horizontalMove;
 
@@ -57,9 +54,9 @@ public class PlayerController : MonoBehaviour
         //     rigidBody.linearDamping = 10;
         //     //rigidBody.AddForce(new(rigidBody.linearVelocityX * -deceleration, 0), ForceMode2D.Force);
         // }
-        Debug.DrawRay(transform.position, Utility.GetDirectionVector(player.LookDirection) * 5f, Color.yellow);
+        Debug.DrawRay(transform.position, player.LookDirection.ToVector() * 5f, Color.yellow);
 
-        if (knockbackController.IsKnockedBack) //&& (rigidBody.linearVelocityX > player.Data.MovementSpeed || rigidBody.linearVelocityX < -player.Data.MovementSpeed) )
+        if (knockbackController != null && knockbackController.IsKnockedBack) //&& (rigidBody.linearVelocityX > player.Data.MovementSpeed || rigidBody.linearVelocityX < -player.Data.MovementSpeed) )
             rigidBody.linearVelocityX += horizontalMove * 2f;// * knockbackSubstractionCoef;
         else
             rigidBody.linearVelocityX = horizontalMove * player.Data.MovementSpeed;
@@ -84,12 +81,10 @@ public class PlayerController : MonoBehaviour
 
         if (moveValue == 0f && lookValue == 0f)
             player.LookDirection = player.MoveDirection;
-        Debug.Log(player.LookDirection);
     }
     
     private void SetMoveAndLook(Vector2 values)
     {
-        Debug.Log(values);
         SetMoveAndLook(values.x, values.y);
     }
 

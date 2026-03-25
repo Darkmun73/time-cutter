@@ -38,14 +38,14 @@ public class PlayerCombat : MonoBehaviour
     // Make attack with vector from start to end
     private void Attack(Vector2 start, Vector2 end)
     {
-        Vector2 playerLookDirectionVector = Utility.GetDirectionVector(player.LookDirection);
+        Vector2 playerLookDirectionVector = player.LookDirection.ToVector();
 
         Vector2 hitDirection = end - start;
         float zRotation = Vector2.SignedAngle(Vector2.right, hitDirection);
         Quaternion rotation = Quaternion.Euler(0, 0, zRotation);
 
         Vector3 hitPosition = new(transform.position.x + playerLookDirectionVector.x * 2, transform.position.y + playerLookDirectionVector.y * 2, transform.position.z);
-        GameObject hitObject = Instantiate(hitPrefab, hitPosition, rotation);
-        Destroy(hitObject, 1);
+        GameObject hitObject = Instantiate(hitPrefab, hitPosition, rotation, transform);
+        Destroy(hitObject, 0.2f);
     }
 }

@@ -1,8 +1,5 @@
 using UnityEngine;
 
-
-public enum Direction {Left, Right, Up, Down}
-
 [RequireComponent(typeof(Rigidbody2D))]
 public class Player : MonoBehaviour
 {
