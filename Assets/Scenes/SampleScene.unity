@@ -912,8 +912,6 @@ GameObject:
   - component: {fileID: 1591138356}
   - component: {fileID: 1591138355}
   - component: {fileID: 1591138357}
-  - component: {fileID: 1591138358}
-  - component: {fileID: 1591138360}
   - component: {fileID: 1591138359}
   m_Layer: 0
   m_Name: Enemy
@@ -1073,18 +1071,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Enemy
   <Data>k__BackingField: {fileID: 11400000, guid: 2c65a7b389aa6cd4bb738c91d32a0df7, type: 2}
---- !u!114 &1591138358
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1591138351}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7a1c70a15e6eb914dbe09a18e9b3c4c7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::EnemyController
+  playerEvents: {fileID: 11400000, guid: 6d47a45207f1de34da512fee47c01e92, type: 2}
 --- !u!114 &1591138359
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1099,18 +1086,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::KnockbackController
   knockbackForce: 10
   knockbackDuration: 0.3
---- !u!114 &1591138360
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1591138351}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6f1c67f96dcd02041862ad183ab9262e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::EnemyCollisionHandler
 --- !u!1 &1738375533
 GameObject:
   m_ObjectHideFlags: 0
@@ -1394,6 +1369,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerAttackController
   inputReader: {fileID: 11400000, guid: 01ae7333c40c0ed419dfa404d1df66b7, type: 2}
+  playerEvents: {fileID: 11400000, guid: 6d47a45207f1de34da512fee47c01e92, type: 2}
   hitPrefab: {fileID: 4061355782550997067, guid: ccee5df19bc790f4db95e585023732cb, type: 3}
 --- !u!114 &1791286001
 MonoBehaviour:

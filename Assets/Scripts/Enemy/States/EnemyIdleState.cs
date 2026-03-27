@@ -1,4 +1,15 @@
+using UnityEngine;
+
 public class EnemyIdleState : EnemyBaseState
 {
-    public EnemyIdleState(Enemy enemy) : base(enemy) {}
+    private Rigidbody2D rigidBody;
+    public EnemyIdleState(Enemy enemy, Rigidbody2D rigidBody) : base(enemy)
+    {
+        this.rigidBody = rigidBody;
+    }
+
+    public override void FixedUpdate()
+    {
+        rigidBody.linearVelocity = Vector2.zero;
+    }
 }

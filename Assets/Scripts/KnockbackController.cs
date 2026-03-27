@@ -41,12 +41,10 @@ public class KnockbackController : MonoBehaviour
     public void Knockback(Vector3 source)
     {
         Vector2 knockbackVector = (transform.position - source).normalized;
-        Debug.Log(knockbackVector);
         rigidBody.linearVelocityX = knockbackVector.x * knockbackForce;
         float g = Mathf.Abs(Physics2D.gravity.y * rigidBody.gravityScale);
         rigidBody.linearVelocityY = knockbackVector.y * Mathf.Sqrt(g * knockbackForce * knockbackDuration);//knockbackVector.x * player.Data.KnockbackForce;
         //rigidBody.linearVelocityY += knockbackVector.y * rigidBody.gravityScale;
-        Debug.Log(rigidBody.linearVelocity);
 
         currentKnockbackTime = knockbackDuration;
         currentKnockbackVector = knockbackVector;

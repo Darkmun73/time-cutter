@@ -6,6 +6,7 @@ public class PlayerEvents : ScriptableObject
 {
     public event UnityAction<float> HealthChanged;
     public event UnityAction PlayerDied;
+    public event UnityAction<GameObject> HitOccured;
 
     public void OnHealthChanged(float value)
     {
@@ -15,5 +16,10 @@ public class PlayerEvents : ScriptableObject
     public void OnPlayerDied()
     {
         PlayerDied?.Invoke();
+    }
+
+    public void OnHitOccured(GameObject hitObject)
+    {
+        HitOccured?.Invoke(hitObject);
     }
 }
