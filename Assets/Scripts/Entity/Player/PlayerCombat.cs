@@ -7,7 +7,6 @@ public class PlayerCombat : MonoBehaviour
 {
     private Player player;
     [SerializeField] private InputReader inputReader;
-    [SerializeField] private PlayerEvents playerEvents;
     [SerializeField] private GameObject hitPrefab;
     private Vector2 attackVectorStartCoords = Vector2.zero;
     private Vector2 attackVectorEndCoords = Vector2.zero;
@@ -49,7 +48,7 @@ public class PlayerCombat : MonoBehaviour
         Vector3 hitPosition = new(transform.position.x + playerLookDirectionVector.x * 1.5f, transform.position.y + playerLookDirectionVector.y * 1.5f, transform.position.z);
         GameObject hitObject = Instantiate(hitPrefab, hitPosition, rotation, transform);
         //StartCoroutine(PhysicsHitOccured(hitObject));
-        playerEvents.OnHitOccured(hitObject);
+        player.events.OnHitOccured(hitObject);
         Destroy(hitObject, 0.2f);
     }
 

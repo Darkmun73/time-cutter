@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 525fc09c9ccc7fa4290138dedcbb31b5, type: 3}
-  m_Name: PlayerData
+  m_Name: EnemyData
   m_EditorClassIdentifier: Assembly-CSharp::EntityData
-  <MovementSpeed>k__BackingField: 15
-  <MaxFallSpeed>k__BackingField: 20
-  <JumpHeight>k__BackingField: 3
-  <JumpTime>k__BackingField: 0.5
+  <MovementSpeed>k__BackingField: 5
+  <MaxFallSpeed>k__BackingField: 10
+  <JumpHeight>k__BackingField: 2
+  <JumpTime>k__BackingField: 1
   <MaxHealth>k__BackingField: 100
   <BaseDamage>k__BackingField: 10
   <Ground>k__BackingField:
@@ -23,12 +23,12 @@ MonoBehaviour:
     useLayerMask: 0
     useDepth: 0
     useOutsideDepth: 0
-    useNormalAngle: 1
+    useNormalAngle: 0
     useOutsideNormalAngle: 0
     layerMask:
       serializedVersion: 2
       m_Bits: 0
     minDepth: 0
     maxDepth: 0
-    minNormalAngle: 89
-    maxNormalAngle: 91
+    minNormalAngle: 0
+    maxNormalAngle: 0

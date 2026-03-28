@@ -3,25 +3,27 @@ using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(Collider2D))]
-public class Enemy : MonoBehaviour
+public class Enemy : Entity
 {
-    [field: SerializeField] public EnemyData Data {get; private set;}
-    [SerializeField] private PlayerEvents playerEvents;
-
-    private Rigidbody2D rigidBody;
+    
     private Collider2D coll;
     private KnockbackController knockbackController;
-    
 
     private StateMachine stateMachine;
     private EnemyIdleState idleState;
     private EnemyChasingState chasingState;
 
-    void Awake()
+    private PlayerEvents playerEvents;
+
+    public readonly EnemyEvents events;
+    protected override EntityEvents Events => events;
+
+    protected override void Awake()
     {
-        rigidBody = GetComponent<Rigidbody2D>();
+        base.Awake();
         coll = GetComponent<Collider2D>();
         knockbackController = GetComponent<KnockbackController>();
+        playerEvents = FindFirstObjectByType<Player>().events;
 
         idleState = new EnemyIdleState(this, rigidBody);
         chasingState = new EnemyChasingState(this);

@@ -169,8 +169,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3aea1039d6865f84eb6b59c8bb410896, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HealthBarController
-  playerData: {fileID: 11400000, guid: bbc36709480d5044091f6206075b73b0, type: 2}
-  playerEvents: {fileID: 11400000, guid: 6d47a45207f1de34da512fee47c01e92, type: 2}
 --- !u!114 &106186759
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2726,8 +2724,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fdb7f03fea7d3a34f8e6b12ffbd4b9f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Enemy
-  <Data>k__BackingField: {fileID: 11400000, guid: 2c65a7b389aa6cd4bb738c91d32a0df7, type: 2}
-  playerEvents: {fileID: 11400000, guid: 6d47a45207f1de34da512fee47c01e92, type: 2}
+  <Data>k__BackingField: {fileID: 11400000, guid: 8eb7b80b792582c498206c81551057a9, type: 2}
 --- !u!114 &1591138359
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3152,7 +3149,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerAttackController
   inputReader: {fileID: 11400000, guid: 01ae7333c40c0ed419dfa404d1df66b7, type: 2}
-  playerEvents: {fileID: 11400000, guid: 6d47a45207f1de34da512fee47c01e92, type: 2}
   hitPrefab: {fileID: 4061355782550997067, guid: ccee5df19bc790f4db95e585023732cb, type: 3}
 --- !u!114 &1791286001
 MonoBehaviour:
@@ -3178,9 +3174,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 12257fc12bfa76a42bc576c2b49077db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Player
-  <Data>k__BackingField: {fileID: 11400000, guid: bbc36709480d5044091f6206075b73b0, type: 2}
-  playerEvents: {fileID: 11400000, guid: 6d47a45207f1de34da512fee47c01e92, type: 2}
-  look: {fileID: 0}
+  <Data>k__BackingField: {fileID: 11400000, guid: 9a3bf80523cd7614ebadc4a9ea6d6e3c, type: 2}
 --- !u!114 &1791286003
 MonoBehaviour:
   m_ObjectHideFlags: 0

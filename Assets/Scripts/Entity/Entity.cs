@@ -1,15 +1,13 @@
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
-public class Player : MonoBehaviour
+public abstract class Entity : MonoBehaviour
 {
 
-    private Rigidbody2D rigidBody;
+    protected Rigidbody2D rigidBody;
 
-    [field: SerializeField] public PlayerData Data {get; private set;}
-    [SerializeField] private PlayerEvents playerEvents;
-
-    [SerializeField] private GameObject look;
+    [field: SerializeField] public EntityData Data {get; private set;}
+    protected abstract EntityEvents Events {get;}
 
     public bool IsTouchingGround => rigidBody.IsTouching(Data.Ground);
 
@@ -42,16 +40,16 @@ public class Player : MonoBehaviour
                 health = Data.MaxHealth;
             else
                 health = value;
-            playerEvents.OnHealthChanged(value);
+            Events.OnHealthChanged(value);
         }
     }
 
-    void Awake()
+    protected virtual void Awake()
     {
         rigidBody = GetComponent<Rigidbody2D>();
     }
 
-    void Start()
+    protected virtual void Start()
     {
         Health = Data.MaxHealth;
         SetUpJumpForce();

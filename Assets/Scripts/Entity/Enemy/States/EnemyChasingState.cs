@@ -28,7 +28,7 @@ public class EnemyChasingState : EnemyBaseState
     public override void FixedUpdate()
     {
         base.FixedUpdate();
-        var velocityX = enemy.Data.Speed;
+        var velocityX = enemy.Data.MovementSpeed;
         if (enemy.transform.position.x > target.position.x)
             velocityX *= -1;
 
