@@ -1,16 +1,16 @@
 public class StateMachine
 {
     private BaseState currentState;
-    // public BaseState CurrentState
-    // {
-    //     get { return currentState; }
-    //     set
-    //     {
-    //         currentState.Exit();
-    //         currentState = value;
-    //         currentState.Enter();
-    //     }
-    // }
+    public BaseState CurrentState
+    {
+        get { return currentState; }
+        set
+        {
+            currentState.Exit();
+            currentState = value;
+            currentState.Enter();
+        }
+    }
 
     public StateMachine(BaseState initialState)
     {
@@ -27,11 +27,4 @@ public class StateMachine
     {
         currentState.FixedUpdate();
     }
-
-    public void SetState(BaseState state)
-    {
-        currentState.Exit();
-        currentState = state;
-        currentState.Enter();
-    } 
 }

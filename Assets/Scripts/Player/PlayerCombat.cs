@@ -46,7 +46,7 @@ public class PlayerCombat : MonoBehaviour
         float zRotation = Vector2.SignedAngle(Vector2.right, hitDirection);
         Quaternion rotation = Quaternion.Euler(0, 0, zRotation);
 
-        Vector3 hitPosition = new(transform.position.x + playerLookDirectionVector.x * 2, transform.position.y + playerLookDirectionVector.y * 2, transform.position.z);
+        Vector3 hitPosition = new(transform.position.x + playerLookDirectionVector.x * 1.5f, transform.position.y + playerLookDirectionVector.y * 1.5f, transform.position.z);
         GameObject hitObject = Instantiate(hitPrefab, hitPosition, rotation, transform);
         //StartCoroutine(PhysicsHitOccured(hitObject));
         playerEvents.OnHitOccured(hitObject);

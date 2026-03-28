@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class EnemyChasingState : EnemyBaseState
@@ -7,6 +8,11 @@ public class EnemyChasingState : EnemyBaseState
     public EnemyChasingState(Enemy enemy, Transform target) : base(enemy)
     {
         this.target = target;
+    }
+
+    public EnemyChasingState(Enemy enemy) : base(enemy)
+    {
+        this.target = null;
     }
 
     public override void Enter()
@@ -22,10 +28,20 @@ public class EnemyChasingState : EnemyBaseState
     public override void FixedUpdate()
     {
         base.FixedUpdate();
+        var velocityX = enemy.Data.Speed;
+        if (enemy.transform.position.x > target.position.x)
+            velocityX *= -1;
+
+        enemy.SetVelocityX(velocityX);
     }
 
     public override void Exit()
     {
-        base.Exit();
+        target = null;
+    }
+
+    public void SetTarget(Transform target)
+    {
+        this.target = target;
     }
 }

@@ -4,4 +4,5 @@ using UnityEngine;
 public class EnemyData : ScriptableObject
 {
     [field: SerializeField] public float BaseDamage {get; private set;} = 10f;
+    [field: SerializeField] public float Speed {get; private set;} = 10f;
 }

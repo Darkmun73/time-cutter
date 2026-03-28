@@ -34,26 +34,6 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
-        // if ((player.MoveDirection == Direction.Right && horizontalMove < 0) || 
-        //     (player.MoveDirection == Direction.Left && horizontalMove > 0))
-        // {
-        //     player.ChangeMoveDirection();
-        // }
-
-        // if (horizontalMove != 0)
-        // {
-        //     rigidBody.linearDamping = 0;
-        //     rigidBody.AddForce(new(horizontalMove * acceleration, 0), ForceMode2D.Force);
-
-        //     if (Mathf.Abs(rigidBody.linearVelocityX) > maxSpeed) // возможно поменять на магнитуду
-        //     {
-        //         rigidBody.linearVelocityX = maxSpeed * Mathf.Sign(rigidBody.linearVelocityX);
-        //     }
-        // }  else
-        // {
-        //     rigidBody.linearDamping = 10;
-        //     //rigidBody.AddForce(new(rigidBody.linearVelocityX * -deceleration, 0), ForceMode2D.Force);
-        // }
         Debug.DrawRay(transform.position, player.LookDirection.ToVector() * 5f, Color.yellow);
 
         if (knockbackController != null && knockbackController.IsKnockedBack) //&& (rigidBody.linearVelocityX > player.Data.MovementSpeed || rigidBody.linearVelocityX < -player.Data.MovementSpeed) )

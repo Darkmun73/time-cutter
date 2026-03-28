@@ -13,3 +13,4 @@ MonoBehaviour:
   m_Name: BaseEnemy
   m_EditorClassIdentifier: Assembly-CSharp::EnemyData
   <BaseDamage>k__BackingField: 10
+  <Speed>k__BackingField: 5

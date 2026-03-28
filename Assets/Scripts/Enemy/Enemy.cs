@@ -14,6 +14,8 @@ public class Enemy : MonoBehaviour
     
 
     private StateMachine stateMachine;
+    private EnemyIdleState idleState;
+    private EnemyChasingState chasingState;
 
     void Awake()
     {
@@ -21,7 +23,8 @@ public class Enemy : MonoBehaviour
         coll = GetComponent<Collider2D>();
         knockbackController = GetComponent<KnockbackController>();
 
-        var idleState = new EnemyIdleState(this, rigidBody);
+        idleState = new EnemyIdleState(this, rigidBody);
+        chasingState = new EnemyChasingState(this);
 
         stateMachine = new(idleState);
     }
@@ -46,17 +49,39 @@ public class Enemy : MonoBehaviour
         if (!(knockbackController != null && knockbackController.IsKnockedBack))
             stateMachine.FixedUpdate();
     }
-
+    
     private void HandlePlayerHit(GameObject hit)
     {
         // MAYBE TODO: Если будет работать не точно, то мб поменять на IsTouching или подобное
         bool hitTouching = coll.Distance(hit.GetComponent<Collider2D>()).isOverlapped;
-        //bool hitTouching = coll.IsTouching(hit.GetComponent<Collider2D>());
-        //Debug.Log($"hit touching: {hitTouching}");
         if (hitTouching)
         {
             if (knockbackController != null)
                 knockbackController.Knockback(hit.transform.parent.position);
+        }
+    }
+
+    public void SetVelocityX(float x)
+    {
+        rigidBody.linearVelocityX = x;
+    }
+
+    void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Player"))
+        {
+            chasingState.SetTarget(collision.transform);
+            stateMachine.CurrentState = chasingState;
+
+        }
+    }
+
+    void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Player"))
+        {
+            stateMachine.CurrentState = idleState;
+
         }
     }
 }

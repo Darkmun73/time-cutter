@@ -1,6 +1,6 @@
 public abstract class EnemyBaseState : BaseState
 {
-    private Enemy enemy;
+    protected Enemy enemy;
 
     public EnemyBaseState(Enemy enemy)
     {
