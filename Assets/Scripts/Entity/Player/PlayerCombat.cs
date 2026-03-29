@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -10,13 +12,28 @@ public class PlayerCombat : MonoBehaviour
     private Vector2 attackVectorStartCoords = Vector2.zero;
     private Vector2 attackVectorEndCoords = Vector2.zero;
 
-    void Start()
+    private ContactFilter2D enemiesFilter;
+
+    void Awake()
     {
         player = GetComponent<Player>();
+        
+        enemiesFilter = new();
+        enemiesFilter.SetLayerMask(LayerMask.GetMask("Enemies"));
+    }
 
+    void OnEnable()
+    {
         inputReader.AttackInitializing += StartAttackInit;
         inputReader.AttackInitialized += EndAttackInit;
         inputReader.AttackInitialized += Attack;
+    }
+
+    void OnDisable()
+    {
+        inputReader.AttackInitializing -= StartAttackInit;
+        inputReader.AttackInitialized -= EndAttackInit;
+        inputReader.AttackInitialized -= Attack;
     }
 
     private void StartAttackInit()
@@ -46,14 +63,28 @@ public class PlayerCombat : MonoBehaviour
 
         Vector3 hitPosition = new(transform.position.x + playerLookDirectionVector.x * 1.5f, transform.position.y + playerLookDirectionVector.y * 1.5f, transform.position.z);
         GameObject hitObject = Instantiate(hitPrefab, hitPosition, rotation, transform);
-        //StartCoroutine(PhysicsHitOccured(hitObject));
-        player.events.OnHitOccured(hitObject);
+        StartCoroutine(PhysicsHitOccured(hitObject));
+        //player.events.OnHitOccured(hitObject);
         Destroy(hitObject, 0.2f);
     }
 
-    // IEnumerator PhysicsHitOccured(GameObject hitObject)
-    // {
-    //     yield return new WaitForFixedUpdate();
-    //     playerEvents.OnHitOccured(hitObject);
-    // }
+    // MAYBE TODO: если будет задержка что-нибудь придумать без енумератора
+    IEnumerator PhysicsHitOccured(GameObject hitObject)
+    {
+        yield return new WaitForFixedUpdate();
+        TransferAttackHandleToEnemies(hitObject);
+    }
+
+    private void TransferAttackHandleToEnemies(GameObject hitObject)
+    {
+        List<Collider2D> enemiesColliders = new();
+        var hitCollider = hitObject.GetComponent<Collider2D>();
+        hitCollider.Overlap(enemiesFilter, enemiesColliders);
+        foreach (var enemyCollider in enemiesColliders)
+        {   
+            Debug.Log(enemyCollider);
+            Enemy enemy = enemyCollider.GetComponent<Enemy>();
+            enemy.HandleHit(transform, player.Data.BaseDamage);
+        }
+    }
 }

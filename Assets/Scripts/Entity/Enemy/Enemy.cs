@@ -14,7 +14,7 @@ public class Enemy : Entity
 
     private PlayerEvents playerEvents;
 
-    public readonly EnemyEvents events;
+    public readonly EnemyEvents events = new();
     protected override EntityEvents Events => events;
 
     protected override void Awake()
@@ -30,15 +30,15 @@ public class Enemy : Entity
         stateMachine = new(idleState);
     }
 
-    void OnEnable()
-    {
-        playerEvents.HitOccured += HandlePlayerHit;
-    }
+    // void OnEnable()
+    // {
+    //     playerEvents.HitOccured += HandlePlayerHit;
+    // }
 
-    void OnDisable()
-    {
-        playerEvents.HitOccured -= HandlePlayerHit;
-    }
+    // void OnDisable()
+    // {
+    //     playerEvents.HitOccured -= HandlePlayerHit;
+    // }
 
     void Update()
     {
@@ -50,17 +50,23 @@ public class Enemy : Entity
         if (!(knockbackController != null && knockbackController.IsKnockedBack))
             stateMachine.FixedUpdate();
     }
-    
-    private void HandlePlayerHit(GameObject hit)
+
+    public void HandleHit(Transform from, float damage)
     {
-        // MAYBE TODO: Если будет работать не точно, то мб поменять на IsTouching или подобное
-        bool hitTouching = coll.Distance(hit.GetComponent<Collider2D>()).isOverlapped;
-        if (hitTouching)
-        {
-            if (knockbackController != null)
-                knockbackController.Knockback(hit.transform.parent.position);
-        }
+        if (knockbackController != null)
+            knockbackController.Knockback(from.position);
+        TakeDamage(damage);
     }
+    
+    // private void HandlePlayerHit(GameObject hit)
+    // {
+    //     // MAYBE TODO: Если будет работать не точно, то мб поменять на IsTouching или подобное
+    //     bool hitTouching = coll.Distance(hit.GetComponent<Collider2D>()).isOverlapped;
+    //     if (hitTouching)
+    //     {
+    //         HandleHit(hit.transform.parent);
+    //     }
+    // }
 
     public void SetVelocityX(float x)
     {
@@ -84,5 +90,11 @@ public class Enemy : Entity
             stateMachine.CurrentState = idleState;
 
         }
+    }
+
+    public override void Die()
+    {
+        Debug.Log("Destroy Enemy");
+        Destroy(gameObject);
     }
 }

@@ -86,11 +86,7 @@ public abstract class Entity : MonoBehaviour
             LookDirection = MoveDirection;
     }
 
-    public void Die()
-    {
-        // stab
-        Debug.Log("died");
-    }
+    public abstract void Die();
 
     public void TakeDamage(float damage)
     {
