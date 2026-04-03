@@ -1,30 +1,26 @@
-public class StateMachine
+using UnityEngine;
+
+public class StateMachine : MonoBehaviour
 {
-    private BaseState currentState;
-    public BaseState CurrentState
+    private IState currentState;
+    public IState CurrentState
     {
         get { return currentState; }
         set
         {
-            currentState.Exit();
+            currentState?.Exit();
             currentState = value;
             currentState.Enter();
         }
     }
 
-    public StateMachine(BaseState initialState)
+    protected virtual void Update()
     {
-        currentState = initialState;
-        currentState.Enter();
+        currentState.LogicUpdate();
     }
 
-    public void Update()
+    protected virtual void FixedUpdate()
     {
-        currentState.Update();
-    }
-
-    public void FixedUpdate()
-    {
-        currentState.FixedUpdate();
+        currentState.PhysicsUpdate();
     }
 }

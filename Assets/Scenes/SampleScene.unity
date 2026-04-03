@@ -1055,8 +1055,7 @@ Transform:
   m_LocalPosition: {x: -12.71, y: -2.29, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 1738375537}
+  m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &519420033
@@ -2334,7 +2333,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3027296071230477865, guid: 37ab3fd5acfe85148b7a126eb10ebb31, type: 3}
       propertyPath: m_Layer
-      value: 3
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 4499398360642741282, guid: 37ab3fd5acfe85148b7a126eb10ebb31, type: 3}
+      propertyPath: m_Layer
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2827,11 +2830,11 @@ Transform:
   m_GameObject: {fileID: 1738375533}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -12.71, y: -2.29, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 519420032}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &1791285997 stripped
 Transform:
@@ -3163,7 +3166,12 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 4020881174240702802, guid: 80bb4349114f1ca47aa5b06ae77467ba, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 2623647781202583236, guid: 80bb4349114f1ca47aa5b06ae77467ba, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -3222,7 +3230,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3027296071230477865, guid: 37ab3fd5acfe85148b7a126eb10ebb31, type: 3}
       propertyPath: m_Layer
-      value: 3
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 4499398360642741282, guid: 37ab3fd5acfe85148b7a126eb10ebb31, type: 3}
+      propertyPath: m_Layer
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -3234,6 +3246,7 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 519420032}
+  - {fileID: 1738375537}
   - {fileID: 619394802}
   - {fileID: 1146665793}
   - {fileID: 2398601922396861550}

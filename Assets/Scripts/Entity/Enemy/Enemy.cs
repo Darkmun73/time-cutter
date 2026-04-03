@@ -1,18 +1,18 @@
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
-[RequireComponent(typeof(Collider2D))]
 public class Enemy : Entity
 {
+    private Rigidbody2D rigidBody;
     
-    private Collider2D coll;
     private KnockbackController knockbackController;
+    public KnockbackController KnockbackController => knockbackController;
 
-    private StateMachine stateMachine;
-    private EnemyIdleState idleState;
-    private EnemyChasingState chasingState;
-
-    private PlayerEvents playerEvents;
+    private Transform target = null;
+    public Transform Target {
+        get => target;
+        set => target = value;
+    }
 
     public readonly EnemyEvents events = new();
     protected override EntityEvents Events => events;
@@ -20,42 +20,20 @@ public class Enemy : Entity
     protected override void Awake()
     {
         base.Awake();
-        coll = GetComponent<Collider2D>();
+        rigidBody = GetComponent<Rigidbody2D>();
         knockbackController = GetComponent<KnockbackController>();
-        playerEvents = FindFirstObjectByType<Player>().events;
-
-        idleState = new EnemyIdleState(this, rigidBody);
-        chasingState = new EnemyChasingState(this);
-
-        stateMachine = new(idleState);
     }
 
-    // void OnEnable()
-    // {
-    //     playerEvents.HitOccured += HandlePlayerHit;
-    // }
-
-    // void OnDisable()
-    // {
-    //     playerEvents.HitOccured -= HandlePlayerHit;
-    // }
-
-    void Update()
-    {
-        stateMachine.Update();
-    }
-
-    void FixedUpdate()
-    {
-        if (!(knockbackController != null && knockbackController.IsKnockedBack))
-            stateMachine.FixedUpdate();
-    }
-
-    public void HandleHit(Transform from, float damage)
+    void OnEnable()
     {
         if (knockbackController != null)
-            knockbackController.Knockback(from.position);
-        TakeDamage(damage);
+            events.GetHitted += knockbackController.Knockback;
+    }
+
+    void OnDisable()
+    {
+        if (knockbackController != null)
+            events.GetHitted -= knockbackController.Knockback;
     }
     
     // private void HandlePlayerHit(GameObject hit)
@@ -70,26 +48,11 @@ public class Enemy : Entity
 
     public void SetVelocityX(float x)
     {
+        if (x > 0)
+            MoveDirection = Direction.Right;
+        else
+            MoveDirection = Direction.Left;
         rigidBody.linearVelocityX = x;
-    }
-
-    void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.CompareTag("Player"))
-        {
-            chasingState.SetTarget(collision.transform);
-            stateMachine.CurrentState = chasingState;
-
-        }
-    }
-
-    void OnTriggerExit2D(Collider2D collision)
-    {
-        if (collision.CompareTag("Player"))
-        {
-            stateMachine.CurrentState = idleState;
-
-        }
     }
 
     public override void Die()

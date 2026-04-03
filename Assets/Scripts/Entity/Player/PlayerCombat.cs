@@ -69,7 +69,7 @@ public class PlayerCombat : MonoBehaviour
     }
 
     // MAYBE TODO: если будет задержка что-нибудь придумать без енумератора
-    IEnumerator PhysicsHitOccured(GameObject hitObject)
+    private IEnumerator PhysicsHitOccured(GameObject hitObject)
     {
         yield return new WaitForFixedUpdate();
         TransferAttackHandleToEnemies(hitObject);
@@ -80,9 +80,8 @@ public class PlayerCombat : MonoBehaviour
         List<Collider2D> enemiesColliders = new();
         var hitCollider = hitObject.GetComponent<Collider2D>();
         hitCollider.Overlap(enemiesFilter, enemiesColliders);
-        foreach (var enemyCollider in enemiesColliders)
+        foreach (var enemyCollider in enemiesColliders) // TODO: При задевании колайдера-тригера врага тоже будет проходить удар?
         {   
-            Debug.Log(enemyCollider);
             Enemy enemy = enemyCollider.GetComponent<Enemy>();
             enemy.HandleHit(transform, player.Data.BaseDamage);
         }

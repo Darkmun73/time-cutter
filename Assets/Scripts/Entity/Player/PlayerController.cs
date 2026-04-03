@@ -24,12 +24,18 @@ public class PlayerController : MonoBehaviour
     {
         inputReader.MovingAndLooking += SetMoveAndLook;
         inputReader.Jumping += Jump;
+
+        if (knockbackController != null)
+            player.events.GetHitted += knockbackController.Knockback;
     }
 
     void OnDisable()
     {
         inputReader.MovingAndLooking -= SetMoveAndLook;
         inputReader.Jumping -= Jump;
+        
+        if (knockbackController != null)
+            player.events.GetHitted -= knockbackController.Knockback;
     }
 
     void FixedUpdate()

@@ -20,7 +20,7 @@ public class KnockbackController : MonoBehaviour
         rigidBody = GetComponent<Rigidbody2D>();
 
         knockbackSubstractionCoef = Time.fixedDeltaTime * knockbackForce / knockbackDuration;
-        Debug.Log(knockbackSubstractionCoef);
+        //Debug.Log(knockbackSubstractionCoef);
     }
 
     void FixedUpdate()
@@ -38,9 +38,9 @@ public class KnockbackController : MonoBehaviour
             IsKnockedBack = false;
     }
 
-    public void Knockback(Vector3 source)
+    public void Knockback(Transform source)
     {
-        Vector2 knockbackVector = (transform.position - source).normalized;
+        Vector2 knockbackVector = (transform.position - source.position).normalized;
         rigidBody.linearVelocityX = knockbackVector.x * knockbackForce;
         float g = Mathf.Abs(Physics2D.gravity.y * rigidBody.gravityScale);
         rigidBody.linearVelocityY = knockbackVector.y * Mathf.Sqrt(g * knockbackForce * knockbackDuration);//knockbackVector.x * player.Data.KnockbackForce;

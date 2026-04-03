@@ -4,7 +4,8 @@ using UnityEngine;
 public abstract class Entity : MonoBehaviour
 {
 
-    protected Rigidbody2D rigidBody;
+    private Rigidbody2D rigidBody;
+    public Rigidbody2D RigidBody => rigidBody;
 
     [field: SerializeField] public EntityData Data {get; private set;}
     protected abstract EntityEvents Events {get;}
@@ -16,6 +17,9 @@ public abstract class Entity : MonoBehaviour
         get { return moveDirection; }
         set
         {
+            if ((moveDirection == Direction.Left && value == Direction.Right) ||
+                (moveDirection == Direction.Right && value == Direction.Left))
+                HorizontalFlip();
             moveDirection = value;
             LookDirection = value;
         }
@@ -61,7 +65,7 @@ public abstract class Entity : MonoBehaviour
         rigidBody.gravityScale = 8 * Data.JumpHeight / Mathf.Pow(Data.JumpTime, 2) / (-Physics2D.gravity.y); 
     }
 
-    private void HorizontalFlip()
+    private void HorizontalFlip() // TODO: не касается движения, перенести отдельно?
     {
         Vector3 scale = transform.localScale;
         scale.x *= -1;
@@ -91,5 +95,11 @@ public abstract class Entity : MonoBehaviour
     public void TakeDamage(float damage)
     {
         Health -= damage;
+    }
+
+    public void HandleHit(Transform from, float damage) // TODO: переименовать в Receive и в PlayerCombat переименовать функцию
+    {
+        TakeDamage(damage);
+        Events.OnGetHitted(from);
     }
 }
