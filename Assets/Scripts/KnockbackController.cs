@@ -40,6 +40,12 @@ public class KnockbackController : MonoBehaviour
 
     public void Knockback(Transform source)
     {
+        if (!enabled)
+        {
+            Debug.Log("Knockback is disabled!");
+            return;
+        }
+
         Vector2 knockbackVector = (transform.position - source.position).normalized;
         rigidBody.linearVelocityX = knockbackVector.x * knockbackForce;
         float g = Mathf.Abs(Physics2D.gravity.y * rigidBody.gravityScale);

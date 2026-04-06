@@ -1,10 +1,16 @@
 using UnityEngine;
 
 [RequireComponent(typeof(Enemy))]
+[RequireComponent(typeof(Movement))]
+[RequireComponent(typeof(KnockbackController))]
 public class EnemyStateMachine : StateMachine
 {
     private Enemy enemy;
+    private Movement enemyMovement;
     private KnockbackController knockbackController;
+
+    private Transform target = null;
+
 
     private EnemyIdleState idleState;
     private EnemyChasingState chasingState;
@@ -12,27 +18,31 @@ public class EnemyStateMachine : StateMachine
     void Awake()
     {
         enemy = GetComponent<Enemy>();
+        enemyMovement = GetComponent<Movement>();
+        knockbackController = GetComponent<KnockbackController>();
     }
 
     void Start()
     {
-        knockbackController = enemy.KnockbackController;
-
-        idleState = new EnemyIdleState(enemy);
-        chasingState = new EnemyChasingState(enemy);
+        idleState = new EnemyIdleState(enemyMovement);
+         // TODO: дать структуру с контекстом (ради target, потому что он изменяется), контекст обновлять в этом классе
+        chasingState = new EnemyChasingState(enemy.transform, target, enemyMovement);
+        
+        CurrentState = idleState;
     }
 
     protected override void FixedUpdate()
     {
-        if (!(knockbackController != null && knockbackController.IsKnockedBack))
-            CurrentState.PhysicsUpdate();
+        if (!knockbackController.IsKnockedBack)
+            base.FixedUpdate();
     }
 
     void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Player"))
         {
-            enemy.Target = collision.transform;
+            target = collision.transform;
+            chasingState.SetTarget(target);
             CurrentState = chasingState;
 
         }
@@ -42,7 +52,8 @@ public class EnemyStateMachine : StateMachine
     {
         if (collision.CompareTag("Player"))
         {
-            enemy.Target = null;
+            target = null;
+            chasingState.SetTarget(target);
             CurrentState = idleState;
         }
     }

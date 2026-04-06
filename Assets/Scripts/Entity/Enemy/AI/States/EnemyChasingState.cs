@@ -1,18 +1,49 @@
 using UnityEngine;
 
-public class EnemyChasingState : EnemyBaseState
+public class EnemyChasingState : IState
 {
-    public EnemyChasingState(Enemy enemy) : base(enemy) {}
+    private readonly Transform enemy;
+    private readonly Movement enemyMovement;
+    private Transform target;
 
-    public override void PhysicsUpdate()
+    public EnemyChasingState(Transform enemy, Transform target, Movement enemyMovement)
     {
-        base.PhysicsUpdate();
-        if (enemy.Target == null) return;
+        this.enemy = enemy;
+        this.target = target;
+        this.enemyMovement = enemyMovement;
+    }
 
-        var velocityX = enemy.Data.MovementSpeed;
-        if (enemy.transform.position.x > enemy.Target.position.x)
-            velocityX *= -1;
+    public void SetTarget(Transform target)
+    {
+        this.target = target;
+    }
 
-        enemy.SetVelocityX(velocityX);
+    public void Enter()
+    {
+        var horizontalInput =  enemy.position.x > target.position.x ? -1f : 1f;
+        enemyMovement.SetUpDirections(horizontalInput, 0f);
+
+        if (target == null)
+            Debug.Log("Target to chase is null!");
+    }
+
+    public void Exit() {}
+
+    public void LogicUpdate()
+    {
+        var horizontalInput =  enemy.position.x > target.position.x ? -1f : 1f;
+        Direction newMovementDirection = DirectionHelper.FromVector(new(horizontalInput, 0));
+        Direction currenMovementtDirection = enemyMovement.GetMovementDirection();
+
+        // same direction = don't need to change it
+        if (newMovementDirection != currenMovementtDirection)
+        {
+            enemyMovement.SetUpDirections(horizontalInput, 0f);
+        }
+    }
+
+    public void PhysicsUpdate()
+    {
+        enemyMovement.MoveHorizontal();
     }
 }

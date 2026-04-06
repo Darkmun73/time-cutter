@@ -13,9 +13,11 @@ GameObject:
   - component: {fileID: 9022087885845721058}
   - component: {fileID: 3585180016161230546}
   - component: {fileID: 2114834739222627787}
+  - component: {fileID: 2666946787739790202}
+  - component: {fileID: 6380008380355058510}
+  - component: {fileID: 163573685808581746}
   - component: {fileID: 3966733386220292818}
   - component: {fileID: 5940030391877375664}
-  - component: {fileID: 2623647781202583236}
   - component: {fileID: 3839196942615991497}
   m_Layer: 6
   m_Name: Player
@@ -174,7 +176,58 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 12257fc12bfa76a42bc576c2b49077db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Player
-  <Data>k__BackingField: {fileID: 11400000, guid: 9a3bf80523cd7614ebadc4a9ea6d6e3c, type: 2}
+--- !u!114 &2666946787739790202
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4020881174240702802}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8e668121a467ab488118c70c9bb341b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Health
+  data: {fileID: 11400000, guid: 9af94da6b4b01df41821736703cf3de7, type: 2}
+--- !u!114 &6380008380355058510
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4020881174240702802}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a526ed7d14cd42446ae5eb549e9956ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Movement
+  data: {fileID: 11400000, guid: 782561a37f1789d4588790d5a7b62ca7, type: 2}
+  ground:
+    useTriggers: 0
+    useLayerMask: 0
+    useDepth: 0
+    useOutsideDepth: 0
+    useNormalAngle: 0
+    useOutsideNormalAngle: 0
+    layerMask:
+      serializedVersion: 2
+      m_Bits: 0
+    minDepth: 0
+    maxDepth: 0
+    minNormalAngle: 0
+    maxNormalAngle: 0
+--- !u!114 &163573685808581746
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4020881174240702802}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b70ba273c2bc8a41b8b6982b80bb814, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Directions
 --- !u!114 &3966733386220292818
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -200,20 +253,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f769aa926acec6f4aa7b11be73e7184e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerAttackController
+  data: {fileID: 11400000, guid: a717aaa7c9104a84c9e2aa492fabb34f, type: 2}
   inputReader: {fileID: 11400000, guid: 01ae7333c40c0ed419dfa404d1df66b7, type: 2}
   hitPrefab: {fileID: 4061355782550997067, guid: ccee5df19bc790f4db95e585023732cb, type: 3}
---- !u!114 &2623647781202583236
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4020881174240702802}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ce3385f8930200a4e90c33629fb9c8b8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerCollisionHandler
 --- !u!114 &3839196942615991497
 MonoBehaviour:
   m_ObjectHideFlags: 0

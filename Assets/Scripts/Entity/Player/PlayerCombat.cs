@@ -4,9 +4,12 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(Player))]
+[RequireComponent(typeof(Directions))]
 public class PlayerCombat : MonoBehaviour
 {
     private Player player;
+    private Directions directions;
+    [SerializeField] private AttackData data;
     [SerializeField] private InputReader inputReader;
     [SerializeField] private GameObject hitPrefab;
     private Vector2 attackVectorStartCoords = Vector2.zero;
@@ -17,6 +20,7 @@ public class PlayerCombat : MonoBehaviour
     void Awake()
     {
         player = GetComponent<Player>();
+        directions = GetComponent<Directions>();
         
         enemiesFilter = new();
         enemiesFilter.SetLayerMask(LayerMask.GetMask("Enemies"));
@@ -55,7 +59,7 @@ public class PlayerCombat : MonoBehaviour
     // Make attack with vector from start to end
     private void Attack(Vector2 start, Vector2 end)
     {
-        Vector2 playerLookDirectionVector = player.LookDirection.ToVector();
+        Vector2 playerLookDirectionVector = directions.LookDirection.ToVector();
 
         Vector2 hitDirection = end - start;
         float zRotation = Vector2.SignedAngle(Vector2.right, hitDirection);
@@ -72,10 +76,10 @@ public class PlayerCombat : MonoBehaviour
     private IEnumerator PhysicsHitOccured(GameObject hitObject)
     {
         yield return new WaitForFixedUpdate();
-        TransferAttackHandleToEnemies(hitObject);
+        ApplyHitToEnemies(hitObject);
     }
 
-    private void TransferAttackHandleToEnemies(GameObject hitObject)
+    private void ApplyHitToEnemies(GameObject hitObject)
     {
         List<Collider2D> enemiesColliders = new();
         var hitCollider = hitObject.GetComponent<Collider2D>();
@@ -83,7 +87,7 @@ public class PlayerCombat : MonoBehaviour
         foreach (var enemyCollider in enemiesColliders) // TODO: При задевании колайдера-тригера врага тоже будет проходить удар?
         {   
             Enemy enemy = enemyCollider.GetComponent<Enemy>();
-            enemy.HandleHit(transform, player.Data.BaseDamage);
+            enemy.ReceiveHit(transform, data.BaseDamage);
         }
     }
 }

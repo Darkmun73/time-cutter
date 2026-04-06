@@ -17,3 +17,16 @@ public static class DirectionExtensions
         };
     }
 }
+
+public class DirectionHelper
+{
+    public static Direction FromVector(Vector2 vector)
+    {
+        if (vector == Vector2.left)  return Direction.Left;
+        if (vector == Vector2.right) return Direction.Right;
+        if (vector == Vector2.up)    return Direction.Up;
+        if (vector == Vector2.down)  return Direction.Down;
+
+        throw new Exception($"There is no direction for vector: {vector}!");
+    }
+}

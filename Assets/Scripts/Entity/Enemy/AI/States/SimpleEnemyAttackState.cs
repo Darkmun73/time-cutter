@@ -1,14 +1,27 @@
 using UnityEngine;
 
-public class SimpleEnemyAttackState : EnemyBaseState
+public class SimpleEnemyAttackState : IState
 {
 
-    public SimpleEnemyAttackState(Enemy enemy) : base(enemy)
+    public SimpleEnemyAttackState() {}
+
+    public void Enter()
     {
+        throw new System.NotImplementedException();
     }
 
-    public override void PhysicsUpdate()
+    public void Exit()
     {
-        base.PhysicsUpdate();
+        throw new System.NotImplementedException();
+    }
+
+    public void LogicUpdate()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public void PhysicsUpdate()
+    {
+        throw new System.NotImplementedException();
     }
 }

@@ -1,40 +1,40 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 [RequireComponent(typeof(Rigidbody2D))]
-public class Enemy : Entity
+[RequireComponent(typeof(Health))]
+[RequireComponent(typeof(KnockbackController))]
+public class Enemy : MonoBehaviour, IMortal, IHittable
 {
-    private Rigidbody2D rigidBody;
-    
+    private Health health;
     private KnockbackController knockbackController;
-    public KnockbackController KnockbackController => knockbackController;
 
-    private Transform target = null;
-    public Transform Target {
-        get => target;
-        set => target = value;
-    }
+    // events
+    public event UnityAction<Transform> HitReceived;
 
-    public readonly EnemyEvents events = new();
-    protected override EntityEvents Events => events;
-
-    protected override void Awake()
+    void Awake()
     {
-        base.Awake();
-        rigidBody = GetComponent<Rigidbody2D>();
+        health = GetComponent<Health>();
         knockbackController = GetComponent<KnockbackController>();
     }
 
     void OnEnable()
     {
-        if (knockbackController != null)
-            events.GetHitted += knockbackController.Knockback;
+        HitReceived += knockbackController.Knockback;
+        health.HealthDepleted += Die;
     }
 
     void OnDisable()
     {
-        if (knockbackController != null)
-            events.GetHitted -= knockbackController.Knockback;
+        HitReceived -= knockbackController.Knockback;
+        health.HealthDepleted -= Die;
     }
+
+    // private void TryKnockback(Transform source)
+    // {
+    //     if (TryGetComponent(out KnockbackController knockbackController))
+    //         knockbackController.Knockback(source);
+    // }
     
     // private void HandlePlayerHit(GameObject hit)
     // {
@@ -46,18 +46,24 @@ public class Enemy : Entity
     //     }
     // }
 
-    public void SetVelocityX(float x)
+    // public void SetVelocityX(float x)
+    // {
+    //     if (x > 0)
+    //         MoveDirection = Direction.Right;
+    //     else
+    //         MoveDirection = Direction.Left;
+    //     rigidBody.linearVelocityX = x;
+    // }
+
+    public void Die()
     {
-        if (x > 0)
-            MoveDirection = Direction.Right;
-        else
-            MoveDirection = Direction.Left;
-        rigidBody.linearVelocityX = x;
+        Debug.Log("Enemy died");
+        Destroy(gameObject);
     }
 
-    public override void Die()
+    public void ReceiveHit(Transform from, float damage) // TODO: переименовать в Receive и в PlayerCombat переименовать функцию
     {
-        Debug.Log("Destroy Enemy");
-        Destroy(gameObject);
+        health.TakeDamage(damage);
+        HitReceived?.Invoke(from);
     }
 }

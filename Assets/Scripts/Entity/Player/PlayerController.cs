@@ -1,82 +1,64 @@
 using UnityEngine;
 
 [RequireComponent(typeof(Player))]
-[RequireComponent(typeof(Rigidbody2D))]
+[RequireComponent(typeof(Movement))]
+[RequireComponent(typeof(KnockbackController))]
 public class PlayerController : MonoBehaviour
 {
     private Player player;
-    private Rigidbody2D rigidBody;
     private KnockbackController knockbackController;
 
+    private Movement movement;
     [SerializeField] private InputReader inputReader;
 
-    private float horizontalMove;
+    private bool isMovingByInput = false;
 
     void Awake()
     {
         player = GetComponent<Player>();
-        rigidBody = GetComponent<Rigidbody2D>();
+        movement = GetComponent<Movement>();
         knockbackController = GetComponent<KnockbackController>();
 
     }
 
     void OnEnable()
     {
-        inputReader.MovingAndLooking += SetMoveAndLook;
-        inputReader.Jumping += Jump;
+        inputReader.MovingAndLooking += OnDirectionInput;
+        inputReader.Jumping += movement.Jump;
 
-        if (knockbackController != null)
-            player.events.GetHitted += knockbackController.Knockback;
+        player.HitReceived += knockbackController.Knockback;
     }
 
     void OnDisable()
     {
-        inputReader.MovingAndLooking -= SetMoveAndLook;
-        inputReader.Jumping -= Jump;
+        inputReader.MovingAndLooking -= OnDirectionInput;
+        inputReader.Jumping -= movement.Jump;
         
-        if (knockbackController != null)
-            player.events.GetHitted -= knockbackController.Knockback;
+        player.HitReceived -= knockbackController.Knockback;
     }
 
     void FixedUpdate()
     {
-        Debug.DrawRay(transform.position, player.LookDirection.ToVector() * 5f, Color.yellow);
-
-        if (knockbackController != null && knockbackController.IsKnockedBack) //&& (rigidBody.linearVelocityX > player.Data.MovementSpeed || rigidBody.linearVelocityX < -player.Data.MovementSpeed) )
-            rigidBody.linearVelocityX += horizontalMove * 2f;// * knockbackSubstractionCoef;
+        if (knockbackController.IsKnockedBack) //&& (rigidBody.linearVelocityX > player.Data.MovementSpeed || rigidBody.linearVelocityX < -player.Data.MovementSpeed) )
+        {
+            if (isMovingByInput)
+                movement.AdjustHorizontalSpeed(2f);
+        }
         else
-            rigidBody.linearVelocityX = horizontalMove * player.Data.MovementSpeed;
+        {
+            if (isMovingByInput)
+                movement.MoveHorizontal();
+            else
+                movement.StopHorizontalMovement();
+        }
             
-        if (rigidBody.linearVelocityY < -player.Data.MaxFallSpeed)
-            rigidBody.linearVelocityY = -player.Data.MaxFallSpeed;
-        
-    }
-
-    private void SetMoveAndLook(float moveValue, float lookValue)
-    {
-
-        horizontalMove = moveValue;
-        if (moveValue == 1f)
-            player.MoveDirection = Direction.Right;
-        else if (moveValue == -1f)
-            player.MoveDirection = Direction.Left;
-        if (lookValue == 1f)
-            player.LookDirection = Direction.Up;
-        else if (lookValue == -1f)
-            player.LookDirection = Direction.Down;
-
-        if (moveValue == 0f && lookValue == 0f)
-            player.LookDirection = player.MoveDirection;
+        movement.ClampFallSpeed();
     }
     
-    private void SetMoveAndLook(Vector2 values)
+    private void OnDirectionInput(Vector2 values)
     {
-        SetMoveAndLook(values.x, values.y);
-    }
-
-    private void Jump()
-    {
-        if (player.IsTouchingGround)
-            rigidBody.linearVelocityY = player.JumpForce;
+        float horizontal = values.x, vertical = values.y;
+        movement.SetUpDirections(horizontal, vertical);
+        isMovingByInput = horizontal != 0;
     }
 }

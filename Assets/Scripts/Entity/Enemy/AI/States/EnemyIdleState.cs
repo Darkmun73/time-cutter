@@ -1,11 +1,21 @@
 using UnityEngine;
 
-public class EnemyIdleState : EnemyBaseState
+public class EnemyIdleState : IState
 {
-    public EnemyIdleState(Enemy enemy) : base(enemy) {}
-
-    public override void PhysicsUpdate()
+    private readonly Movement enemyMovement;
+    public EnemyIdleState(Movement enemyMovement)
     {
-        enemy.SetVelocityX(0);
+        this.enemyMovement = enemyMovement;
+    }
+
+    public void Enter() {}
+
+    public void Exit() {}
+
+    public void LogicUpdate() {}
+
+    public void PhysicsUpdate()
+    {
+        enemyMovement.StopHorizontalMovement();
     }
 }

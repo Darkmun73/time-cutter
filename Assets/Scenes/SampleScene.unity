@@ -2331,14 +2331,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: SimpleEnemy (1)
       objectReference: {fileID: 0}
-    - target: {fileID: 3027296071230477865, guid: 37ab3fd5acfe85148b7a126eb10ebb31, type: 3}
-      propertyPath: m_Layer
-      value: 7
-      objectReference: {fileID: 0}
-    - target: {fileID: 4499398360642741282, guid: 37ab3fd5acfe85148b7a126eb10ebb31, type: 3}
-      propertyPath: m_Layer
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -3166,12 +3158,7 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
-    - target: {fileID: 4020881174240702802, guid: 80bb4349114f1ca47aa5b06ae77467ba, type: 3}
-      propertyPath: m_Layer
-      value: 6
-      objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 2623647781202583236, guid: 80bb4349114f1ca47aa5b06ae77467ba, type: 3}
+    m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
