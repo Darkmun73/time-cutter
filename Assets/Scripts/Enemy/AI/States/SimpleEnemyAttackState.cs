@@ -1,27 +1,7 @@
 using UnityEngine;
 
-public class SimpleEnemyAttackState : IState
+public class SimpleEnemyAttackState : EnemyAttackState
 {
-
-    public SimpleEnemyAttackState() {}
-
-    public void Enter()
-    {
-        throw new System.NotImplementedException();
-    }
-
-    public void Exit()
-    {
-        throw new System.NotImplementedException();
-    }
-
-    public void LogicUpdate()
-    {
-        throw new System.NotImplementedException();
-    }
-
-    public void PhysicsUpdate()
-    {
-        throw new System.NotImplementedException();
-    }
+    private readonly EnemyController enemyController;
+    public SimpleEnemyAttackState(EnemyController controller) : base(controller) {}
 }

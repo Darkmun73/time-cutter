@@ -2,26 +2,21 @@ using UnityEngine;
 
 public class EnemyChasingState : IState
 {
-    private readonly Transform enemy;
-    private readonly Movement enemyMovement;
-    private Transform target;
+    private readonly EnemyController enemyController;
 
-    public EnemyChasingState(Transform enemy, Transform target, Movement enemyMovement)
+    public EnemyChasingState(EnemyController controller)
     {
-        this.enemy = enemy;
-        this.target = target;
-        this.enemyMovement = enemyMovement;
-    }
-
-    public void SetTarget(Transform target)
-    {
-        this.target = target;
+        this.enemyController = controller;
     }
 
     public void Enter()
     {
+        Transform enemy = enemyController.transform;
+        Transform target = enemyController.Target.Transform;
+        Movement movement = enemyController.Movement;
+
         var horizontalInput =  enemy.position.x > target.position.x ? -1f : 1f;
-        enemyMovement.SetUpDirections(horizontalInput, 0f);
+        movement.SetUpDirections(horizontalInput, 0f);
 
         if (target == null)
             Debug.Log("Target to chase is null!");
@@ -31,19 +26,23 @@ public class EnemyChasingState : IState
 
     public void LogicUpdate()
     {
+        Transform enemy = enemyController.transform;
+        Transform target = enemyController.Target.Transform;
+        Movement movement = enemyController.Movement;
+
         var horizontalInput =  enemy.position.x > target.position.x ? -1f : 1f;
         Direction newMovementDirection = DirectionHelper.FromVector(new(horizontalInput, 0));
-        Direction currenMovementtDirection = enemyMovement.GetMovementDirection();
+        Direction currenMovementtDirection = movement.GetMovementDirection();
 
         // same direction = don't need to change it
         if (newMovementDirection != currenMovementtDirection)
         {
-            enemyMovement.SetUpDirections(horizontalInput, 0f);
+            movement.SetUpDirections(horizontalInput, 0f);
         }
     }
 
     public void PhysicsUpdate()
     {
-        enemyMovement.MoveHorizontal();
+        enemyController.Movement.MoveHorizontal();
     }
 }

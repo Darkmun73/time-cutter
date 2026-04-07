@@ -1,11 +1,11 @@
 using UnityEngine;
 
-public class EnemyIdleState : IState
+public class EnemyAttackState : IState
 {
     private readonly EnemyController enemyController;
-    public EnemyIdleState(EnemyController controller)
+    public EnemyAttackState(EnemyController controller)
     {
-        this.enemyController = controller;
+        enemyController = controller;
     }
 
     public void Enter() {}
@@ -17,5 +17,8 @@ public class EnemyIdleState : IState
     public void PhysicsUpdate()
     {
         enemyController.Movement.StopHorizontalMovement();
+        
+        if (enemyController.Combat.CanAttack)
+            enemyController.Combat.Attack();
     }
 }

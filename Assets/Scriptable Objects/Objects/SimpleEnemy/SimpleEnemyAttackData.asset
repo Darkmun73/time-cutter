@@ -13,4 +13,5 @@ MonoBehaviour:
   m_Name: SimpleEnemyAttackData
   m_EditorClassIdentifier: Assembly-CSharp::EnemyAttackData
   <BaseDamage>k__BackingField: 10
-  <Radius>k__BackingField: 0.82
+  <HitRadius>k__BackingField: 0.82
+  <Cooldown>k__BackingField: 0.5

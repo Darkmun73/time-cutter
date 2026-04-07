@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class EnemyCombat : MonoBehaviour
@@ -7,6 +8,8 @@ public class EnemyCombat : MonoBehaviour
 
     private LayerMask playerMask;
 
+    public bool CanAttack {get; private set;} = true;
+
     void Awake()
     {
         playerMask = LayerMask.GetMask("Player");
@@ -15,17 +18,35 @@ public class EnemyCombat : MonoBehaviour
     public void Attack()
     {
         // There is only one player
-        var playerColliders = Physics2D.OverlapCircleAll(attackPoint.position, attackData.Radius, playerMask);
+        var playerColliders = Physics2D.OverlapCircleAll(attackPoint.position, attackData.HitRadius, playerMask);
         foreach (var playerCollider in playerColliders)
         {
             Player player = playerCollider.GetComponent<Player>();
             player.ReceiveHit(transform, attackData.BaseDamage);
         }
+        StartCoroutine(StartCooldown());
+    }
+
+    private IEnumerator StartCooldown()
+    {
+        CanAttack = false;
+        yield return new WaitForSeconds(attackData.Cooldown);
+        CanAttack = true;
+    }
+
+    public float DistanceToAttackPoint()
+    {
+        return Vector2.Distance(transform.position, attackPoint.position);
+    }
+
+    public float GetHitRadius()
+    {
+        return attackData.HitRadius;
     }
 
     void OnDrawGizmos()
     {
         if (attackPoint != null)
-            Gizmos.DrawWireSphere(attackPoint.position, attackData.Radius);
+            Gizmos.DrawWireSphere(attackPoint.position, attackData.HitRadius);
     }
 }

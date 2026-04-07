@@ -15,15 +15,15 @@ public class Health : MonoBehaviour
         set
         {
             if (value <= 0)
-            {
                 currentHealth = 0;
-                HealthDepleted?.Invoke();
-            }
             else if (value > data.MaxHealth)
                 currentHealth = data.MaxHealth;
             else
                 currentHealth = value;
             HealthChanged?.Invoke(currentHealth);
+
+            if (currentHealth == 0)
+                HealthDepleted?.Invoke();
         }
     }
 
