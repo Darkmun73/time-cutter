@@ -4,11 +4,11 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(Player))]
-[RequireComponent(typeof(Directions))]
+[RequireComponent(typeof(DirectionsController))]
 public class PlayerCombat : MonoBehaviour
 {
     private Player player;
-    private Directions directions;
+    private DirectionsController directions;
     [SerializeField] private AttackData data;
     [SerializeField] private InputReader inputReader;
     [SerializeField] private GameObject hitPrefab;
@@ -20,7 +20,7 @@ public class PlayerCombat : MonoBehaviour
     void Awake()
     {
         player = GetComponent<Player>();
-        directions = GetComponent<Directions>();
+        directions = GetComponent<DirectionsController>();
         
         enemiesFilter = new();
         enemiesFilter.SetLayerMask(LayerMask.GetMask("Enemies"));

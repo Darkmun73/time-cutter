@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Directions : MonoBehaviour
+public class DirectionsController : MonoBehaviour
 {
     private Direction lookDirection = Direction.Right;
     public Direction LookDirection {get => lookDirection; private set => lookDirection = value;}

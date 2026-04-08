@@ -1,11 +1,11 @@
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
-[RequireComponent(typeof(Directions))]
+[RequireComponent(typeof(DirectionsController))]
 public class Movement : MonoBehaviour
 {
     private Rigidbody2D rigidBody;
-    private Directions directions;
+    private DirectionsController directions;
 
     [SerializeField] private MovementData data;
     public bool IsTouchingGround => rigidBody.IsTouching(data.Ground);
@@ -14,7 +14,7 @@ public class Movement : MonoBehaviour
     void Awake()
     {
         rigidBody = GetComponent<Rigidbody2D>();
-        directions = GetComponent<Directions>();
+        directions = GetComponent<DirectionsController>();
         SetUpJumpForce();
     }
 
