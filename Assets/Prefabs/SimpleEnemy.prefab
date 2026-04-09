@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 4978404390727384041}
   - component: {fileID: 5815192762825558504}
   - component: {fileID: 338100280295081295}
+  - component: {fileID: 5711777049756047511}
   - component: {fileID: 5509275156964090928}
   - component: {fileID: 178856964335314398}
   m_Layer: 7
@@ -227,7 +228,38 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4437c235b52d81c468a5546090d385df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyStateMachine
-  detectionRadius: 8
+  detectionRadius: 13.08
+  <PathUpdateTime>k__BackingField: 0.1
+  <JumpNodeHeightRequirement>k__BackingField: 0.5
+  <NextWaypointDistance>k__BackingField: 3
+--- !u!114 &5711777049756047511
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3027296071230477865}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 373b52eb9bf8c40f785bb6947a1aee66, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: AstarPathfindingProject::Pathfinding.Seeker
+  version: 1
+  drawGizmos: 1
+  detailedGizmos: 0
+  startEndModifier:
+    addPoints: 0
+    exactStartPoint: 3
+    exactEndPoint: 3
+    useRaycasting: 0
+    mask:
+      serializedVersion: 2
+      m_Bits: 4294967295
+    useGraphRaycasting: 0
+  traversableTags: -1
+  tagPenalties: 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+  graphMask:
+    value: -1
 --- !u!114 &5509275156964090928
 MonoBehaviour:
   m_ObjectHideFlags: 0

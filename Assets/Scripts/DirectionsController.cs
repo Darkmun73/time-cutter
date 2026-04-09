@@ -50,4 +50,17 @@ public class DirectionsController : MonoBehaviour
         if (horizontal == 0f && vertical == 0f)
             lookDirection = movementDirection;
     }
+
+    public void FaceTarget(Transform target)
+    {
+        var horizontalInput =  transform.position.x > target.position.x ? -1f : 1f;
+        Direction newMovementDirection = DirectionHelper.FromVector(new(horizontalInput, 0));
+        Direction currenMovementtDirection = MovementDirection;
+
+        // same direction = don't need to change it
+        if (newMovementDirection != currenMovementtDirection)
+        {
+            SetUpDirections(horizontalInput, 0f);
+        }
+    }
 }

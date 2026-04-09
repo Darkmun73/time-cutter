@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
@@ -5,7 +6,6 @@ using UnityEngine;
 public class Movement : MonoBehaviour
 {
     private Rigidbody2D rigidBody;
-    private DirectionsController directions;
 
     [SerializeField] private MovementData data;
     public bool IsTouchingGround => rigidBody.IsTouching(data.Ground);
@@ -14,7 +14,6 @@ public class Movement : MonoBehaviour
     void Awake()
     {
         rigidBody = GetComponent<Rigidbody2D>();
-        directions = GetComponent<DirectionsController>();
         SetUpJumpForce();
     }
 
@@ -22,16 +21,6 @@ public class Movement : MonoBehaviour
     {
         jumpForce = 4 * data.JumpHeight / data.JumpTime;
         rigidBody.gravityScale = 8 * data.JumpHeight / Mathf.Pow(data.JumpTime, 2) / (-Physics2D.gravity.y); 
-    }
-
-    public void SetUpDirections(float horizontal, float vertical)
-    {
-        directions.SetUpDirections(horizontal, vertical);
-    }
-
-    public Direction GetMovementDirection()
-    {
-        return directions.MovementDirection;
     }
 
     public void Jump()
@@ -42,14 +31,15 @@ public class Movement : MonoBehaviour
         }
     }
 
-    public void MoveHorizontal()
+    // If direction up or down, then movement stoping
+    public void MoveHorizontal(Direction direction)
     {
-        rigidBody.linearVelocityX = directions.MovementDirection.ToVector().x * data.MovementSpeed;
+        rigidBody.linearVelocityX = direction.ToVector().x * data.MovementSpeed;
     }
 
-    public void AdjustHorizontalSpeed(float delta)
+    public void AdjustHorizontalSpeed(Direction direction, float delta)
     {
-        rigidBody.linearVelocityX += directions.MovementDirection.ToVector().x * delta;
+        rigidBody.linearVelocityX += direction.ToVector().x * delta;
     }
 
     public void StopHorizontalMovement()

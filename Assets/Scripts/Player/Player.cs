@@ -31,7 +31,7 @@ public class Player : MonoBehaviour, IMortal, IHittable
     }
     public void Die()
     {
-        throw new System.NotImplementedException();
+        //throw new System.NotImplementedException();
     }
 
     public void ReceiveHit(Transform from, float damage)

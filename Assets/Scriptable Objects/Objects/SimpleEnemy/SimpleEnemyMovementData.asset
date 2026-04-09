@@ -15,7 +15,7 @@ MonoBehaviour:
   <MovementSpeed>k__BackingField: 5
   <MaxFallSpeed>k__BackingField: 10
   <JumpHeight>k__BackingField: 2
-  <JumpTime>k__BackingField: 1
+  <JumpTime>k__BackingField: 0.5
   <Ground>k__BackingField:
     useTriggers: 0
     useLayerMask: 0

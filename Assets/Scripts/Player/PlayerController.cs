@@ -2,13 +2,15 @@ using UnityEngine;
 
 [RequireComponent(typeof(Player))]
 [RequireComponent(typeof(Movement))]
+[RequireComponent(typeof(DirectionsController))]
 [RequireComponent(typeof(KnockbackController))]
 public class PlayerController : MonoBehaviour
 {
     private Player player;
     private KnockbackController knockbackController;
-
     private Movement movement;
+    private DirectionsController directions;
+
     [SerializeField] private InputReader inputReader;
 
     private bool isMovingByInput = false;
@@ -17,6 +19,7 @@ public class PlayerController : MonoBehaviour
     {
         player = GetComponent<Player>();
         movement = GetComponent<Movement>();
+        directions = GetComponent<DirectionsController>();
         knockbackController = GetComponent<KnockbackController>();
 
     }
@@ -42,12 +45,12 @@ public class PlayerController : MonoBehaviour
         if (knockbackController.IsKnockedBack) //&& (rigidBody.linearVelocityX > player.Data.MovementSpeed || rigidBody.linearVelocityX < -player.Data.MovementSpeed) )
         {
             if (isMovingByInput)
-                movement.AdjustHorizontalSpeed(2f);
+                movement.AdjustHorizontalSpeed(directions.MovementDirection, 2f);
         }
         else
         {
             if (isMovingByInput)
-                movement.MoveHorizontal();
+                movement.MoveHorizontal(directions.MovementDirection);
             else
                 movement.StopHorizontalMovement();
         }
@@ -58,7 +61,7 @@ public class PlayerController : MonoBehaviour
     private void OnDirectionInput(Vector2 values)
     {
         float horizontal = values.x, vertical = values.y;
-        movement.SetUpDirections(horizontal, vertical);
+        directions.SetUpDirections(horizontal, vertical);
         isMovingByInput = horizontal != 0;
     }
 }

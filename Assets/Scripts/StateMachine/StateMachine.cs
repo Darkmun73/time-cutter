@@ -8,7 +8,7 @@ public class StateMachine : MonoBehaviour
         get { return currentState; }
         set
         {
-            Debug.Log(value);
+            //Debug.Log(value);
             currentState?.Exit();
             currentState = value;
             currentState.Enter();
