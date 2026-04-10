@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 4978404390727384041}
   - component: {fileID: 5815192762825558504}
   - component: {fileID: 338100280295081295}
+  - component: {fileID: 6034896089712310973}
   - component: {fileID: 5711777049756047511}
   - component: {fileID: 5509275156964090928}
   - component: {fileID: 178856964335314398}
@@ -229,9 +230,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyStateMachine
   detectionRadius: 13.08
-  <PathUpdateTime>k__BackingField: 0.1
-  <JumpNodeHeightRequirement>k__BackingField: 0.5
-  <NextWaypointDistance>k__BackingField: 3
+--- !u!114 &6034896089712310973
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3027296071230477865}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f20ac07c93236b74ebdc5195ca6ade79, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Navigator
+  data: {fileID: 11400000, guid: 2bf5a1c19cd449f4ebb5be44ff689692, type: 2}
 --- !u!114 &5711777049756047511
 MonoBehaviour:
   m_ObjectHideFlags: 0

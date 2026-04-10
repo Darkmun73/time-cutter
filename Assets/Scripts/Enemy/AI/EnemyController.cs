@@ -5,10 +5,10 @@ using UnityEngine;
 [RequireComponent(typeof(DirectionsController))]
 [RequireComponent(typeof(KnockbackController))]
 [RequireComponent(typeof(EnemyCombat))]
-[RequireComponent(typeof(Seeker))]
+[RequireComponent(typeof(Navigator))]
 public class EnemyController : StateMachine
 {
-    public readonly struct TargetInfo
+    public readonly struct TargetInfo // TODO: GameObject в конструктор
     {
         public Transform Transform {get;}
         public Vector2 Size {get;}
@@ -22,17 +22,21 @@ public class EnemyController : StateMachine
 
     public Movement Movement {get; private set;}
     public DirectionsController Directions {get; private set;}
+    public Navigator Navigator {get; private set;}
     public EnemyCombat Combat {get; private set;}
-    public TargetInfo Target {get; private set;}
+
+    private TargetInfo target;
+    public TargetInfo Target {
+        get => target;
+        private set
+        {
+            target = value;
+            Navigator.SetTarget(target.Transform);
+        }
+    }
 
     [SerializeField] private float detectionRadius = 5f;
     private float attackRadius;
-
-    // pathfinding
-    [field: SerializeField] public float PathUpdateTime {get; private set;} = 0.5f; // MAYBE TODO: чекнуть в unity profiler сильно ли по перфомансу бьет с кучей врагов
-    [field: SerializeField] public float JumpNodeHeightRequirement {get; private set;} = 1f;
-    [field: SerializeField] public float NextWaypointDistance {get; private set;} = 3f;
-    public Seeker Seeker {get; private set;}
 
     private KnockbackController knockbackController;
 
@@ -44,12 +48,12 @@ public class EnemyController : StateMachine
     {
         Movement = GetComponent<Movement>();
         Directions = GetComponent<DirectionsController>();
+        Navigator = GetComponent<Navigator>();
         Combat = GetComponent<EnemyCombat>();
         var player = FindFirstObjectByType<Player>();
         var playerCollider = player.GetComponent<Collider2D>();
         Target = new TargetInfo(player.transform, playerCollider.bounds.size);
         knockbackController = GetComponent<KnockbackController>();
-        Seeker = GetComponent<Seeker>();
 
         attackRadius = Combat.GetHitRadius() + Combat.DistanceToAttackPoint();
     }
@@ -61,7 +65,6 @@ public class EnemyController : StateMachine
         attackState = new EnemyAttackState(this);
         
         CurrentState = idleState;
-
     }
 
     protected override void Update()
