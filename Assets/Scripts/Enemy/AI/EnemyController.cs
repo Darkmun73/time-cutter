@@ -13,10 +13,14 @@ public class EnemyController : StateMachine
         public Transform Transform {get;}
         public Vector2 Size {get;}
 
-        public TargetInfo(Transform transform, Vector2 size)
+        public TargetInfo(GameObject target)
         {
-            Transform = transform;
-            Size = size;
+            var targetCollider = target.GetComponent<Collider2D>();
+            Transform = target.transform;
+            if (targetCollider != null)
+                Size = targetCollider.bounds.size;
+            else
+                Size = Vector2.zero;
         }
     }
 
@@ -51,8 +55,7 @@ public class EnemyController : StateMachine
         Navigator = GetComponent<Navigator>();
         Combat = GetComponent<EnemyCombat>();
         var player = FindFirstObjectByType<Player>();
-        var playerCollider = player.GetComponent<Collider2D>();
-        Target = new TargetInfo(player.transform, playerCollider.bounds.size);
+        Target = new TargetInfo(player.gameObject);
         knockbackController = GetComponent<KnockbackController>();
 
         attackRadius = Combat.GetHitRadius() + Combat.DistanceToAttackPoint();
