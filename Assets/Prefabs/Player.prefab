@@ -202,20 +202,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Movement
   data: {fileID: 11400000, guid: 782561a37f1789d4588790d5a7b62ca7, type: 2}
-  ground:
-    useTriggers: 0
-    useLayerMask: 0
-    useDepth: 0
-    useOutsideDepth: 0
-    useNormalAngle: 0
-    useOutsideNormalAngle: 0
-    layerMask:
-      serializedVersion: 2
-      m_Bits: 0
-    minDepth: 0
-    maxDepth: 0
-    minNormalAngle: 0
-    maxNormalAngle: 0
 --- !u!114 &163573685808581746
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -268,5 +254,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c38cae17e8b9564c80755531822621a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::KnockbackController
+  data: {fileID: 11400000, guid: 6c54e701781ba4449a91b99582fc0df7, type: 2}
   knockbackForce: 25
   knockbackDuration: 0.3

@@ -297,6 +297,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c38cae17e8b9564c80755531822621a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::KnockbackController
+  data: {fileID: 11400000, guid: 391a4b3dacbae0943bfb03152cf1c522, type: 2}
   knockbackForce: 10
   knockbackDuration: 0.3
 --- !u!1 &4499398360642741282
