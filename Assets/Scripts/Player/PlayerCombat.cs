@@ -5,9 +5,10 @@ using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(Player))]
 [RequireComponent(typeof(DirectionsController))]
+[RequireComponent(typeof(Collider2D))]
 public class PlayerCombat : MonoBehaviour
 {
-    private Player player;
+    private Collider2D playerCollider;
     private DirectionsController directions;
     [SerializeField] private AttackData data;
     [SerializeField] private InputReader inputReader;
@@ -15,15 +16,10 @@ public class PlayerCombat : MonoBehaviour
     private Vector2 attackVectorStartCoords = Vector2.zero;
     private Vector2 attackVectorEndCoords = Vector2.zero;
 
-    private ContactFilter2D enemiesFilter;
-
     void Awake()
     {
-        player = GetComponent<Player>();
+        playerCollider = GetComponent<Collider2D>();
         directions = GetComponent<DirectionsController>();
-        
-        enemiesFilter = new();
-        enemiesFilter.SetLayerMask(LayerMask.GetMask("Enemies"));
     }
 
     void OnEnable()
@@ -42,7 +38,10 @@ public class PlayerCombat : MonoBehaviour
 
     private void StartAttackInit()
     {
-        attackVectorStartCoords = Pointer.current.position.ReadValue();
+        if (Pointer.current != null)
+            attackVectorStartCoords = Pointer.current.position.ReadValue();
+        else
+            Debug.LogError("You need to use pointer device! (eg. mouse)");
     }
 
     private void EndAttackInit()
@@ -76,18 +75,18 @@ public class PlayerCombat : MonoBehaviour
     private IEnumerator PhysicsHitOccured(GameObject hitObject)
     {
         yield return new WaitForFixedUpdate();
-        ApplyHitToEnemies(hitObject);
+        ApplyHit(hitObject);
     }
 
-    private void ApplyHitToEnemies(GameObject hitObject)
+    private void ApplyHit(GameObject hitObject)
     {
-        List<Collider2D> enemiesColliders = new();
+        List<Collider2D> colliders = new();
         var hitCollider = hitObject.GetComponent<Collider2D>();
-        hitCollider.Overlap(enemiesFilter, enemiesColliders);
-        foreach (var enemyCollider in enemiesColliders) // TODO: При задевании колайдера-тригера врага тоже будет проходить удар?
+        hitCollider.Overlap(colliders);
+        foreach (var collider in colliders) if (playerCollider != collider) // TODO: При задевании колайдера-тригера тоже будет проходить удар?
         {   
-            Enemy enemy = enemyCollider.GetComponent<Enemy>();
-            enemy.ReceiveHit(transform, data.BaseDamage);
+            if (collider.TryGetComponent<IHittable>(out var hittable))
+                hittable.ReceiveHit(transform, data.BaseDamage);
         }
     }
 }
