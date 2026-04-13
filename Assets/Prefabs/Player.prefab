@@ -255,5 +255,3 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::KnockbackController
   data: {fileID: 11400000, guid: 6c54e701781ba4449a91b99582fc0df7, type: 2}
-  knockbackForce: 25
-  knockbackDuration: 0.3
