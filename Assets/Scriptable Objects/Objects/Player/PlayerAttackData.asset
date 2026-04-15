@@ -14,3 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerAttackData
   <BaseDamage>k__BackingField: 10
   <ObjectsHitAnglesCleanupInterval>k__BackingField: 8.02
+  <ShieldBreakAngles>k__BackingField:
+  - -45
+  - -90
+  - -135
+  <AngleTolerance>k__BackingField: 16.2

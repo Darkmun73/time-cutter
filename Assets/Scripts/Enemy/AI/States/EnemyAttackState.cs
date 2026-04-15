@@ -8,7 +8,10 @@ public class EnemyAttackState : IState
         enemyController = controller;
     }
 
-    public void Enter() {}
+    public void Enter()
+    {
+        enemyController.Combat.StartCooldown();
+    }
 
     public void Exit() {}
 

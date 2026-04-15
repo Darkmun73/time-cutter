@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -115,8 +116,32 @@ public class PlayerCombat : MonoBehaviour
             {
                 hittable.ReceiveHit(transform, data.BaseDamage);
                 AddHitAngleForObject(collider.gameObject, hit.Angle);
+                Debug.Log(CanBreakShield(collider.gameObject));
+                Debug.Log(string.Join("; ", objectsHitAngles[collider.gameObject]));
+                if (collider.TryGetComponent<Shield>(out var shield) &&
+                    CanBreakShield(collider.gameObject))
+                {
+                    shield.Break();
+                }
             }
         }
+    }
+
+    // obj - object with shield
+    private bool CanBreakShield(GameObject obj) 
+    {
+        var currentAngles = objectsHitAngles[obj];
+        if (currentAngles.Count < data.ShieldBreakAngles.Count)
+            return false;
+        var lastAngles = currentAngles.GetRange(currentAngles.Count - data.ShieldBreakAngles.Count, data.ShieldBreakAngles.Count);
+        for (int i = 0; i < lastAngles.Count; ++i)
+        {
+            if (Mathf.Abs(lastAngles[i] - data.ShieldBreakAngles[i]) > data.AngleTolerance)
+            {
+                return false;
+            }
+        }
+        return true;
     }
 
     private void AddHitAngleForObject(GameObject obj, float angle)

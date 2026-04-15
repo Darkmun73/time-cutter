@@ -24,13 +24,19 @@ public class EnemyCombat : MonoBehaviour
             Player player = playerCollider.GetComponent<Player>();
             player.ReceiveHit(transform, attackData.BaseDamage);
         }
-        StartCoroutine(StartCooldown());
+        StartCooldown();
     }
 
-    private IEnumerator StartCooldown()
+    public void StartCooldown()
+    {
+        StopAllCoroutines();
+        StartCoroutine(ProhibitAttack(attackData.Cooldown));
+    }
+
+    private IEnumerator ProhibitAttack(float seconds)
     {
         CanAttack = false;
-        yield return new WaitForSeconds(attackData.Cooldown);
+        yield return new WaitForSeconds(seconds);
         CanAttack = true;
     }
 

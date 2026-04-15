@@ -3,11 +3,11 @@ using UnityEngine.Events;
 
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(Health))]
-[RequireComponent(typeof(KnockbackController))]
 public class Enemy : MonoBehaviour, IMortal, IHittable
 {
     private Health health;
     private KnockbackController knockbackController;
+    private Shield shield;
 
     // events
     public event UnityAction<Transform> HitReceived;
@@ -16,17 +16,20 @@ public class Enemy : MonoBehaviour, IMortal, IHittable
     {
         health = GetComponent<Health>();
         knockbackController = GetComponent<KnockbackController>();
+        shield = GetComponent<Shield>();
     }
 
     void OnEnable()
     {
-        HitReceived += knockbackController.Knockback;
+        if (knockbackController != null)
+            HitReceived += knockbackController.Knockback;
         health.HealthDepleted += Die;
     }
 
     void OnDisable()
     {
-        HitReceived -= knockbackController.Knockback;
+        if (knockbackController != null)
+            HitReceived -= knockbackController.Knockback;
         health.HealthDepleted -= Die;
     }
 
@@ -63,6 +66,8 @@ public class Enemy : MonoBehaviour, IMortal, IHittable
 
     public void ReceiveHit(Transform from, float damage) // TODO: переименовать в Receive и в PlayerCombat переименовать функцию
     {
+        if (shield != null && shield.TryBlock()) return;
+        
         health.TakeDamage(damage);
         HitReceived?.Invoke(from);
     }

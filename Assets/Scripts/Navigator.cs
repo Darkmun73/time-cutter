@@ -65,7 +65,7 @@ public class Navigator : MonoBehaviour
         // Reached end of path
         if (currentWaypoint >= path.vectorPath.Count)
         {
-            Debug.Log("reached end");
+            //Debug.Log("reached end");
             return;
         }
 
