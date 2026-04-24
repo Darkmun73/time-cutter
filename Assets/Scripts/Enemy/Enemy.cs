@@ -8,6 +8,7 @@ public class Enemy : MonoBehaviour, IMortal, IHittable
     private Health health;
     private KnockbackController knockbackController;
     private Shield shield;
+    
 
     // events
     public event UnityAction<Transform> HitReceived;
@@ -32,31 +33,6 @@ public class Enemy : MonoBehaviour, IMortal, IHittable
             HitReceived -= knockbackController.Knockback;
         health.HealthDepleted -= Die;
     }
-
-    // private void TryKnockback(Transform source)
-    // {
-    //     if (TryGetComponent(out KnockbackController knockbackController))
-    //         knockbackController.Knockback(source);
-    // }
-    
-    // private void HandlePlayerHit(GameObject hit)
-    // {
-    //     // MAYBE TODO: Если будет работать не точно, то мб поменять на IsTouching или подобное
-    //     bool hitTouching = coll.Distance(hit.GetComponent<Collider2D>()).isOverlapped;
-    //     if (hitTouching)
-    //     {
-    //         HandleHit(hit.transform.parent);
-    //     }
-    // }
-
-    // public void SetVelocityX(float x)
-    // {
-    //     if (x > 0)
-    //         MoveDirection = Direction.Right;
-    //     else
-    //         MoveDirection = Direction.Left;
-    //     rigidBody.linearVelocityX = x;
-    // }
 
     public void Die()
     {

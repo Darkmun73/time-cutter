@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6eab70d7376361c4c9ea0dcff0c221b8, type: 3}
   m_Name: TankKnockbackData
   m_EditorClassIdentifier: Assembly-CSharp::KnockbackData
-  <Force>k__BackingField: 5.05
+  <Force>k__BackingField: 10
   <Duration>k__BackingField: 0.3

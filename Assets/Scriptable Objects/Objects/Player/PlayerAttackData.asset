@@ -18,4 +18,10 @@ MonoBehaviour:
   - -45
   - -90
   - -135
+  <MaxHitAngles>k__BackingField: 7
   <AngleTolerance>k__BackingField: 16.2
+  <MinDamageCoef>k__BackingField: 0.1
+  <MaxDamageCoef>k__BackingField: 1
+  <DamageThresholdAngle>k__BackingField: 20
+  <DamagePenalty>k__BackingField: 0.3
+  <DamageReward>k__BackingField: 0.5
