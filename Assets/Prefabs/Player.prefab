@@ -239,7 +239,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f769aa926acec6f4aa7b11be73e7184e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerAttackController
-  data: {fileID: 11400000, guid: a717aaa7c9104a84c9e2aa492fabb34f, type: 2}
+  attackData: {fileID: 11400000, guid: a717aaa7c9104a84c9e2aa492fabb34f, type: 2}
   inputReader: {fileID: 11400000, guid: 01ae7333c40c0ed419dfa404d1df66b7, type: 2}
   hitPrefab: {fileID: 4061355782550997067, guid: ccee5df19bc790f4db95e585023732cb, type: 3}
 --- !u!114 &3839196942615991497

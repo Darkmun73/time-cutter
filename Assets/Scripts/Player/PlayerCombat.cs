@@ -23,10 +23,12 @@ public class PlayerCombat : MonoBehaviour
 
     private class AttackInfo
     {
+        private readonly PlayerAttackData data;
+        private int numberOfHits = 0;
+
         public List<float> HitAngles {get; private set;} // TODO: сделать приватным, и добавить сюда методы, через которые и изменять HitAngles
         public float DamageCoef {get; private set;}
 
-        private readonly PlayerAttackData data;
         
         public AttackInfo(float firstHitAngle, PlayerAttackData data)
         {
@@ -34,6 +36,7 @@ public class PlayerCombat : MonoBehaviour
 
             HitAngles = new() { firstHitAngle };
             DamageCoef = data.MinDamageCoef;
+            numberOfHits++;
         }
 
         // (minCoef, maxCoef): clamps damage accumulation coef to this interval
@@ -42,6 +45,7 @@ public class PlayerCombat : MonoBehaviour
         {
             // Always have at least two hits before recalculating (from constructor + first call of this RegisterHit method)
             HitAngles.Add(angle);
+            numberOfHits++;
             if (HitAngles.Count > data.MaxHitAngles)
                 HitAngles.RemoveAt(0);
             RecalculateDamageCoef();
@@ -51,13 +55,12 @@ public class PlayerCombat : MonoBehaviour
         {
             float lastAngle = HitAngles[^1];
             float preLastAngle = HitAngles[^2];
-            float angleDiff = Mathf.Abs(Mathf.DeltaAngle(preLastAngle, lastAngle)); // TODO: поменять, если не то что надо
-            float acuteAngleDiff = angleDiff < Angles.RightAngle ? angleDiff : Angles.StraightAngle - angleDiff; 
 
+            float acuteAngleDiff = Angles.GetAcuteAngleBetween(lastAngle, preLastAngle);
             
             if (acuteAngleDiff > data.DamageThresholdAngle)
             {
-                var normalizedDiff = (acuteAngleDiff - data.DamageThresholdAngle) / (Angles.StraightAngle - data.DamageThresholdAngle);
+                var normalizedDiff = (acuteAngleDiff - data.DamageThresholdAngle) / (Angles.RightAngle - data.DamageThresholdAngle);
                 float baseGrowth = Mathf.Lerp(0f, data.DamageReward, normalizedDiff);
 
                 float repetitionMultiplier = CalculateRepetitionMultiplier();
@@ -65,7 +68,7 @@ public class PlayerCombat : MonoBehaviour
 
                 DamageCoef += growth;
                 
-                Debug.Log($"✓ Last angle: {lastAngle}° Diff:{acuteAngleDiff:F1}° Base:{baseGrowth:F3} Repetition:{repetitionMultiplier:F3} Final:{growth:F3} → {DamageCoef:F3}");
+                Debug.Log($"✓ Num: {numberOfHits} Last angle: {lastAngle}° Diff:{acuteAngleDiff:F1}° Base:{baseGrowth:F3} Repetition:{repetitionMultiplier:F3} Final:{growth:F3} → {DamageCoef:F3}");
             }
             else
             {
@@ -73,7 +76,7 @@ public class PlayerCombat : MonoBehaviour
                 float penalty = Mathf.Lerp(0f, data.DamagePenalty, normalizedAngleDiff);
                 DamageCoef -= penalty;
                 
-                Debug.Log($"✗ Last angle: {lastAngle}° Diff:{acuteAngleDiff:F1}° Penalty:{penalty:F3} → {DamageCoef:F3}");
+                Debug.Log($"✗ Num: {numberOfHits} Last angle: {lastAngle}° Diff:{acuteAngleDiff:F1}° Penalty:{penalty:F3} → {DamageCoef:F3}");
             }
             
             DamageCoef = Mathf.Clamp(DamageCoef,
@@ -90,14 +93,14 @@ public class PlayerCombat : MonoBehaviour
             for (int i = 0; i < anglesCountWithoutLastTwo; i++)
             {
                 float historicAngle = HitAngles[i];
-                float diff = Mathf.Abs(Mathf.DeltaAngle(lastAngle, historicAngle));
+                float acuteAngleDiff = Angles.GetAcuteAngleBetween(lastAngle, historicAngle);
                 
-                if (diff < data.DamageThresholdAngle)
+                if (acuteAngleDiff < data.DamageThresholdAngle)
                 {
-                    float similarity = 1f - (diff / data.DamageThresholdAngle);
+                    float similarity = 1f - (acuteAngleDiff / data.DamageThresholdAngle);
                     
                     int positionFromEnd = anglesCountWithoutLastTwo - i;
-                    float decayFactor = Mathf.Exp(-positionFromEnd * 0.3f); // TODO: поменять волшебное число
+                    float decayFactor = Mathf.Exp(-positionFromEnd * data.DecayCoef);
                     
                     totalPenalty += similarity * decayFactor;
                 }
@@ -108,7 +111,7 @@ public class PlayerCombat : MonoBehaviour
         }
     }
 
-    [SerializeField] private PlayerAttackData data;
+    [SerializeField] private PlayerAttackData attackData;
     [SerializeField] private InputReader inputReader;
     [SerializeField] private GameObject hitPrefab;
 
@@ -117,13 +120,14 @@ public class PlayerCombat : MonoBehaviour
 
     private Vector2 attackVectorStartCoords = Vector2.zero;
     private Vector2 attackVectorEndCoords = Vector2.zero;
+    private bool canAttack = true;
 
     private Dictionary<GameObject, AttackInfo> objectsAttackInfo = new(); // There would be hit angles for every hit object
 
     void Awake()
     {
-        Debug.Assert(data.MaxHitAngles > 1, "Max hit angles value is too small! Must be at least 2.");
-        Debug.Assert(data.DamageThresholdAngle is > 0f and < 180f, "Damage threshold angle must be > 0 and < 180!");
+        Debug.Assert(attackData.MaxHitAngles > 1, "Max hit angles value is too small! Must be at least 2.");
+        Debug.Assert(attackData.DamageThresholdAngle is > 0f and < 180f, "Damage threshold angle must be > 0 and < 180!");
 
         playerCollider = GetComponent<Collider2D>();
         directions = GetComponent<DirectionsController>();
@@ -135,14 +139,14 @@ public class PlayerCombat : MonoBehaviour
     {
         inputReader.AttackInitializing += StartAttackInit;
         inputReader.AttackInitialized += EndAttackInit;
-        inputReader.AttackInitialized += Attack;
+        inputReader.AttackInitialized += TryAttack;
     }
 
     void OnDisable()
     {
         inputReader.AttackInitializing -= StartAttackInit;
         inputReader.AttackInitialized -= EndAttackInit;
-        inputReader.AttackInitialized -= Attack;
+        inputReader.AttackInitialized -= TryAttack;
     }
 
     // void Update()
@@ -166,6 +170,12 @@ public class PlayerCombat : MonoBehaviour
         attackVectorEndCoords = Pointer.current.position.ReadValue();
     }
 
+    private void TryAttack()
+    {
+        if (canAttack)
+            Attack();
+    }
+
     // Make attack with initialized attack vector's start and end coordinates
     private void Attack()
     {
@@ -181,10 +191,13 @@ public class PlayerCombat : MonoBehaviour
         float zRotation = Vector2.SignedAngle(Vector2.right, hitDirection);
         Quaternion rotation = Quaternion.Euler(0, 0, zRotation);
 
-        Vector3 hitPosition = new(transform.position.x + playerLookDirectionVector.x * 1.5f, transform.position.y + playerLookDirectionVector.y * 1.5f, transform.position.z);
+        Vector3 hitPosition = new(transform.position.x + playerLookDirectionVector.x * 1.5f,
+                                  transform.position.y + playerLookDirectionVector.y * 1.5f,
+                                  transform.position.z);
         GameObject hitObject = Instantiate(hitPrefab, hitPosition, rotation, transform);
         StartCoroutine(PhysicsHitOccured(new(hitObject, zRotation)));
         Destroy(hitObject, 0.2f);
+        StartCooldown();
     }
 
     // MAYBE TODO: если будет задержка что-нибудь придумать без енумератора
@@ -192,6 +205,18 @@ public class PlayerCombat : MonoBehaviour
     {
         yield return new WaitForFixedUpdate();
         ApplyHit(hit);
+    }
+
+    public void StartCooldown()
+    {
+        StartCoroutine(ProhibitAttack(attackData.Cooldown));
+    }
+
+    private IEnumerator ProhibitAttack(float seconds)
+    {
+        canAttack = false;
+        yield return new WaitForSeconds(seconds);
+        canAttack = true;
     }
 
     private void ApplyHit(HitInfo hit)
@@ -204,7 +229,7 @@ public class PlayerCombat : MonoBehaviour
             if (collider.TryGetComponent<IHittable>(out var hittable))
             {
                 var objAttackInfo = AddHitAngleForObject(collider.gameObject, hit.Angle);
-                hittable.ReceiveHit(transform, data.BaseDamage * objAttackInfo.DamageCoef);
+                hittable.ReceiveHit(transform, attackData.BaseDamage * objAttackInfo.DamageCoef);
                 // Debug.Log(CanBreakShield(collider.gameObject));
                 // Debug.Log(string.Join("; ", objectsHitAngles[collider.gameObject]));
                 if (collider.TryGetComponent<Shield>(out var shield) &&
@@ -220,15 +245,9 @@ public class PlayerCombat : MonoBehaviour
     private bool CanBreakShield(GameObject objectWithShield) 
     {
         var currentAngles = objectsAttackInfo[objectWithShield].HitAngles;
-        if (currentAngles.Count < data.ShieldBreakAngles.Count)
-            return false;
-        var lastAngles = currentAngles.GetRange(currentAngles.Count - data.ShieldBreakAngles.Count, data.ShieldBreakAngles.Count);
-        for (int i = 0; i < lastAngles.Count; ++i)
-        {
-            if (Mathf.Abs(lastAngles[i] - data.ShieldBreakAngles[i]) > data.AngleTolerance)
-                return false;
-        }
-        return true;
+        return Angles.EndsWithPatternWithinTolerance(currentAngles,
+                                                     attackData.ShieldBreakAngles,
+                                                     attackData.AngleTolerance);
     }
 
     private AttackInfo AddHitAngleForObject(GameObject obj, float angle)
@@ -236,7 +255,7 @@ public class PlayerCombat : MonoBehaviour
         if (objectsAttackInfo.TryGetValue(obj, out var attackInfo))
             attackInfo.RegisterHit(angle);
         else
-            attackInfo = new(angle, data);
+            attackInfo = new(angle, attackData);
             objectsAttackInfo[obj] = attackInfo;
 
         return attackInfo;
@@ -254,7 +273,7 @@ public class PlayerCombat : MonoBehaviour
             {
                 objectsAttackInfo.Remove(destroyedObject);
             }
-            yield return new WaitForSeconds(data.ObjectsAttackInfoCleanupInterval);
+            yield return new WaitForSeconds(attackData.ObjectsAttackInfoCleanupInterval);
         }
     }
 

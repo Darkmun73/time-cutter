@@ -13,15 +13,18 @@ MonoBehaviour:
   m_Name: PlayerAttackData
   m_EditorClassIdentifier: Assembly-CSharp::PlayerAttackData
   <BaseDamage>k__BackingField: 10
-  <ObjectsHitAnglesCleanupInterval>k__BackingField: 8.02
   <ShieldBreakAngles>k__BackingField:
   - -45
   - -90
   - -135
-  <MaxHitAngles>k__BackingField: 7
+  <ObjectsAttackInfoCleanupInterval>k__BackingField: 2
+  <Cooldown>k__BackingField: 0.2
+  <MaxHitAngles>k__BackingField: 12
   <AngleTolerance>k__BackingField: 16.2
   <MinDamageCoef>k__BackingField: 0.1
   <MaxDamageCoef>k__BackingField: 1
   <DamageThresholdAngle>k__BackingField: 20
   <DamagePenalty>k__BackingField: 0.3
-  <DamageReward>k__BackingField: 0.5
+  <DamageReward>k__BackingField: 0.3
+  <RepetitionPenalty>k__BackingField: 1
+  <DecayCoef>k__BackingField: 0.1
