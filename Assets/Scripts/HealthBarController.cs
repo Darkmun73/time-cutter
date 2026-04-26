@@ -14,18 +14,19 @@ public class HealthBarController : MonoBehaviour
 
         playerHealth = FindFirstObjectByType<Player>().GetComponent<Health>();
 
-
-        SetMaxHealth(playerHealth.GetMaxHealth());
-        SetHealth(playerHealth.GetMaxHealth());
+        SetMaxHealth(playerHealth.MaxHealth);
+        SetHealth(playerHealth.MaxHealth);
     }
 
     void OnEnable()
     {
+        playerHealth.MaxHealthChanged += SetMaxHealth;
         playerHealth.HealthChanged += SetHealth;
     }
 
     void OnDisable()
     {
+        playerHealth.MaxHealthChanged -= SetMaxHealth;
         playerHealth.HealthChanged -= SetHealth;
     }
 

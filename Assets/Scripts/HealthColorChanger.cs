@@ -29,7 +29,7 @@ public class HealthColorChanger : MonoBehaviour
     
     private void ChangeColorOnHealthChanged(float healthValue)
     {
-        Color newColor = Color.Lerp(toColor, fromColor, healthValue / health.GetMaxHealth());
+        Color newColor = Color.Lerp(toColor, fromColor, healthValue / health.MaxHealth);
         spriteRenderer.color = newColor;
     }
 }

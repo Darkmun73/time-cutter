@@ -4,11 +4,26 @@ using UnityEngine.Events;
 public class Health : MonoBehaviour
 {
     public event UnityAction<float> HealthChanged;
+    public event UnityAction<float> MaxHealthChanged;
     public event UnityAction HealthDepleted;
 
     [SerializeField] private HealthData data;
     
     private float currentHealth;
+
+    private float maxHealthMultiplier = 1f;
+    private float MaxHealthMultiplier
+    {
+        get => maxHealthMultiplier;
+        set
+        {
+            maxHealthMultiplier = value;
+            MaxHealthChanged?.Invoke(MaxHealth);
+        }
+    }
+
+    public float MaxHealth => data.MaxHealth * MaxHealthMultiplier;
+
     private float CurrentHealth
     {
         get { return currentHealth; }
@@ -16,8 +31,8 @@ public class Health : MonoBehaviour
         {
             if (value <= 0)
                 currentHealth = 0;
-            else if (value > data.MaxHealth)
-                currentHealth = data.MaxHealth;
+            else if (value > MaxHealth)
+                currentHealth = MaxHealth;
             else
                 currentHealth = value;
             HealthChanged?.Invoke(currentHealth);
@@ -29,7 +44,7 @@ public class Health : MonoBehaviour
 
     void Awake()
     {
-        currentHealth = data.MaxHealth;
+        currentHealth = MaxHealth;
     }
 
     public void TakeDamage(float damage)
@@ -37,9 +52,29 @@ public class Health : MonoBehaviour
         CurrentHealth -= damage;
     }
 
-    public float GetMaxHealth()
+    public void IncreaseMaxHealthByFactor(float factor, bool restoreHealthToFull = true)
     {
-        return data.MaxHealth;
+        if (factor < 1f)
+        {
+            Debug.LogWarning("Factor must be >= 1!");
+            return;
+        }
+
+        MaxHealthMultiplier *= factor;
+
+        if (restoreHealthToFull)
+            CurrentHealth = MaxHealth;
     }
-    
+
+    public void DecreaseMaxHealthByFactor(float factor)
+    {
+        if (factor < 1f)
+        {
+            Debug.LogWarning("Factor must be >= 1!");
+            return;
+        }
+
+        MaxHealthMultiplier /= factor;
+        CurrentHealth = currentHealth;
+    }
 }

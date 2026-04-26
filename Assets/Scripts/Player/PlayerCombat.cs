@@ -121,6 +121,7 @@ public class PlayerCombat : MonoBehaviour
     private Vector2 attackVectorStartCoords = Vector2.zero;
     private Vector2 attackVectorEndCoords = Vector2.zero;
     private bool canAttack = true;
+    private float damageMultiplier = 1f;
 
     private Dictionary<GameObject, AttackInfo> objectsAttackInfo = new(); // There would be hit angles for every hit object
 
@@ -229,7 +230,7 @@ public class PlayerCombat : MonoBehaviour
             if (collider.TryGetComponent<IHittable>(out var hittable))
             {
                 var objAttackInfo = AddHitAngleForObject(collider.gameObject, hit.Angle);
-                hittable.ReceiveHit(transform, attackData.BaseDamage * objAttackInfo.DamageCoef);
+                hittable.ReceiveHit(transform, attackData.BaseDamage * objAttackInfo.DamageCoef * damageMultiplier);
                 // Debug.Log(CanBreakShield(collider.gameObject));
                 // Debug.Log(string.Join("; ", objectsHitAngles[collider.gameObject]));
                 if (collider.TryGetComponent<Shield>(out var shield) &&
@@ -280,6 +281,26 @@ public class PlayerCombat : MonoBehaviour
     public void ResetObjectsHitAngles() // TODO: использовать при загрузке другой сцены?
     {
         objectsAttackInfo = new();
+    }
+
+    public void IncreaseDamageMultiplierByFactor(float factor)
+    {
+        if (factor < 1f)
+        {
+            Debug.LogWarning("Factor must be >= 1!");
+            return;
+        }
+        damageMultiplier *= factor;
+    }
+
+    public void DecreaseDamageMultiplierByFactor(float factor)
+    {
+        if (factor < 1f)
+        {
+            Debug.LogWarning("Factor must be >= 1!");
+            return;
+        }
+        damageMultiplier /= factor;
     }
 }
 
