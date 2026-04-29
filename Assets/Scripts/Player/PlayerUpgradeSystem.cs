@@ -5,6 +5,7 @@ using UnityEngine;
 [RequireComponent(typeof(PlayerCombat))]
 public class PlayerUpgradeSystem : MonoBehaviour
 {
+    [SerializeField] private UIChannel uiChannel;
     private readonly List<Upgrade> appliedUpgrades = new();
 
     public Health Health {get; private set;}
@@ -14,6 +15,18 @@ public class PlayerUpgradeSystem : MonoBehaviour
     {
         Health = GetComponent<Health>();
         Combat = GetComponent<PlayerCombat>();
+    }
+
+    void OnEnable()
+    {
+        uiChannel.ApplyUpgradeRequested += AddUpgrade;
+        uiChannel.UnapplyUpgradeRequested += RemoveUpgrade;
+    }
+
+    void OnDisable()
+    {
+        uiChannel.ApplyUpgradeRequested -= AddUpgrade;
+        uiChannel.UnapplyUpgradeRequested -= RemoveUpgrade;
     }
 
     public void AddUpgrade(Upgrade upgrade)
@@ -31,5 +44,10 @@ public class PlayerUpgradeSystem : MonoBehaviour
             return;
 
         upgrade.Unapply(this);
+    }
+
+    public bool HasUpgrade(Upgrade upgrade)
+    {
+        return upgrade != null && appliedUpgrades.Contains(upgrade);
     }
 }

@@ -19,6 +19,7 @@ GameObject:
   - component: {fileID: 3966733386220292818}
   - component: {fileID: 5940030391877375664}
   - component: {fileID: 3839196942615991497}
+  - component: {fileID: 6135718916966521686}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -255,3 +256,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::KnockbackController
   data: {fileID: 11400000, guid: 6c54e701781ba4449a91b99582fc0df7, type: 2}
+--- !u!114 &6135718916966521686
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4020881174240702802}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 03579ac09bc88f241ba4b99eef1080ee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerUpgradeSystem
+  uiChannel: {fileID: 11400000, guid: 5bf7189d311ab204cb63352dbf50531e, type: 2}
