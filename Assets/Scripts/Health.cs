@@ -52,6 +52,11 @@ public class Health : MonoBehaviour
         CurrentHealth -= damage;
     }
 
+    public void Heal(float value)
+    {
+        CurrentHealth += value;
+    }
+
     public void IncreaseMaxHealthByFactor(float factor, bool restoreHealthToFull = true)
     {
         if (factor < 1f)

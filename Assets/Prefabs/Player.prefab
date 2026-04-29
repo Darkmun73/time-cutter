@@ -20,6 +20,7 @@ GameObject:
   - component: {fileID: 5940030391877375664}
   - component: {fileID: 3839196942615991497}
   - component: {fileID: 6135718916966521686}
+  - component: {fileID: 3571092153617514384}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -269,3 +270,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerUpgradeSystem
   uiChannel: {fileID: 11400000, guid: 5bf7189d311ab204cb63352dbf50531e, type: 2}
+--- !u!114 &3571092153617514384
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4020881174240702802}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e5f7fa49660a2654da91992608fb8b0c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerAnglesCombinationEffects
+  data: {fileID: 11400000, guid: d15ff4d54b02d07419511d74af29eaf9, type: 2}

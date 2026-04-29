@@ -3,6 +3,7 @@ using UnityEngine;
 
 [RequireComponent(typeof(Health))]
 [RequireComponent(typeof(PlayerCombat))]
+[RequireComponent(typeof(PlayerAnglesCombinationEffects))]
 public class PlayerUpgradeSystem : MonoBehaviour
 {
     [SerializeField] private UIChannel uiChannel;
@@ -10,11 +11,13 @@ public class PlayerUpgradeSystem : MonoBehaviour
 
     public Health Health {get; private set;}
     public PlayerCombat Combat {get; private set;}
+    public PlayerAnglesCombinationEffects CombinationEffects {get; private set;}
 
     void Awake()
     {
         Health = GetComponent<Health>();
         Combat = GetComponent<PlayerCombat>();
+        CombinationEffects = GetComponent<PlayerAnglesCombinationEffects>();
     }
 
     void OnEnable()

@@ -2534,6 +2534,7 @@ MonoBehaviour:
   upgrades:
   - {fileID: 11400000, guid: fa3f818c817494e47bc67a4d9629334d, type: 2}
   - {fileID: 11400000, guid: b1612fdbe480bca4699d2a4d183e0a06, type: 2}
+  - {fileID: 11400000, guid: db5d7b3e8f365c24bae7badfe730142f, type: 2}
   toggleKey: 3
 --- !u!223 &910000104
 Canvas:
