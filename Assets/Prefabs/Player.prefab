@@ -21,6 +21,8 @@ GameObject:
   - component: {fileID: 3839196942615991497}
   - component: {fileID: 6135718916966521686}
   - component: {fileID: 3571092153617514384}
+  - component: {fileID: -3705969888606277762}
+  - component: {fileID: 4797606900297893489}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -283,3 +285,29 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerAnglesCombinationEffects
   data: {fileID: 11400000, guid: d15ff4d54b02d07419511d74af29eaf9, type: 2}
+--- !u!114 &-3705969888606277762
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4020881174240702802}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c19c7ce1af6b7164893e564b8e7415cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerUpgradesShop
+  uiChannel: {fileID: 11400000, guid: 5bf7189d311ab204cb63352dbf50531e, type: 2}
+  upgrades: {fileID: 11400000, guid: 58d68deeee032614e8a9ad84a097d143, type: 2}
+--- !u!114 &4797606900297893489
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4020881174240702802}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 714592beb9dea52489aeebc3b0199517, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Currency

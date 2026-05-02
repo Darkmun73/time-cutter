@@ -9,7 +9,7 @@ public class UpgradeMenuUI : MonoBehaviour
     [SerializeField] private GameObject upgradeUIPrefab;
 
     //[SerializeField] private Text hintText;
-    [SerializeField] private List<Upgrade> upgrades;
+    [SerializeField] private PurchasableUpgrades upgrades;
 
     [SerializeField] private Key toggleKey = Key.Tab;
 
@@ -31,7 +31,7 @@ public class UpgradeMenuUI : MonoBehaviour
             return;
         }
 
-        foreach(var upgrade in upgrades)
+        foreach(var upgrade in upgrades.Get())
         {
             var upgradeUIObject = Instantiate(upgradeUIPrefab, menuPanel.transform);
             var upgradeUI = upgradeUIObject.GetComponent<UpgradeUI>();

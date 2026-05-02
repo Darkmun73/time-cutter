@@ -10,32 +10,24 @@ public class UpgradeUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI descriptionTextField;
     [SerializeField] private Button applyButton;
 
-    private bool isApplied = false;
-
     public void Initialize(Upgrade upgrade)
     {
         nameTextField.text = upgrade.Name;
         descriptionTextField.text = upgrade.Description;
         
-        applyButton.onClick.AddListener(() => HandleUpgrade(upgrade));
+        applyButton.onClick.AddListener(() => HandleUpgradeApplying(upgrade));
     }
 
-    private void HandleUpgrade(Upgrade upgrade)
+    private void HandleUpgradeApplying(Upgrade upgrade)
     {
-        string buttonText;
-        if (!isApplied)
-        {
-            uiChannel.RequestApplyUpgrade(upgrade);
-            buttonText = "Unapply";
-        }
-        else
-        {
-            uiChannel.RequestUnapplyUpgrade(upgrade);
-            buttonText = "Apply";
-        }
-        isApplied = !isApplied;
-
         var applyButtonTextField = applyButton.GetComponentInChildren<TextMeshProUGUI>();
-        applyButtonTextField.text = buttonText;
+        uiChannel.RequestApplyUpgrade(upgrade, isApplied =>
+        {
+            if (isApplied)
+            {
+                applyButtonTextField.text = "Applied";
+                applyButton.interactable = false;
+            }
+        });
     }
 }

@@ -20,17 +20,17 @@ public class PlayerUpgradeSystem : MonoBehaviour
         CombinationEffects = GetComponent<PlayerAnglesCombinationEffects>();
     }
 
-    void OnEnable()
-    {
-        uiChannel.ApplyUpgradeRequested += AddUpgrade;
-        uiChannel.UnapplyUpgradeRequested += RemoveUpgrade;
-    }
+    // void OnEnable()
+    // {
+    //     uiChannel.ApplyUpgradeRequested += AddUpgrade;
+    //     uiChannel.UnapplyUpgradeRequested += RemoveUpgrade;
+    // }
 
-    void OnDisable()
-    {
-        uiChannel.ApplyUpgradeRequested -= AddUpgrade;
-        uiChannel.UnapplyUpgradeRequested -= RemoveUpgrade;
-    }
+    // void OnDisable()
+    // {
+    //     uiChannel.ApplyUpgradeRequested -= AddUpgrade;
+    //     uiChannel.UnapplyUpgradeRequested -= RemoveUpgrade;
+    // }
 
     public void AddUpgrade(Upgrade upgrade)
     {
