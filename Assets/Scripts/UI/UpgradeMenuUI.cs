@@ -35,7 +35,7 @@ public class UpgradeMenuUI : MonoBehaviour
         {
             var upgradeUIObject = Instantiate(upgradeUIPrefab, menuPanel.transform);
             var upgradeUI = upgradeUIObject.GetComponent<UpgradeUI>();
-            upgradeUI.Initialize(upgrade);
+            upgradeUI.Initialize(upgrade, (int)upgrades.GetCost(upgrade));
         }     
     }
 

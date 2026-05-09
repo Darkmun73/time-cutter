@@ -17,4 +17,4 @@ MonoBehaviour:
     \u0445\u043F"
   <Description>k__BackingField: "\u041F\u043E\u0432\u044B\u0448\u0430\u0435\u0442
     \u043C\u0430\u043A\u0441\u0438\u043C\u0443\u043C \u0445\u043F \u0432 1.2 \u0440\u0430\u0437\u0430"
-  <Multiplier>k__BackingField: 1.2
+  multiplier: 1.2
