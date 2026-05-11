@@ -8,6 +8,7 @@ public class DebugGUI : MonoBehaviour
 
     private bool isGUIEnabled;
     private string currencyAmount = "0";
+    private string launchForce = "0";
 
     private GUIStyle textFieldStyle = null;
     private GUIStyle buttonStyle = null;
@@ -54,10 +55,16 @@ public class DebugGUI : MonoBehaviour
         bool increasing = GUI.Button(new Rect(0, 40, 125, 35), "Increase", buttonStyle);
         bool decreasing = GUI.Button(new Rect(0, 85, 125, 35), "Decrease", buttonStyle);
 
+        launchForce = GUI.TextField(new Rect(130, 0, 100, 35), launchForce, textFieldStyle);
+        bool toLaunch = GUI.Button(new Rect(130, 40, 125, 35), "LaunchUp", buttonStyle);
+
         if (increasing)
             tools.IncreaseAmountOfPlayerCurrency(int.Parse(currencyAmount));
         if (decreasing)
             tools.DecreaseAmountOfPlayerCurrency(int.Parse(currencyAmount));
+
+        if (toLaunch)
+            tools.LaunchPlayerUp(int.Parse(launchForce));
     }
 
 }

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(Player))]
@@ -10,7 +11,7 @@ using UnityEngine.InputSystem;
 [RequireComponent(typeof(Collider2D))]
 public class PlayerCombat : MonoBehaviour
 {
-    private readonly struct HitInfo
+    public readonly struct HitInfo
     {
         public GameObject Obj {get;}
         public float Angle {get;}
@@ -34,8 +35,12 @@ public class PlayerCombat : MonoBehaviour
     private bool canAttack = true;
     private float damageMultiplier = 1f;
 
+    public bool IsAttacking {get; private set;} = false;
+
     private Dictionary<GameObject, AttackInfo> objectsAttackInfo = new(); // There would be hit angles for every hit object
     private HashSet<AnglesCombinationEffect> anglesCombinationEffects = new();
+
+    public event UnityAction<HitInfo> HitPerforming; // Direction vector as parameter
 
     void Awake()
     {
@@ -104,13 +109,18 @@ public class PlayerCombat : MonoBehaviour
         float zRotation = Vector2.SignedAngle(Vector2.right, hitDirection);
         Quaternion rotation = Quaternion.Euler(0, 0, zRotation);
 
-        Vector3 hitPosition = new(transform.position.x + playerLookDirectionVector.x * 1.5f,
-                                  transform.position.y + playerLookDirectionVector.y * 1.5f,
-                                  transform.position.z);
+        Vector3 hitPosition = new(transform.position.x + playerLookDirectionVector.x * 0.5f,
+                                  transform.position.y + playerLookDirectionVector.y * 0.5f,
+                                  transform.position.z); // TODO: разобраться с магическими числами
         GameObject hitObject = Instantiate(hitPrefab, hitPosition, rotation, transform);
-        StartCoroutine(PhysicsHitOccured(new(hitObject, zRotation)));
-        Destroy(hitObject, 0.2f);
+        HitInfo hitInfo = new(hitObject, zRotation);
+
+        StartCoroutine(PhysicsHitOccured(hitInfo));
+        StartCoroutine(DestroyHitObject(hitObject, attackData.HitDuration));
         StartCooldown();
+
+        IsAttacking = true;
+        HitPerforming?.Invoke(hitInfo);
     }
 
     // MAYBE TODO: если будет задержка что-нибудь придумать без енумератора
@@ -118,6 +128,13 @@ public class PlayerCombat : MonoBehaviour
     {
         yield return new WaitForFixedUpdate();
         ApplyHit(hit);
+    }
+
+    private IEnumerator DestroyHitObject(GameObject hitObject, float interval)
+    {
+        yield return new WaitForSeconds(interval);
+        Destroy(hitObject);
+        IsAttacking = false;
     }
 
     public void StartCooldown()

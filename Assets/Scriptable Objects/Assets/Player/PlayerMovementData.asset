@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76e723108870f5e48892973dc02b2488, type: 3}
   m_Name: PlayerMovementData
   m_EditorClassIdentifier: Assembly-CSharp::MovementData
-  <MovementSpeed>k__BackingField: 15
+  <MovementSpeed>k__BackingField: 5
   <MaxFallSpeed>k__BackingField: 20
-  <JumpHeight>k__BackingField: 3
+  <JumpHeight>k__BackingField: 1
   <JumpTime>k__BackingField: 0.5
   <Ground>k__BackingField:
     useTriggers: 0

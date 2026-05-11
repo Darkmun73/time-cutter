@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.Events;
 
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(DirectionsController))]
@@ -10,6 +11,8 @@ public class Movement : MonoBehaviour
     [SerializeField] private MovementData data;
     public bool IsTouchingGround => rigidBody.IsTouching(data.Ground);
     private float jumpForce;
+
+    public event UnityAction Jumped;
 
     void Awake()
     {
@@ -28,7 +31,13 @@ public class Movement : MonoBehaviour
         if (IsTouchingGround)
         {
             rigidBody.linearVelocityY = jumpForce;
+            Jumped?.Invoke();
         }
+    }
+
+    public void LaunchUp(float force)
+    {
+        rigidBody.linearVelocityY = force;
     }
 
     // If direction up or down, then movement stoping
@@ -51,5 +60,10 @@ public class Movement : MonoBehaviour
     {
         if (rigidBody.linearVelocityY < -data.MaxFallSpeed)
             rigidBody.linearVelocityY = -data.MaxFallSpeed;
+    }
+
+    public float GetYVelocity()
+    {
+        return rigidBody.linearVelocityY;
     }
 }

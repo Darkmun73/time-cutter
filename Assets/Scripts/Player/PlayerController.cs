@@ -1,19 +1,42 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 [RequireComponent(typeof(Player))]
 [RequireComponent(typeof(Movement))]
 [RequireComponent(typeof(DirectionsController))]
 [RequireComponent(typeof(KnockbackController))]
+[RequireComponent(typeof(PlayerCombat))]
 public class PlayerController : MonoBehaviour
 {
+    [SerializeField] private InputReader inputReader;
+
     private Player player;
     private KnockbackController knockbackController;
     private Movement movement;
     private DirectionsController directions;
+    private PlayerCombat playerCombat;
 
-    [SerializeField] private InputReader inputReader;
+    public event UnityAction RunningStarted;
+    public event UnityAction RunningStopped;
 
-    private bool isMovingByInput = false;
+    private bool shouldRun = false;
+
+    private bool isRunning = false;
+    private bool IsRunning
+    {
+        get => isRunning;
+        set
+        {
+            if (isRunning != value)
+            {
+                if (value)
+                    RunningStarted?.Invoke();
+                else
+                    RunningStopped?.Invoke();
+            }
+            isRunning = value;
+        }
+    }
 
     void Awake()
     {
@@ -21,7 +44,7 @@ public class PlayerController : MonoBehaviour
         movement = GetComponent<Movement>();
         directions = GetComponent<DirectionsController>();
         knockbackController = GetComponent<KnockbackController>();
-
+        playerCombat = GetComponent<PlayerCombat>();
     }
 
     void OnEnable()
@@ -40,16 +63,24 @@ public class PlayerController : MonoBehaviour
         player.HitReceived -= knockbackController.Knockback;
     }
 
+    void Update()
+    {
+        if (!shouldRun || (playerCombat.IsAttacking && shouldRun))
+            IsRunning = false;
+        else if (shouldRun)
+            IsRunning = true;
+    }
+
     void FixedUpdate()
     {
         if (knockbackController.IsKnockedBack) //&& (rigidBody.linearVelocityX > player.Data.MovementSpeed || rigidBody.linearVelocityX < -player.Data.MovementSpeed) )
         {
-            if (isMovingByInput)
+            if (IsRunning)
                 movement.AdjustHorizontalSpeed(directions.MovementDirection, 2f);
         }
         else
         {
-            if (isMovingByInput)
+            if (IsRunning)
                 movement.MoveHorizontal(directions.MovementDirection);
             else
                 movement.StopHorizontalMovement();
@@ -57,11 +88,11 @@ public class PlayerController : MonoBehaviour
             
         movement.ClampFallSpeed();
     }
-    
+
     private void OnDirectionInput(Vector2 values)
     {
         float horizontal = values.x, vertical = values.y;
         directions.SetUpDirections(horizontal, vertical);
-        isMovingByInput = horizontal != 0;
+        shouldRun = horizontal != 0;
     }
 }

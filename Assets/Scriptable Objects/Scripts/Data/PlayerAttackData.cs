@@ -6,6 +6,7 @@ public class PlayerAttackData : AttackData
 {
     [field: SerializeField] public List<float> ShieldBreakAngles {get; private set;} = new() {22.5f, 45f, 67.5f};
     [field: SerializeField] public float ObjectsAttackInfoCleanupInterval {get; private set;} = 2f;
+    [field: SerializeField] public float HitDuration {get; private set;} = 0.5f;
     [field: SerializeField] public float Cooldown {get; private set;} = 0.2f;
     
     [field: SerializeField, Header("Attack Angles")] public int MaxHitAngles {get; private set;} = 7;

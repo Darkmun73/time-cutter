@@ -1605,7 +1605,7 @@ Camera:
   far clip plane: 1000
   field of view: 34
   orthographic: 1
-  orthographic size: 2.8125
+  orthographic size: 2.46
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -1675,7 +1675,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 519420028}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c88f5cead0c0b2a4eb05b5900433f8d1, type: 3}
   m_Name: 
@@ -4078,11 +4078,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1805654736451955036, guid: 37ab3fd5acfe85148b7a126eb10ebb31, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -11.077
+      value: 10.27
       objectReference: {fileID: 0}
     - target: {fileID: 1805654736451955036, guid: 37ab3fd5acfe85148b7a126eb10ebb31, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -2.864
+      value: -2.72
       objectReference: {fileID: 0}
     - target: {fileID: 1805654736451955036, guid: 37ab3fd5acfe85148b7a126eb10ebb31, type: 3}
       propertyPath: m_LocalPosition.z
@@ -5123,7 +5123,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1738375533}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1a8a05de0ac134f4f9d01bef6b9da077, type: 3}
   m_Name: 
@@ -6279,6 +6279,10 @@ PrefabInstance:
       value: 0.851133
       objectReference: {fileID: 0}
     - target: {fileID: 3585180016161230546, guid: 80bb4349114f1ca47aa5b06ae77467ba, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3585180016161230546, guid: 80bb4349114f1ca47aa5b06ae77467ba, type: 3}
       propertyPath: m_Offset.x
       value: 0.04314518
       objectReference: {fileID: 0}
@@ -6340,6 +6344,30 @@ PrefabInstance:
       objectReference: {fileID: 21300000, guid: 5082f27dd7816f14fa92e47584509ec7, type: 3}
     - target: {fileID: 6597593054198286191, guid: 80bb4349114f1ca47aa5b06ae77467ba, type: 3}
       propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9193119169310926677, guid: 80bb4349114f1ca47aa5b06ae77467ba, type: 3}
+      propertyPath: fallVelocityInterval.end
+      value: -3.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9193119169310926677, guid: 80bb4349114f1ca47aa5b06ae77467ba, type: 3}
+      propertyPath: midAirVelocityInterval.end
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 9193119169310926677, guid: 80bb4349114f1ca47aa5b06ae77467ba, type: 3}
+      propertyPath: ascentVelocityInterval.start
+      value: 3.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9193119169310926677, guid: 80bb4349114f1ca47aa5b06ae77467ba, type: 3}
+      propertyPath: midAirVelocityInterval.start
+      value: -3
+      objectReference: {fileID: 0}
+    - target: {fileID: 9193119169310926677, guid: 80bb4349114f1ca47aa5b06ae77467ba, type: 3}
+      propertyPath: ascentVelocityInterval.endIsPositiveInfinity
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9193119169310926677, guid: 80bb4349114f1ca47aa5b06ae77467ba, type: 3}
+      propertyPath: fallVelocityInterval.startIsNegativeInfinity
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []

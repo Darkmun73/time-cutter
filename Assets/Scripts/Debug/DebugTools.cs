@@ -20,10 +20,14 @@ public class DebugTools : MonoBehaviour
     private bool isDebugToolsEnabled = false;
 
     private Currency playerCurrency;
+    private Movement playerMovement;
 
     void Awake()
     {
-        playerCurrency = FindFirstObjectByType<Player>().GetComponent<Currency>();
+        var player = FindFirstObjectByType<Player>();
+
+        playerCurrency = player.GetComponent<Currency>();
+        playerMovement = player.GetComponent<Movement>();
     }
 
     private void OnEnable()
@@ -145,6 +149,16 @@ public class DebugTools : MonoBehaviour
     public void DecreaseAmountOfPlayerCurrency(int value)
     {
         playerCurrency.Amount -= value;
+    }
+
+    public void MakePlayerJump()
+    {
+        playerMovement.Jump();
+    }
+
+    public void LaunchPlayerUp(float force)
+    {
+        playerMovement.LaunchUp(force);
     }
 }
 #endif
