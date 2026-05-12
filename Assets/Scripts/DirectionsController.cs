@@ -1,9 +1,13 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 public class DirectionsController : MonoBehaviour
 {
+    private SpriteRenderer spriteRenderer;
+
     private Direction lookDirection = Direction.Right;
     public Direction LookDirection {get => lookDirection; private set => lookDirection = value;}
+
     private Direction movementDirection = Direction.Right;
     public Direction MovementDirection {
         get => movementDirection;
@@ -11,21 +15,21 @@ public class DirectionsController : MonoBehaviour
         {
             if ((movementDirection == Direction.Left && value == Direction.Right) ||
                 (movementDirection == Direction.Right && value == Direction.Left))
-                HorizontalFlip();
+                MovementDirectionFlipped?.Invoke();
             movementDirection = value;
         }
     }
-    
+
+    public event UnityAction MovementDirectionFlipped;
+
+    void Awake()
+    {
+        spriteRenderer = GetComponent<SpriteRenderer>();
+    }
+
     void Update()
     {
         Debug.DrawRay(transform.position, lookDirection.ToVector() * 5f, Color.yellow);
-    }
-    
-    private void HorizontalFlip() // TODO: не касается движения, перенести отдельно?
-    {
-        Vector3 scale = transform.localScale;
-        scale.x *= -1;
-        transform.localScale = scale;
     }
 
     // horizontal: 1 - right, -1 - left; vertical: 1 - up, -1 - down

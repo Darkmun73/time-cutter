@@ -4,7 +4,9 @@ using UnityEngine;
 [RequireComponent(typeof(PlayerController))]
 [RequireComponent(typeof(PlayerCombat))]
 [RequireComponent(typeof(Movement))]
-public class PlayerAnimationController : MonoBehaviour
+[RequireComponent(typeof(DirectionsController))]
+[RequireComponent(typeof(SpriteRenderer))]
+public class PlayerAnimationController : AnimationController
 {
     [SerializeField] private PlayerAttackData attackData;
 
@@ -13,34 +15,25 @@ public class PlayerAnimationController : MonoBehaviour
     [SerializeField] private ValueInterval midAirVelocityInterval;
     [SerializeField] private ValueInterval fallVelocityInterval;
 
-    private Animator animator;
     private PlayerController playerController;
     private PlayerCombat playerCombat;
     private Movement movement;
+    private DirectionsController directions;
+    private SpriteRenderer spriteRenderer;
 
-    private readonly int idleStateHash = Animator.StringToHash("Idle");
-    private readonly int runStateHash = Animator.StringToHash("Run");
-    private readonly int attackTopBottomStateHash = Animator.StringToHash("Attack_Top_Bottom");
-    private readonly int attackRightLeftStateHash = Animator.StringToHash("Attack_Right_Left");
+    private bool skipFrame = true;
 
-    // jumping, air, landing
-    private readonly int jumpStartStateHash = Animator.StringToHash("Jump_Start");
-    private readonly int ascentStateHash = Animator.StringToHash("Ascent");
-    private readonly int midAirStateHash = Animator.StringToHash("Mid_Air");
-    private readonly int fallStateHash = Animator.StringToHash("Fall");
-    private readonly int landStateHash = Animator.StringToHash("Land");
-
-    private int currentState = -1;
-    private int currentLockedState = -1;
-
-    void Awake()
+    protected override void Awake()
     {
-        animator = GetComponent<Animator>();
+        base.Awake();
+
         playerController = GetComponent<PlayerController>();
         playerCombat = GetComponent<PlayerCombat>();
         movement = GetComponent<Movement>();
-
-        currentState = idleStateHash;
+        directions = GetComponent<DirectionsController>();
+        spriteRenderer = GetComponent<SpriteRenderer>(); // TODO: скорее всего стоит перенести в другое место
+        
+        currentState = PlayerAnimationState.Idle;
 
         animator.SetFloat("HitSpeedMultiplier", 1/attackData.HitDuration);
     }
@@ -51,6 +44,7 @@ public class PlayerAnimationController : MonoBehaviour
         playerController.RunningStopped += HandleStopMoving;
         playerCombat.HitPerforming += HandleHitPerforming;
         movement.Jumped += HandleJump;
+        directions.MovementDirectionFlipped += FlipSprite;
     }
 
     void OnDisable()
@@ -59,162 +53,105 @@ public class PlayerAnimationController : MonoBehaviour
         playerController.RunningStopped -= HandleStopMoving;
         playerCombat.HitPerforming -= HandleHitPerforming;
         movement.Jumped -= HandleJump;
+        directions.MovementDirectionFlipped -= FlipSprite;
     }
 
-    void Update()
+    void FixedUpdate()
     {
-        if (ascentVelocityInterval.Contains(movement.GetYVelocity()) &&
-            currentLockedState != jumpStartStateHash &&
-            currentLockedState != ascentStateHash)
+        // IsTouchingGround always false on the first frame so we're skiping it
+        if (skipFrame) { skipFrame = false; return; } // TODO: поправить костыль
+
+        if (!movement.IsTouchingGround)
         {
-            PlayAscent(true);
+            if (ascentVelocityInterval.Contains(movement.GetYVelocity()) &&
+            //currentLockedState == PlayerAnimationState.JumpStart &&
+            currentLockedState != PlayerAnimationState.Ascent)
+            {
+                Debug.Log("ascent");
+                PlayAndLock(PlayerAnimationState.Ascent);
+            }
+            else if (midAirVelocityInterval.Contains(movement.GetYVelocity()) &&
+                //currentLockedState == PlayerAnimationState.Ascent &&
+                currentLockedState != PlayerAnimationState.MidAir)
+            {
+                Debug.Log(movement.IsTouchingGround);
+                Debug.Log("midAir");
+                PlayAndLock(PlayerAnimationState.MidAir);
+            }
+            else if (fallVelocityInterval.Contains(movement.GetYVelocity()) &&
+                //currentLockedState == PlayerAnimationState.MidAir &&
+                currentLockedState != PlayerAnimationState.Fall)
+            {
+                Debug.Log("fall");
+                PlayAndLock(PlayerAnimationState.Fall);
+            }
+            //Debug.Log(movement.GetYVelocity());
         }
-        if (midAirVelocityInterval.Contains(movement.GetYVelocity()) &&
-            currentLockedState == ascentStateHash &&
-            currentLockedState != midAirStateHash)
+        else
         {
-            PlayMidAir(true);
+            if (currentLockedState == PlayerAnimationState.Fall &&
+                currentLockedState != PlayerAnimationState.Land)
+            {
+                PlayAndLock(PlayerAnimationState.Land);
+            }
         }
-        if (fallVelocityInterval.Contains(movement.GetYVelocity()) &&
-            currentLockedState == midAirStateHash &&
-            currentLockedState != fallStateHash)
-        {
-            PlayFall(true);
-        }
-        if (movement.IsTouchingGround &&
-            currentLockedState == fallStateHash &&
-            currentLockedState != landStateHash)
-        {
-            PlayLand(true);
-        }
+    }
+
+    private void FlipSprite()
+    {
+        spriteRenderer.flipX = !spriteRenderer.flipX;
     }
 
     private void HandleStartMoving()
     {
-        currentState = runStateHash;
-        if (currentLockedState != -1) return;
+        currentState = PlayerAnimationState.Run;
+        if (IsCurrentStateLocked()) return;
 
-        PlayRun();
+        Play(PlayerAnimationState.Run);
     }
 
     private void HandleStopMoving()
     {
-        currentState = idleStateHash;
-        if (currentLockedState != -1) return;
+        currentState = PlayerAnimationState.Idle;
+        if (IsCurrentStateLocked()) return;
 
-        PlayIdle();
+        Play(PlayerAnimationState.Idle);
     }
 
     private void HandleHitPerforming(PlayerCombat.HitInfo hitInfo)
     {
-        if (currentLockedState != -1) return;
+        Debug.Log("hit performing");
+        if (IsCurrentStateLocked()) return;
 
         if (Mathf.Abs(hitInfo.Angle) is >= 45 and <= 135)
-            PlayAttackTopBottom(true);
+            PlayAndLock(PlayerAnimationState.AttackTopBottom);
         else
-            PlayAttackRightLeft(true);
-    }
-
-    private void HandleHitPerformed()
-    {
-        currentLockedState = -1;
-        animator.Play(currentState, 0, 0f);
+            PlayAndLock(PlayerAnimationState.AttackRightLeft);
     }
 
     private void HandleJump()
     {
         Debug.Log("handle jump");
-        if (currentLockedState != -1 && currentLockedState != landStateHash) return;
+        if (currentLockedState != PlayerAnimationState.NoState &&
+            currentLockedState != PlayerAnimationState.Land)
+            return;
 
-        PlayJumpStart(true);
+        PlayAndLock(PlayerAnimationState.JumpStart);
     }
 
-    private void HandleAscentAfterJump()
-    {
-        Debug.Log("handle ascent after jump");
-        PlayAscent(true);
-    }
+    // private void HandleAscentAfterJump()
+    // {
+    //     Debug.Log("handle ascent after jump");
+    //     PlayAndLock(PlayerAnimationState.Ascent);
+    // }
 
-    private void HandleLanded()
-    {
-        currentLockedState = -1;
-        animator.Play(currentState, 0, 0f);
-    }
-    
-    private bool IsAttackState(int stateHash)
-    {
-        return stateHash == attackTopBottomStateHash ||
-               stateHash == attackRightLeftStateHash;
-    }
+    // private void PlayIdle()
+    // {
+    //     animator.Play(idleStateHash, 0, 0f);
+    // }
 
-    private void PlayIdle()
-    {
-        animator.Play(idleStateHash, 0, 0f);
-    }
-
-    private void PlayRun()
-    {
-        animator.Play(runStateHash, 0, 0f);
-    }
-
-    private void PlayAttackTopBottom(bool toLock)
-    {
-        if (toLock)
-            currentLockedState = attackTopBottomStateHash;
-
-        animator.Play(attackTopBottomStateHash, 0, 0f);
-    }
-
-    private void PlayAttackRightLeft(bool toLock)
-    {
-        if (toLock)
-            currentLockedState = attackRightLeftStateHash;
-
-        animator.Play(attackRightLeftStateHash, 0, 0f);
-    }
-
-    private void PlayJumpStart(bool toLock)
-    {
-        Debug.Log("jump start");
-        if (toLock)
-            currentLockedState = jumpStartStateHash;
-
-        animator.Play(jumpStartStateHash, 0, 0f);
-    }
-    
-    private void PlayAscent(bool toLock)
-    {
-        Debug.Log("ascent");
-        if (toLock)
-            currentLockedState = ascentStateHash;
-
-        animator.Play(ascentStateHash, 0, 0f);
-    }
-
-    private void PlayMidAir(bool toLock)
-    {
-        Debug.Log("mid air");
-        if (toLock)
-            currentLockedState = midAirStateHash;
-
-        animator.Play(midAirStateHash, 0, 0f);
-    }
-
-    private void PlayFall(bool toLock)
-    {
-        Debug.Log("fall");
-        if (toLock)
-            currentLockedState = fallStateHash;
-
-        animator.Play(fallStateHash, 0, 0f);
-    }
-
-    private void PlayLand(bool toLock)
-    {
-        Debug.Log("land");
-        if (toLock)
-            currentLockedState = landStateHash;
-
-        animator.Play(landStateHash, 0, 0f);
-    }
+    // private void PlayRun()
+    // {
+    //     animator.Play(runStateHash, 0, 0f);
+    // }
 }

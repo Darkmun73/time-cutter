@@ -9,6 +9,7 @@ public class DebugTools : MonoBehaviour
     public event UnityAction DebugToolsDisabled;
 
     [SerializeField] private GameObject simpleEnemyPrefab;
+    [SerializeField] private GameObject playerPrefab;
 
     [Header("Keys")]
     [SerializeField] private Key toggleDebugToolsKey; 
@@ -159,6 +160,11 @@ public class DebugTools : MonoBehaviour
     public void LaunchPlayerUp(float force)
     {
         playerMovement.LaunchUp(force);
+    }
+
+    public void SpawnPlayer()
+    {
+        Instantiate(playerPrefab, new Vector3(-12.71f, -2.938f, 0), Quaternion.identity);
     }
 }
 #endif
