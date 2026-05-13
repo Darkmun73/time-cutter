@@ -13,4 +13,5 @@ MonoBehaviour:
   m_Name: SimpleEnemyKnockbackData
   m_EditorClassIdentifier: Assembly-CSharp::KnockbackData
   <Force>k__BackingField: 10
+  <ForceRandomizationVariance>k__BackingField: 3
   <Duration>k__BackingField: 0.3

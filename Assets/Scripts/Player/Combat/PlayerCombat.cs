@@ -158,6 +158,7 @@ public class PlayerCombat : MonoBehaviour
         {   
             if (collider.TryGetComponent<IHittable>(out var hittable))
             {
+                Debug.Log(hit.Angle);
                 var objAttackInfo = AddHitAngleForObject(collider.gameObject, hit.Angle);
                 ApplyCombinationEffects(objAttackInfo);
                 hittable.ReceiveHit(transform, attackData.BaseDamage * objAttackInfo.DamageCoef * damageMultiplier);

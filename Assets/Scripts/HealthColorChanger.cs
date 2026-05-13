@@ -1,7 +1,6 @@
 using UnityEngine;
 
 [RequireComponent(typeof(SpriteRenderer))]
-[RequireComponent(typeof(Health))]
 public class HealthColorChanger : MonoBehaviour
 {
     [SerializeField] private Color fromColor;
@@ -14,17 +13,20 @@ public class HealthColorChanger : MonoBehaviour
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
         spriteRenderer.color = fromColor;
-        health = GetComponent<Health>();
+        health = GetComponentInParent<Health>();
+        Debug.Assert(health != null, "HealthColorChanger: parent object must have health!");
     }
     
     void OnEnable()
     {
-        health.HealthChanged += ChangeColorOnHealthChanged;
+        if (health != null)
+            health.HealthChanged += ChangeColorOnHealthChanged;
     }
 
     void OnDisable()
     {
-        health.HealthChanged -= ChangeColorOnHealthChanged;
+        if (health != null)
+            health.HealthChanged -= ChangeColorOnHealthChanged;
     }
     
     private void ChangeColorOnHealthChanged(float healthValue)

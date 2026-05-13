@@ -10,6 +10,7 @@ public class EnemyAttackState : IState
 
     public void Enter()
     {
+        //Debug.Log("in attack state");
         enemyController.Combat.StartCooldown();
     }
 
@@ -22,6 +23,9 @@ public class EnemyAttackState : IState
         enemyController.Movement.StopHorizontalMovement();
         
         if (enemyController.Combat.CanAttack)
+        {
+            //Debug.Log("attack");
             enemyController.Combat.Attack();
+        }
     }
 }

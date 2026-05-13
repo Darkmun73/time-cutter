@@ -1,10 +1,13 @@
-using System.Collections;
 using Pathfinding;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class EnemyChasingState : IState
 {
     private readonly EnemyController enemyController;
+
+    public event UnityAction ChasingStarted;
+    public event UnityAction ChasingStopped;
 
     public EnemyChasingState(EnemyController controller)
     {
@@ -17,6 +20,7 @@ public class EnemyChasingState : IState
         Debug.Assert(target != null);
 
         enemyController.Navigator.StartUpdatingPath();
+        ChasingStarted?.Invoke();
 
         // Transform enemy = enemyController.transform;
         // Movement movement = enemyController.Movement;
@@ -29,6 +33,7 @@ public class EnemyChasingState : IState
     public void Exit()
     {
         enemyController.Navigator.StopUpdatingPath();
+        ChasingStopped?.Invoke();
     }
 
     public void LogicUpdate()

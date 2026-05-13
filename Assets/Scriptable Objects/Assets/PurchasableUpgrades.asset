@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: PurchasableUpgrades
   m_EditorClassIdentifier: Assembly-CSharp::PurchasableUpgrades
   upgradesCost:
-  - upgrade: {fileID: 11400000, guid: fa3f818c817494e47bc67a4d9629334d, type: 2}
-    cost: 10
-  - upgrade: {fileID: 11400000, guid: db5d7b3e8f365c24bae7badfe730142f, type: 2}
-    cost: 15
   - upgrade: {fileID: 11400000, guid: b1612fdbe480bca4699d2a4d183e0a06, type: 2}
+    cost: 10
+  - upgrade: {fileID: 11400000, guid: fa3f818c817494e47bc67a4d9629334d, type: 2}
+    cost: 15
+  - upgrade: {fileID: 11400000, guid: db5d7b3e8f365c24bae7badfe730142f, type: 2}
     cost: 15

@@ -72,10 +72,10 @@ public class Navigator : MonoBehaviour
         // Direction Calculation
         Vector2 direction = ((Vector2)(path.vectorPath[currentWaypoint] - transform.position)).normalized;
 
-        // Jump
-        if (movement.IsTouchingGround &&
-            direction.y > data.JumpNodeHeightRequirement)
-            movement.Jump();
+        // // Jump
+        // if (movement.IsTouchingGround &&
+        //     direction.y > data.JumpNodeHeightRequirement)
+        //     movement.Jump();
 
         // Movement
         movement.MoveHorizontal(directions.MovementDirection);

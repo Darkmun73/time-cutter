@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 public class AnglesCombinationEffect
 {
@@ -16,6 +17,7 @@ public class AnglesCombinationEffect
     public void TryApply(List<float> inputAngles, float angleTollerance)
     {
         var shouldApply = Angles.EndsWithPatternWithinTolerance(inputAngles, anglesCombination, angleTollerance);
+        Debug.Log(shouldApply);
         if (shouldApply)
             effect?.Invoke();
     }

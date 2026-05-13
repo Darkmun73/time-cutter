@@ -8,7 +8,10 @@ public class Enemy : MonoBehaviour, IMortal, IHittable
     private Health health;
     private KnockbackController knockbackController;
     private Shield shield;
-    
+
+    private Transform lastHitSource;
+
+    [SerializeField] private int currencyReward;
 
     // events
     public event UnityAction<Transform> HitReceived;
@@ -37,6 +40,12 @@ public class Enemy : MonoBehaviour, IMortal, IHittable
     public void Die()
     {
         Debug.Log("Enemy died");
+        if (lastHitSource.TryGetComponent<Player>(out var player))
+        {
+            var playerCurrency = player.GetComponent<Currency>();
+            Debug.Assert(playerCurrency != null, "Enemy: Player must have currency!");
+            playerCurrency.Amount += currencyReward;
+        }
         Destroy(gameObject);
     }
 
@@ -44,6 +53,7 @@ public class Enemy : MonoBehaviour, IMortal, IHittable
     {
         if (shield != null && shield.TryBlock()) return;
         
+        lastHitSource = from;
         health.TakeDamage(damage);
         HitReceived?.Invoke(from);
     }

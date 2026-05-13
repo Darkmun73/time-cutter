@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 [RequireComponent(typeof(Movement))]
 [RequireComponent(typeof(DirectionsController))]
@@ -22,6 +23,8 @@ public class EnemyController : StateMachine
                 Size = Vector2.zero;
         }
     }
+
+    [SerializeField] private Transform attackPoint;
 
     public Movement Movement {get; private set;}
     public DirectionsController Directions {get; private set;}
@@ -47,26 +50,41 @@ public class EnemyController : StateMachine
     private EnemyChasingState chasingState;
     private EnemyAttackState attackState;
 
+    public event UnityAction ChasingStarted;
+    public event UnityAction ChasingStopped;
+
     void Awake()
     {
         Movement = GetComponent<Movement>();
         Directions = GetComponent<DirectionsController>();
         Navigator = GetComponent<Navigator>();
         Combat = GetComponent<EnemyCombat>();
+        knockbackController = GetComponent<KnockbackController>();
+        
         var player = FindFirstObjectByType<Player>();
         Target = new TargetInfo(player.gameObject);
-        knockbackController = GetComponent<KnockbackController>();
 
         attackRadius = Combat.GetHitRadius() + Combat.DistanceToAttackPoint();
-    }
 
-    void Start()
-    {
         idleState = new EnemyIdleState(this);
         chasingState = new EnemyChasingState(this);
         attackState = new EnemyAttackState(this);
         
         CurrentState = idleState;
+    }
+
+    void OnEnable()
+    {
+        Directions.MovementDirectionFlipped += FlipAttackPoint;
+        chasingState.ChasingStarted += OnChasingStarted;
+        chasingState.ChasingStopped += OnChasingStopped;
+    }
+
+    void OnDisable()
+    {
+        Directions.MovementDirectionFlipped -= FlipAttackPoint;
+        chasingState.ChasingStarted -= OnChasingStarted;
+        chasingState.ChasingStopped -= OnChasingStopped;
     }
 
     protected override void Update()
@@ -81,18 +99,36 @@ public class EnemyController : StateMachine
             base.FixedUpdate();
     }
 
+    private void OnChasingStarted()
+    {
+        ChasingStarted?.Invoke();
+    }
+
+    private void OnChasingStopped()
+    {
+        ChasingStopped?.Invoke();
+    }
+
     private void HandleStateTransition()
     {
         //Vector2.Distance(Physics2D.ClosestPoint(), Target.position); // TODO: для attack state использовать не distance to target
         var distanceToTargetCenter = Vector2.Distance(Target.Transform.position, transform.position);
         var distanceToNearestTargetEdge = distanceToTargetCenter - Target.Size.x / 2;
         
-        if (CurrentState != attackState && distanceToNearestTargetEdge <= attackRadius)
+        if (CurrentState != attackState && distanceToNearestTargetEdge <= attackRadius * 0.75f)
             CurrentState = attackState;
         else if (CurrentState != chasingState && distanceToNearestTargetEdge > attackRadius && distanceToTargetCenter <= detectionRadius)
             CurrentState = chasingState;
         else if (CurrentState != idleState && distanceToTargetCenter > detectionRadius)
             CurrentState = idleState;
+    }
+
+    private void FlipAttackPoint()
+    {
+        Debug.Log(attackPoint.localPosition);
+        var currPosition = attackPoint.localPosition;
+        currPosition.x = -currPosition.x;
+        attackPoint.localPosition = currPosition;
     }
 
     void OnDrawGizmosSelected()

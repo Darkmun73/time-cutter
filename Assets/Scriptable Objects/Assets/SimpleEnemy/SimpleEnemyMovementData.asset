@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76e723108870f5e48892973dc02b2488, type: 3}
   m_Name: SimpleEnemyMovementData
   m_EditorClassIdentifier: Assembly-CSharp::MovementData
-  <MovementSpeed>k__BackingField: 5
+  <MovementSpeed>k__BackingField: 3.91
   <MaxFallSpeed>k__BackingField: 10
   <JumpHeight>k__BackingField: 2
   <JumpTime>k__BackingField: 0.5

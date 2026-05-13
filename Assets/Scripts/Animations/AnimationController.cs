@@ -1,24 +1,18 @@
 using UnityEngine;
 
-[RequireComponent(typeof(Animator))]
 public abstract class AnimationController : MonoBehaviour
 {
     protected Animator animator;
 
-    protected PlayerAnimationState currentState = PlayerAnimationState.NoState;
-    protected PlayerAnimationState currentLockedState = PlayerAnimationState.NoState;
+    protected AnimationState currentState = AnimationState.NoState;
+    protected AnimationState currentLockedState = AnimationState.NoState;
 
-    protected virtual void Awake()
-    {
-        animator = GetComponent<Animator>();
-    }
-
-    protected void Play(PlayerAnimationState state)
+    protected void Play(AnimationState state)
     {
         animator.Play(state.GetHash(), 0, 0f);
     }
     
-    protected void PlayAndLock(PlayerAnimationState state)
+    protected void PlayAndLock(AnimationState state)
     {
         currentLockedState = state;
         animator.Play(state.GetHash(), 0, 0f);
@@ -26,12 +20,12 @@ public abstract class AnimationController : MonoBehaviour
 
     protected void Unlock()
     {
-        currentLockedState = PlayerAnimationState.NoState;
+        currentLockedState = AnimationState.NoState;
         Play(currentState);
     }
 
     protected bool IsCurrentStateLocked()
     {
-        return currentLockedState != PlayerAnimationState.NoState;
+        return currentLockedState != AnimationState.NoState;
     }
 }

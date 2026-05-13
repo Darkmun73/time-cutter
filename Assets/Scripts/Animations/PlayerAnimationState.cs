@@ -1,8 +1,5 @@
-using UnityEngine;
-
-public class PlayerAnimationState
+public class PlayerAnimationState : AnimationState
 {
-    public static readonly PlayerAnimationState NoState = new("");
 
     public static readonly PlayerAnimationState Idle = new("Idle");
     public static readonly PlayerAnimationState Run = new("Run");
@@ -16,17 +13,8 @@ public class PlayerAnimationState
     public static readonly PlayerAnimationState Fall = new("Fall");
     public static readonly PlayerAnimationState Land = new("Land");
 
-    private readonly int hash;
+    public PlayerAnimationState(string stateName) : base(stateName) {}
 
-    public PlayerAnimationState(string stateName)
-    {
-        hash = Animator.StringToHash(stateName);
-    }
-
-    public int GetHash()
-    {
-        return hash;
-    }
 
     public bool IsAirState()
     {

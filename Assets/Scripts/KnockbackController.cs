@@ -39,10 +39,12 @@ public class KnockbackController : MonoBehaviour
             return;
         }
 
+        var randomizedForce = data.Force + Random.Range(-data.ForceRandomizationVariance, data.ForceRandomizationVariance);
+        
         Vector2 knockbackVector = (transform.position - source.position).normalized;
-        rigidBody.linearVelocityX = knockbackVector.x * data.Force;
+        rigidBody.linearVelocityX = knockbackVector.x * randomizedForce;
         float g = Mathf.Abs(Physics2D.gravity.y * rigidBody.gravityScale);
-        rigidBody.linearVelocityY = knockbackVector.y * Mathf.Sqrt(g * data.Force * data.Duration);
+        rigidBody.linearVelocityY = knockbackVector.y * Mathf.Sqrt(g * randomizedForce * data.Duration);
 
         currentKnockbackTime = data.Duration;
 

@@ -4,8 +4,6 @@ using UnityEngine;
 [RequireComponent(typeof(PlayerController))]
 [RequireComponent(typeof(PlayerCombat))]
 [RequireComponent(typeof(Movement))]
-[RequireComponent(typeof(DirectionsController))]
-[RequireComponent(typeof(SpriteRenderer))]
 public class PlayerAnimationController : AnimationController
 {
     [SerializeField] private PlayerAttackData attackData;
@@ -18,20 +16,15 @@ public class PlayerAnimationController : AnimationController
     private PlayerController playerController;
     private PlayerCombat playerCombat;
     private Movement movement;
-    private DirectionsController directions;
-    private SpriteRenderer spriteRenderer;
 
     private bool skipFrame = true;
 
-    protected override void Awake()
+    void Awake()
     {
-        base.Awake();
-
+        animator = GetComponent<Animator>();
         playerController = GetComponent<PlayerController>();
         playerCombat = GetComponent<PlayerCombat>();
         movement = GetComponent<Movement>();
-        directions = GetComponent<DirectionsController>();
-        spriteRenderer = GetComponent<SpriteRenderer>(); // TODO: скорее всего стоит перенести в другое место
         
         currentState = PlayerAnimationState.Idle;
 
@@ -40,20 +33,18 @@ public class PlayerAnimationController : AnimationController
 
     void OnEnable()
     {
-        playerController.RunningStarted += HandleStartMoving;
-        playerController.RunningStopped += HandleStopMoving;
+        playerController.RunningStarted += HandleStartRunning;
+        playerController.RunningStopped += HandleStopRunning;
         playerCombat.HitPerforming += HandleHitPerforming;
         movement.Jumped += HandleJump;
-        directions.MovementDirectionFlipped += FlipSprite;
     }
 
     void OnDisable()
     {
-        playerController.RunningStarted -= HandleStartMoving;
-        playerController.RunningStopped -= HandleStopMoving;
+        playerController.RunningStarted -= HandleStartRunning;
+        playerController.RunningStopped -= HandleStopRunning;
         playerCombat.HitPerforming -= HandleHitPerforming;
         movement.Jumped -= HandleJump;
-        directions.MovementDirectionFlipped -= FlipSprite;
     }
 
     void FixedUpdate()
@@ -94,15 +85,15 @@ public class PlayerAnimationController : AnimationController
             {
                 PlayAndLock(PlayerAnimationState.Land);
             }
+             // TODO: исправить костыль. иногда игрок переходит в MidAir из-за того, что перестает касаться ground 
+            else if (currentLockedState == PlayerAnimationState.MidAir)
+            {
+                Unlock();
+            }
         }
     }
 
-    private void FlipSprite()
-    {
-        spriteRenderer.flipX = !spriteRenderer.flipX;
-    }
-
-    private void HandleStartMoving()
+    private void HandleStartRunning()
     {
         currentState = PlayerAnimationState.Run;
         if (IsCurrentStateLocked()) return;
@@ -110,7 +101,7 @@ public class PlayerAnimationController : AnimationController
         Play(PlayerAnimationState.Run);
     }
 
-    private void HandleStopMoving()
+    private void HandleStopRunning()
     {
         currentState = PlayerAnimationState.Idle;
         if (IsCurrentStateLocked()) return;
@@ -120,7 +111,7 @@ public class PlayerAnimationController : AnimationController
 
     private void HandleHitPerforming(PlayerCombat.HitInfo hitInfo)
     {
-        Debug.Log("hit performing");
+        //Debug.Log("hit performing");
         if (IsCurrentStateLocked()) return;
 
         if (Mathf.Abs(hitInfo.Angle) is >= 45 and <= 135)
@@ -131,27 +122,11 @@ public class PlayerAnimationController : AnimationController
 
     private void HandleJump()
     {
-        Debug.Log("handle jump");
+        //Debug.Log("handle jump");
         if (currentLockedState != PlayerAnimationState.NoState &&
             currentLockedState != PlayerAnimationState.Land)
             return;
 
         PlayAndLock(PlayerAnimationState.JumpStart);
     }
-
-    // private void HandleAscentAfterJump()
-    // {
-    //     Debug.Log("handle ascent after jump");
-    //     PlayAndLock(PlayerAnimationState.Ascent);
-    // }
-
-    // private void PlayIdle()
-    // {
-    //     animator.Play(idleStateHash, 0, 0f);
-    // }
-
-    // private void PlayRun()
-    // {
-    //     animator.Play(runStateHash, 0, 0f);
-    // }
 }

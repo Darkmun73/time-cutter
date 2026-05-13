@@ -10,8 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9d04bf082950db141a25b2a53fd80d2a, type: 3}
-  m_Name: SimpleEnemyAttackData
+  m_Name: SimpleEnemy1AttackData
   m_EditorClassIdentifier: Assembly-CSharp::EnemyAttackData
   <BaseDamage>k__BackingField: 10
-  <HitRadius>k__BackingField: 0.82
-  <Cooldown>k__BackingField: 0.5
+  <HitRadius>k__BackingField: 0.29
+  <Cooldown>k__BackingField: 0.2

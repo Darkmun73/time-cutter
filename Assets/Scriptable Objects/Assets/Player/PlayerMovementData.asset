@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::MovementData
   <MovementSpeed>k__BackingField: 5
   <MaxFallSpeed>k__BackingField: 20
-  <JumpHeight>k__BackingField: 1
+  <JumpHeight>k__BackingField: 1.2
   <JumpTime>k__BackingField: 0.5
   <Ground>k__BackingField:
     useTriggers: 0

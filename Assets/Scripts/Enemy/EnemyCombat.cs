@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class EnemyCombat : MonoBehaviour
 {
@@ -10,6 +11,8 @@ public class EnemyCombat : MonoBehaviour
 
     public bool CanAttack {get; private set;} = true;
 
+    public event UnityAction Hit;
+
     void Awake()
     {
         playerMask = LayerMask.GetMask("Player");
@@ -17,6 +20,7 @@ public class EnemyCombat : MonoBehaviour
 
     public void Attack()
     {
+        Hit?.Invoke();
         // There is only one player
         var playerColliders = Physics2D.OverlapCircleAll(attackPoint.position, attackData.HitRadius, playerMask);
         foreach (var playerCollider in playerColliders)
@@ -25,6 +29,7 @@ public class EnemyCombat : MonoBehaviour
             player.ReceiveHit(transform, attackData.BaseDamage);
         }
         StartCooldown();
+        
     }
 
     public void StartCooldown()
