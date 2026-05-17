@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6576a93af09bd184cbdc777b954812b7, type: 3}
   m_Name: SimpleEnemyHealthData
   m_EditorClassIdentifier: Assembly-CSharp::HealthData
-  <MaxHealth>k__BackingField: 100
+  <MaxHealth>k__BackingField: 60

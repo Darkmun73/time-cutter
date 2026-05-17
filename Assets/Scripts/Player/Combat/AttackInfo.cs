@@ -48,7 +48,7 @@ public class AttackInfo
 
             DamageCoef += growth;
             
-            Debug.Log($"✓ Num: {numberOfHits} Last angle: {lastAngle}° Diff:{acuteAngleDiff:F1}° Base:{baseGrowth:F3} Repetition:{repetitionMultiplier:F3} Final:{growth:F3} → {DamageCoef:F3}");
+            //Debug.Log($"✓ Num: {numberOfHits} Last angle: {lastAngle}° Diff:{acuteAngleDiff:F1}° Base:{baseGrowth:F3} Repetition:{repetitionMultiplier:F3} Final:{growth:F3} → {DamageCoef:F3}");
         }
         else
         {
@@ -56,7 +56,7 @@ public class AttackInfo
             float penalty = Mathf.Lerp(0f, data.DamagePenalty, normalizedAngleDiff);
             DamageCoef -= penalty;
             
-            Debug.Log($"✗ Num: {numberOfHits} Last angle: {lastAngle}° Diff:{acuteAngleDiff:F1}° Penalty:{penalty:F3} → {DamageCoef:F3}");
+            //Debug.Log($"✗ Num: {numberOfHits} Last angle: {lastAngle}° Diff:{acuteAngleDiff:F1}° Penalty:{penalty:F3} → {DamageCoef:F3}");
         }
         
         DamageCoef = Mathf.Clamp(DamageCoef,

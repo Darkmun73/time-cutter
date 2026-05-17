@@ -1,10 +1,10 @@
 public class PlayerAnimationState : AnimationState
 {
-
     public static readonly PlayerAnimationState Idle = new("Idle");
     public static readonly PlayerAnimationState Run = new("Run");
     public static readonly PlayerAnimationState AttackTopBottom = new("Attack_Top_Bottom");
     public static readonly PlayerAnimationState AttackRightLeft = new("Attack_Right_Left");
+    public static readonly PlayerAnimationState HitReaction = new("Hit_Reaction");
 
     // jumping, air, landing
     public static readonly PlayerAnimationState JumpStart = new("Jump_Start");
@@ -14,7 +14,6 @@ public class PlayerAnimationState : AnimationState
     public static readonly PlayerAnimationState Land = new("Land");
 
     public PlayerAnimationState(string stateName) : base(stateName) {}
-
 
     public bool IsAirState()
     {

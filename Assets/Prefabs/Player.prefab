@@ -350,21 +350,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerAnimationController
   attackData: {fileID: 11400000, guid: a717aaa7c9104a84c9e2aa492fabb34f, type: 2}
+  knockbackData: {fileID: 11400000, guid: 6c54e701781ba4449a91b99582fc0df7, type: 2}
   ascentVelocityInterval:
     startIsNegativeInfinity: 0
-    endIsPositiveInfinity: 0
-    start: 0
+    endIsPositiveInfinity: 1
+    start: 3.1
     end: 0
   midAirVelocityInterval:
     startIsNegativeInfinity: 0
     endIsPositiveInfinity: 0
-    start: 0
-    end: 0
+    start: -3
+    end: 3
   fallVelocityInterval:
-    startIsNegativeInfinity: 0
+    startIsNegativeInfinity: 1
     endIsPositiveInfinity: 0
     start: 0
-    end: 0
+    end: -3.1
 --- !u!114 &5637549986704171691
 MonoBehaviour:
   m_ObjectHideFlags: 0

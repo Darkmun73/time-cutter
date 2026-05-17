@@ -73,12 +73,13 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (knockbackController.IsKnockedBack) //&& (rigidBody.linearVelocityX > player.Data.MovementSpeed || rigidBody.linearVelocityX < -player.Data.MovementSpeed) )
-        {
-            if (IsRunning)
-                movement.AdjustHorizontalSpeed(directions.MovementDirection, 2f);
-        }
-        else
+        // if (knockbackController.IsKnockedBack) //&& (rigidBody.linearVelocityX > player.Data.MovementSpeed || rigidBody.linearVelocityX < -player.Data.MovementSpeed) )
+        // {
+        //     if (IsRunning)
+        //         movement.AdjustHorizontalSpeed(directions.MovementDirection, 2f);
+        // }
+        // else
+        if (!knockbackController.IsKnockedBack)
         {
             if (IsRunning)
                 movement.MoveHorizontal(directions.MovementDirection);

@@ -4,9 +4,11 @@ using UnityEngine;
 [RequireComponent(typeof(PlayerController))]
 [RequireComponent(typeof(PlayerCombat))]
 [RequireComponent(typeof(Movement))]
+[RequireComponent(typeof(KnockbackController))]
 public class PlayerAnimationController : AnimationController
 {
     [SerializeField] private PlayerAttackData attackData;
+    [SerializeField] private KnockbackData knockbackData; // TODO: нормально ли сюда передавать data?
 
     [Header("Air animations")] // TODO: убрать этот хардкод и выставлять значения в зависимости от параметров прыжка
     [SerializeField] private ValueInterval ascentVelocityInterval;
@@ -16,6 +18,7 @@ public class PlayerAnimationController : AnimationController
     private PlayerController playerController;
     private PlayerCombat playerCombat;
     private Movement movement;
+    private KnockbackController knockbackController;
 
     private bool skipFrame = true;
 
@@ -25,10 +28,12 @@ public class PlayerAnimationController : AnimationController
         playerController = GetComponent<PlayerController>();
         playerCombat = GetComponent<PlayerCombat>();
         movement = GetComponent<Movement>();
+        knockbackController = GetComponent<KnockbackController>();
         
         currentState = PlayerAnimationState.Idle;
 
         animator.SetFloat("HitSpeedMultiplier", 1/attackData.HitDuration);
+        animator.SetFloat("KnockbackSpeedMultiplier", 1/knockbackData.Duration);
     }
 
     void OnEnable()
@@ -37,6 +42,7 @@ public class PlayerAnimationController : AnimationController
         playerController.RunningStopped += HandleStopRunning;
         playerCombat.HitPerforming += HandleHitPerforming;
         movement.Jumped += HandleJump;
+        knockbackController.KnockBacked += HandleHitReaction;
     }
 
     void OnDisable()
@@ -45,12 +51,16 @@ public class PlayerAnimationController : AnimationController
         playerController.RunningStopped -= HandleStopRunning;
         playerCombat.HitPerforming -= HandleHitPerforming;
         movement.Jumped -= HandleJump;
+        knockbackController.KnockBacked -= HandleHitReaction;
     }
 
     void FixedUpdate()
     {
+        //Debug.Log(movement.GetYVelocity());
         // IsTouchingGround always false on the first frame so we're skiping it
         if (skipFrame) { skipFrame = false; return; } // TODO: поправить костыль
+
+        if (IsCurrentStateLocked() && !(currentLockedState as PlayerAnimationState).IsAirState()) return; // TODO: тоже костыль?
 
         if (!movement.IsTouchingGround)
         {
@@ -128,5 +138,10 @@ public class PlayerAnimationController : AnimationController
             return;
 
         PlayAndLock(PlayerAnimationState.JumpStart);
+    }
+
+    private void HandleHitReaction()
+    {
+        PlayAndLock(PlayerAnimationState.HitReaction);
     }
 }

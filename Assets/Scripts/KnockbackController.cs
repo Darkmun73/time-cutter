@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 [RequireComponent(typeof(Rigidbody2D))]
 public class KnockbackController : MonoBehaviour
@@ -12,6 +13,8 @@ public class KnockbackController : MonoBehaviour
 
     public bool IsKnockedBack {get; private set;}
 
+    public event UnityAction KnockBacked;
+
     void Awake()
     {
         rigidBody = GetComponent<Rigidbody2D>();
@@ -22,8 +25,10 @@ public class KnockbackController : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (currentKnockbackTime > 0 && (rigidBody.linearVelocityX > 1f || rigidBody.linearVelocityX < -1f) )
+
+        if (currentKnockbackTime > 0)// && (rigidBody.linearVelocityX > 1f || rigidBody.linearVelocityX < -1f) )
         {
+            //Debug.Log(IsKnockedBack);
             rigidBody.linearVelocityX -= rigidBody.linearVelocityX > 0 ? knockbackSubstractionCoef : -knockbackSubstractionCoef;
             currentKnockbackTime -= Time.fixedDeltaTime;
         }
@@ -49,5 +54,6 @@ public class KnockbackController : MonoBehaviour
         currentKnockbackTime = data.Duration;
 
         IsKnockedBack = true;
+        KnockBacked?.Invoke();
     }
 }

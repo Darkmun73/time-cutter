@@ -3,6 +3,7 @@ using UnityEngine.Events;
 
 public class Health : MonoBehaviour
 {
+    public event UnityAction<float> Damaged;
     public event UnityAction<float> HealthChanged;
     public event UnityAction<float> MaxHealthChanged;
     public event UnityAction HealthDepleted;
@@ -50,6 +51,7 @@ public class Health : MonoBehaviour
     public void TakeDamage(float damage)
     {
         CurrentHealth -= damage;
+        Damaged?.Invoke(damage);
     }
 
     public void Heal(float value)

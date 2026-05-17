@@ -18,10 +18,10 @@ MonoBehaviour:
   <JumpTime>k__BackingField: 0.5
   <Ground>k__BackingField:
     useTriggers: 0
-    useLayerMask: 0
+    useLayerMask: 1
     useDepth: 0
     useOutsideDepth: 0
-    useNormalAngle: 1
+    useNormalAngle: 0
     useOutsideNormalAngle: 0
     layerMask:
       serializedVersion: 2
