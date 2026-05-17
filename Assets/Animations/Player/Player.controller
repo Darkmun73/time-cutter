@@ -22,7 +22,7 @@ AnimatorState:
   m_TimeParameterActive: 0
   m_Motion: {fileID: 7400000, guid: f377bb17258b11c47a1e20fc2aeec626, type: 2}
   m_Tag: 
-  m_SpeedParameter: KnockbackSpeedMultiplier
+  m_SpeedParameter: HitReactionSpeedMultiplier
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
@@ -197,7 +197,7 @@ AnimatorController:
     m_DefaultInt: 0
     m_DefaultBool: 0
     m_Controller: {fileID: 9100000}
-  - m_Name: KnockbackSpeedMultiplier
+  - m_Name: HitReactionSpeedMultiplier
     m_Type: 1
     m_DefaultFloat: 0
     m_DefaultInt: 0

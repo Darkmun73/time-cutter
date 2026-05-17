@@ -3,16 +3,22 @@ using UnityEngine;
 [RequireComponent(typeof(Animator))]
 public class SimpleEnemyAnimationController : AnimationController
 {
+    [SerializeField] private KnockbackData knockbackData;
+
     private EnemyController enemyController;
     private EnemyCombat enemyCombat;
+    private KnockbackController knockbackController;
 
     void Awake()
     {
         animator = GetComponent<Animator>();
         enemyController = GetComponentInParent<EnemyController>();
         enemyCombat = GetComponentInParent<EnemyCombat>();
+        knockbackController = GetComponentInParent<KnockbackController>();
         
         currentState = EnemyAnimationState.Idle;
+
+        animator.SetFloat("HitReactionSpeedMultiplier", 1/knockbackData.Duration);
 
         Debug.Assert(enemyController != null, "EnemyAnimationController: Parent object must have EnemyController!");
         Debug.Assert(enemyCombat != null, "EnemyAnimationController: Parent object must have EnemyCombat!");
@@ -23,6 +29,7 @@ public class SimpleEnemyAnimationController : AnimationController
         enemyController.ChasingStarted += HandleStartRunning;
         enemyController.ChasingStopped += HandleStopRunning;
         enemyCombat.Hit += HandleHitPerformed;
+        knockbackController.KnockBacked += HandleHitReaction;
     }
 
     void OnDisable()
@@ -30,6 +37,7 @@ public class SimpleEnemyAnimationController : AnimationController
         enemyController.ChasingStarted -= HandleStartRunning;
         enemyController.ChasingStopped -= HandleStopRunning;
         enemyCombat.Hit -= HandleHitPerformed;
+        knockbackController.KnockBacked -= HandleHitReaction;
     }
 
     private void HandleStartRunning()
@@ -56,5 +64,10 @@ public class SimpleEnemyAnimationController : AnimationController
         if (IsCurrentStateLocked()) return;
 
         PlayAndLock(EnemyAnimationState.Attack);
+    }
+
+    private void HandleHitReaction()
+    {
+        PlayAndLock(EnemyAnimationState.HitReaction);
     }
 }

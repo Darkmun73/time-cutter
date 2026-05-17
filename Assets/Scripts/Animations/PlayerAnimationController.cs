@@ -33,7 +33,7 @@ public class PlayerAnimationController : AnimationController
         currentState = PlayerAnimationState.Idle;
 
         animator.SetFloat("HitSpeedMultiplier", 1/attackData.HitDuration);
-        animator.SetFloat("KnockbackSpeedMultiplier", 1/knockbackData.Duration);
+        animator.SetFloat("HitReactionSpeedMultiplier", 1/knockbackData.Duration);
     }
 
     void OnEnable()

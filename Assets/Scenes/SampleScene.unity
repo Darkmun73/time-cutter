@@ -1863,7 +1863,7 @@ Camera:
   far clip plane: 1000
   field of view: 34
   orthographic: 1
-  orthographic size: 0
+  orthographic size: 2.8125
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -3719,7 +3719,7 @@ PrefabInstance:
       objectReference: {fileID: 931940023}
     - target: {fileID: 6673559244091349222, guid: 3c7995706217b3b46b774f68a2a12ec6, type: 3}
       propertyPath: m_Name
-      value: SimpleEnemy_2 1
+      value: SimpleEnemy_2
       objectReference: {fileID: 0}
     - target: {fileID: 8039165097262606227, guid: 3c7995706217b3b46b774f68a2a12ec6, type: 3}
       propertyPath: m_LocalPosition.x
@@ -3761,6 +3761,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 9086533500345366292, guid: 3c7995706217b3b46b774f68a2a12ec6, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 4693871428909233734, guid: b9aca40efe7218247b2b0d3f1978e3c1, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -7493,6 +7497,14 @@ PrefabInstance:
     - target: {fileID: 3027296071230477865, guid: 37ab3fd5acfe85148b7a126eb10ebb31, type: 3}
       propertyPath: m_Name
       value: SimpleEnemy
+      objectReference: {fileID: 0}
+    - target: {fileID: 5097336295696719476, guid: 37ab3fd5acfe85148b7a126eb10ebb31, type: 3}
+      propertyPath: m_labelHash
+      value: 0.0000000012533508
+      objectReference: {fileID: 0}
+    - target: {fileID: 5097336295696719476, guid: 37ab3fd5acfe85148b7a126eb10ebb31, type: 3}
+      propertyPath: m_CategoryHash
+      value: 3.6013877e-31
       objectReference: {fileID: 0}
     - target: {fileID: 5102578355674726587, guid: 37ab3fd5acfe85148b7a126eb10ebb31, type: 3}
       propertyPath: m_LocalPosition.x

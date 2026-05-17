@@ -151,6 +151,32 @@ MonoBehaviour:
       m_SpriteOverride: {fileID: -6441322688010313690, guid: 57f834475de552348b172d072ff17087, type: 3}
     m_FromMain: 1
     m_EntryOverrideCount: 10
+  - m_Name: Hit_Reaction
+    m_Hash: 216645201
+    m_CategoryList: []
+    m_OverrideEntries:
+    - m_Name: simple_east_hit_reaction_1
+      m_Hash: 816595548
+      m_Sprite: {fileID: -7188975532529009022, guid: d90f7ae30c213a4428af04528ffdf578, type: 3}
+      m_FromMain: 1
+      m_SpriteOverride: {fileID: 4693871428909233734, guid: b9aca40efe7218247b2b0d3f1978e3c1, type: 3}
+    - m_Name: simple_east_hit_reaction_2
+      m_Hash: 698684390
+      m_Sprite: {fileID: -8602605135794917355, guid: d90f7ae30c213a4428af04528ffdf578, type: 3}
+      m_FromMain: 1
+      m_SpriteOverride: {fileID: -4663132191803060970, guid: b9aca40efe7218247b2b0d3f1978e3c1, type: 3}
+    - m_Name: simple_east_hit_reaction_3
+      m_Hash: 513942384
+      m_Sprite: {fileID: -696504233377464806, guid: d90f7ae30c213a4428af04528ffdf578, type: 3}
+      m_FromMain: 1
+      m_SpriteOverride: {fileID: 3660311962431751216, guid: b9aca40efe7218247b2b0d3f1978e3c1, type: 3}
+    - m_Name: simple_east_hit_reaction_4
+      m_Hash: 13022931
+      m_Sprite: {fileID: -7713721399625066601, guid: d90f7ae30c213a4428af04528ffdf578, type: 3}
+      m_FromMain: 1
+      m_SpriteOverride: {fileID: -6471189901364231734, guid: b9aca40efe7218247b2b0d3f1978e3c1, type: 3}
+    m_FromMain: 1
+    m_EntryOverrideCount: 4
   m_PrimaryLibraryGUID: c9639c98aebbdd74aa4fc4e664908516
-  m_ModificationHash: 639142821082536469
+  m_ModificationHash: 639146527100093377
   m_Version: 1
