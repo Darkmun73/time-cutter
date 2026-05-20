@@ -6,7 +6,6 @@ using UnityEngine.Events;
 public class Player : MonoBehaviour, IMortal, IHittable
 {
     private Health health;
-    private KnockbackController knockbackController;
 
     // events
     public event UnityAction<Transform> HitReceived;
@@ -14,18 +13,15 @@ public class Player : MonoBehaviour, IMortal, IHittable
     void Awake()
     {
         health = GetComponent<Health>();
-        knockbackController = GetComponent<KnockbackController>();
     }
 
     void OnEnable()
     {
-        HitReceived += knockbackController.Knockback;
         health.HealthDepleted += Die;
     }
 
     void OnDisable()
     {
-        HitReceived -= knockbackController.Knockback;
         health.HealthDepleted -= Die;
 ;
     }

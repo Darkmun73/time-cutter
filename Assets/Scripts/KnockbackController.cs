@@ -13,7 +13,7 @@ public class KnockbackController : MonoBehaviour
 
     public bool IsKnockedBack {get; private set;}
 
-    public event UnityAction KnockBacked;
+    public event UnityAction KnockedBack;
 
     void Awake()
     {
@@ -54,6 +54,11 @@ public class KnockbackController : MonoBehaviour
         currentKnockbackTime = data.Duration;
 
         IsKnockedBack = true;
-        KnockBacked?.Invoke();
+        KnockedBack?.Invoke();
+    }
+
+    public float GetDuration()
+    {
+        return data.Duration;
     }
 }

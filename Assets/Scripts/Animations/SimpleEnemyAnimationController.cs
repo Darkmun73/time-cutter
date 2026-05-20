@@ -29,7 +29,7 @@ public class SimpleEnemyAnimationController : AnimationController
         enemyController.ChasingStarted += HandleStartRunning;
         enemyController.ChasingStopped += HandleStopRunning;
         enemyCombat.Hit += HandleHitPerformed;
-        knockbackController.KnockBacked += HandleHitReaction;
+        knockbackController.KnockedBack += HandleHitReaction;
     }
 
     void OnDisable()
@@ -37,7 +37,7 @@ public class SimpleEnemyAnimationController : AnimationController
         enemyController.ChasingStarted -= HandleStartRunning;
         enemyController.ChasingStopped -= HandleStopRunning;
         enemyCombat.Hit -= HandleHitPerformed;
-        knockbackController.KnockBacked -= HandleHitReaction;
+        knockbackController.KnockedBack -= HandleHitReaction;
     }
 
     private void HandleStartRunning()

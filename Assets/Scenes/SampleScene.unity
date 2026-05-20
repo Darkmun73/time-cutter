@@ -221,6 +221,8 @@ GameObject:
   - component: {fileID: 106186757}
   - component: {fileID: 106186759}
   - component: {fileID: 106186758}
+  - component: {fileID: 106186761}
+  - component: {fileID: 106186760}
   m_Layer: 5
   m_Name: Health bar
   m_TagString: Untagged
@@ -260,6 +262,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3aea1039d6865f84eb6b59c8bb410896, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HealthBarController
+  health: {fileID: 2001301513}
 --- !u!114 &106186759
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -300,7 +303,7 @@ MonoBehaviour:
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
   m_Interactable: 0
-  m_TargetGraphic: {fileID: 0}
+  m_TargetGraphic: {fileID: 106186760}
   m_FillRect: {fileID: 644646863}
   m_HandleRect: {fileID: 0}
   m_Direction: 0
@@ -311,6 +314,44 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &106186760
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 106186756}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.7509433, g: 0.7509433, b: 0.7509433, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 0}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &106186761
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 106186756}
+  m_CullTransparentMesh: 1
 --- !u!1 &107355091
 GameObject:
   m_ObjectHideFlags: 0
@@ -1379,7 +1420,7 @@ GameObject:
   m_Component:
   - component: {fileID: 387748687}
   m_Layer: 0
-  m_Name: All canvas
+  m_Name: ====== CANVAS =======
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2169,7 +2210,7 @@ MonoBehaviour:
   m_Intensity: 1
   m_LightVolumeIntensity: 1
   m_LightVolumeEnabled: 0
-  m_ApplyToSortingLayers: 000000000916a9b33d3edb622f94bc27
+  m_ApplyToSortingLayers: 000000000916a9b33d3edb622f94bc27738a8f7b
   m_LightCookieSprite: {fileID: 0}
   m_DeprecatedPointLightCookieSprite: {fileID: 0}
   m_LightOrder: 0
@@ -3000,7 +3041,7 @@ GameObject:
   - component: {fileID: 827550627}
   - component: {fileID: 827550626}
   m_Layer: 5
-  m_Name: Health Bar Canvas
+  m_Name: Player Health Bar Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3713,10 +3754,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 873745291165407231, guid: 3c7995706217b3b46b774f68a2a12ec6, type: 3}
-      propertyPath: directions
-      value: 
-      objectReference: {fileID: 931940023}
+    - target: {fileID: 4111076364559853631, guid: 3c7995706217b3b46b774f68a2a12ec6, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4111076364559853631, guid: 3c7995706217b3b46b774f68a2a12ec6, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6673559244091349222, guid: 3c7995706217b3b46b774f68a2a12ec6, type: 3}
       propertyPath: m_Name
       value: SimpleEnemy_2
@@ -3761,26 +3806,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 9086533500345366292, guid: 3c7995706217b3b46b774f68a2a12ec6, type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 4693871428909233734, guid: b9aca40efe7218247b2b0d3f1978e3c1, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3c7995706217b3b46b774f68a2a12ec6, type: 3}
---- !u!114 &931940023 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2751018205418211111, guid: 3c7995706217b3b46b774f68a2a12ec6, type: 3}
-  m_PrefabInstance: {fileID: 931940022}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7b70ba273c2bc8a41b8b6982b80bb814, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Directions
 --- !u!1 &932635698
 GameObject:
   m_ObjectHideFlags: 0
@@ -6974,6 +7004,17 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &2001301513 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2666946787739790202, guid: 80bb4349114f1ca47aa5b06ae77467ba, type: 3}
+  m_PrefabInstance: {fileID: 2398601922396861550}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8e668121a467ab488118c70c9bb341b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Health
 --- !u!1 &2018265064
 GameObject:
   m_ObjectHideFlags: 0
@@ -7498,52 +7539,12 @@ PrefabInstance:
       propertyPath: m_Name
       value: SimpleEnemy
       objectReference: {fileID: 0}
-    - target: {fileID: 5097336295696719476, guid: 37ab3fd5acfe85148b7a126eb10ebb31, type: 3}
-      propertyPath: m_labelHash
-      value: 0.0000000012533508
-      objectReference: {fileID: 0}
-    - target: {fileID: 5097336295696719476, guid: 37ab3fd5acfe85148b7a126eb10ebb31, type: 3}
-      propertyPath: m_CategoryHash
-      value: 3.6013877e-31
-      objectReference: {fileID: 0}
-    - target: {fileID: 5102578355674726587, guid: 37ab3fd5acfe85148b7a126eb10ebb31, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0.306
-      objectReference: {fileID: 0}
-    - target: {fileID: 7284728545248374755, guid: 37ab3fd5acfe85148b7a126eb10ebb31, type: 3}
-      propertyPath: m_Pivot.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7284728545248374755, guid: 37ab3fd5acfe85148b7a126eb10ebb31, type: 3}
+    - target: {fileID: 5734024979061548784, guid: 37ab3fd5acfe85148b7a126eb10ebb31, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0.5
+      value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7284728545248374755, guid: 37ab3fd5acfe85148b7a126eb10ebb31, type: 3}
+    - target: {fileID: 5734024979061548784, guid: 37ab3fd5acfe85148b7a126eb10ebb31, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7284728545248374755, guid: 37ab3fd5acfe85148b7a126eb10ebb31, type: 3}
-      propertyPath: m_AnchorMin.x
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 7284728545248374755, guid: 37ab3fd5acfe85148b7a126eb10ebb31, type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7284728545248374755, guid: 37ab3fd5acfe85148b7a126eb10ebb31, type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 0.40000004
-      objectReference: {fileID: 0}
-    - target: {fileID: 7284728545248374755, guid: 37ab3fd5acfe85148b7a126eb10ebb31, type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 0.5296999
-      objectReference: {fileID: 0}
-    - target: {fileID: 7284728545248374755, guid: 37ab3fd5acfe85148b7a126eb10ebb31, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: -0.000000048428774
-      objectReference: {fileID: 0}
-    - target: {fileID: 7284728545248374755, guid: 37ab3fd5acfe85148b7a126eb10ebb31, type: 3}
-      propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

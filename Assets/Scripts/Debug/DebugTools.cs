@@ -154,7 +154,7 @@ public class DebugTools : MonoBehaviour
 
     public void MakePlayerJump()
     {
-        playerMovement.Jump();
+        playerMovement.TryJump();
     }
 
     public void LaunchPlayerUp(float force)

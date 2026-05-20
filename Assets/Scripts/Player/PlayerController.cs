@@ -50,17 +50,23 @@ public class PlayerController : MonoBehaviour
     void OnEnable()
     {
         inputReader.MovingAndLooking += OnDirectionInput;
-        inputReader.Jumping += movement.Jump;
-
+        inputReader.Jumping += movement.TryJump;
         player.HitReceived += knockbackController.Knockback;
+        knockbackController.KnockedBack += ProhibitAttackWhileKnockedback;
+        movement.GroundLeft += playerCombat.ProhibitAttack;
+        movement.GroundTouched += playerCombat.AllowAttack;
+        playerCombat.HitStarted += ProhibitJumpWhileAttacking;
     }
 
     void OnDisable()
     {
         inputReader.MovingAndLooking -= OnDirectionInput;
-        inputReader.Jumping -= movement.Jump;
-        
+        inputReader.Jumping -= movement.TryJump;
         player.HitReceived -= knockbackController.Knockback;
+        knockbackController.KnockedBack -= ProhibitAttackWhileKnockedback;
+        movement.GroundLeft -= playerCombat.ProhibitAttack;
+        movement.GroundTouched -= playerCombat.AllowAttack;
+        playerCombat.HitStarted -= ProhibitJumpWhileAttacking;
     }
 
     void Update()
@@ -95,5 +101,17 @@ public class PlayerController : MonoBehaviour
         float horizontal = values.x, vertical = values.y;
         directions.SetUpDirections(horizontal, vertical);
         shouldRun = horizontal != 0;
+    }
+
+    private void ProhibitAttackWhileKnockedback()
+    {
+        float duration = knockbackController.GetDuration();
+        playerCombat.ProhibitAttack(duration);
+    }
+
+    private void ProhibitJumpWhileAttacking(PlayerCombat.HitInfo hitInfo)
+    {
+        float duration = playerCombat.GetHitDuration();
+        movement.ProhibitJump(duration);
     }
 }

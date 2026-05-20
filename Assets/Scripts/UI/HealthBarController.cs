@@ -6,28 +6,26 @@ public class HealthBarController : MonoBehaviour
 {
     private Slider healthBar;
 
-    private Health playerHealth;
+    [SerializeField] private Health health;
 
     void Awake()
     {
         healthBar = GetComponent<Slider>();
 
-        playerHealth = FindFirstObjectByType<Player>().GetComponent<Health>();
-
-        SetMaxHealth(playerHealth.MaxHealth);
-        SetHealth(playerHealth.MaxHealth);
+        SetMaxHealth(health.MaxHealth);
+        SetHealth(health.MaxHealth);
     }
 
     void OnEnable()
     {
-        playerHealth.MaxHealthChanged += SetMaxHealth;
-        playerHealth.HealthChanged += SetHealth;
+        health.MaxHealthChanged += SetMaxHealth;
+        health.HealthChanged += SetHealth;
     }
 
     void OnDisable()
     {
-        playerHealth.MaxHealthChanged -= SetMaxHealth;
-        playerHealth.HealthChanged -= SetHealth;
+        health.MaxHealthChanged -= SetMaxHealth;
+        health.HealthChanged -= SetHealth;
     }
 
     void SetMaxHealth(float value)
@@ -39,8 +37,4 @@ public class HealthBarController : MonoBehaviour
     {
         healthBar.value = value;
     }
-
-
-
-
 }

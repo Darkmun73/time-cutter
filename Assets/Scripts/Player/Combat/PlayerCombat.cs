@@ -40,7 +40,7 @@ public class PlayerCombat : MonoBehaviour
     private Dictionary<GameObject, AttackInfo> objectsAttackInfo = new(); // There would be hit angles for every hit object
     private HashSet<AnglesCombinationEffect> anglesCombinationEffects = new();
 
-    public event UnityAction<HitInfo> HitPerforming; // Direction vector as parameter
+    public event UnityAction<HitInfo> HitStarted;
 
     void Awake()
     {
@@ -120,7 +120,7 @@ public class PlayerCombat : MonoBehaviour
         StartCooldown();
 
         IsAttacking = true;
-        HitPerforming?.Invoke(hitInfo);
+        HitStarted?.Invoke(hitInfo);
     }
 
     // MAYBE TODO: если будет задержка что-нибудь придумать без енумератора
@@ -139,14 +139,29 @@ public class PlayerCombat : MonoBehaviour
 
     public void StartCooldown()
     {
-        StartCoroutine(ProhibitAttack(attackData.Cooldown));
+        ProhibitAttack(attackData.Cooldown);
     }
 
-    private IEnumerator ProhibitAttack(float seconds)
+    public void AllowAttack()
+    {
+        canAttack = true;
+    }
+
+    public void ProhibitAttack()
     {
         canAttack = false;
+    }
+
+    public void ProhibitAttack(float seconds)
+    {
+        StartCoroutine(ProhibitAttackRoutine(seconds));
+    }
+
+    private IEnumerator ProhibitAttackRoutine(float seconds)
+    {
+        ProhibitAttack();
         yield return new WaitForSeconds(seconds);
-        canAttack = true;
+        AllowAttack();
     }
 
     private void ApplyHit(HitInfo hit)
@@ -254,6 +269,11 @@ public class PlayerCombat : MonoBehaviour
             return;
         }
         damageMultiplier /= factor;
+    }
+
+    public float GetHitDuration()
+    {
+        return attackData.HitDuration;
     }
 }
 

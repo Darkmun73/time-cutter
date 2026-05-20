@@ -52,5 +52,8 @@ TagManager:
   - name: UIIndicators
     uniqueID: 666670127
     locked: 0
+  - name: VFX
+    uniqueID: 2073004659
+    locked: 0
   m_RenderingLayers:
   - Default

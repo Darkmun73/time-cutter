@@ -40,18 +40,18 @@ public class PlayerAnimationController : AnimationController
     {
         playerController.RunningStarted += HandleStartRunning;
         playerController.RunningStopped += HandleStopRunning;
-        playerCombat.HitPerforming += HandleHitPerforming;
+        playerCombat.HitStarted += HandleHitStarted;
         movement.Jumped += HandleJump;
-        knockbackController.KnockBacked += HandleHitReaction;
+        knockbackController.KnockedBack += HandleHitReaction;
     }
 
     void OnDisable()
     {
         playerController.RunningStarted -= HandleStartRunning;
         playerController.RunningStopped -= HandleStopRunning;
-        playerCombat.HitPerforming -= HandleHitPerforming;
+        playerCombat.HitStarted -= HandleHitStarted;
         movement.Jumped -= HandleJump;
-        knockbackController.KnockBacked -= HandleHitReaction;
+        knockbackController.KnockedBack -= HandleHitReaction;
     }
 
     void FixedUpdate()
@@ -119,7 +119,7 @@ public class PlayerAnimationController : AnimationController
         Play(PlayerAnimationState.Idle);
     }
 
-    private void HandleHitPerforming(PlayerCombat.HitInfo hitInfo)
+    private void HandleHitStarted(PlayerCombat.HitInfo hitInfo)
     {
         //Debug.Log("hit performing");
         if (IsCurrentStateLocked()) return;
