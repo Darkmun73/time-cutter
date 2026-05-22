@@ -11,21 +11,19 @@ using UnityEngine.InputSystem;
 [RequireComponent(typeof(Collider2D))]
 public class PlayerCombat : MonoBehaviour
 {
-    public readonly struct HitInfo
+    public readonly struct AttackInfo
     {
-        public GameObject Obj {get;}
         public float Angle {get;}
-        
-        public HitInfo(GameObject obj, float angle)
+
+        public AttackInfo(float angle)
         {
-            Obj = obj;
             Angle = angle;
         }
     }
 
     [SerializeField] private PlayerAttackData attackData;
     [SerializeField] private InputReader inputReader;
-    [SerializeField] private GameObject hitPrefab;
+    [SerializeField] private GameObject attackObjectPrefab;
 
     private Collider2D playerCollider;
     private DirectionsController directions;
@@ -37,10 +35,10 @@ public class PlayerCombat : MonoBehaviour
 
     public bool IsAttacking {get; private set;} = false;
 
-    private Dictionary<GameObject, AttackInfo> objectsAttackInfo = new(); // There would be hit angles for every hit object
+    private Dictionary<GameObject, AttackSequenceInfo> objectsAttackSequence = new(); // There would be hit angles for every hit object
     private HashSet<AnglesCombinationEffect> anglesCombinationEffects = new();
 
-    public event UnityAction<HitInfo> HitStarted;
+    public event UnityAction<AttackInfo> AttackStarted;
 
     void Awake()
     {
@@ -50,7 +48,7 @@ public class PlayerCombat : MonoBehaviour
         playerCollider = GetComponent<Collider2D>();
         directions = GetComponent<DirectionsController>();
 
-        StartCoroutine(CleanupObjectsHitAngles());
+        StartCoroutine(CleanupObjectsAttackSequence());
     }
 
     void OnEnable()
@@ -105,35 +103,36 @@ public class PlayerCombat : MonoBehaviour
     {
         Vector2 playerLookDirectionVector = directions.LookDirection.ToVector();
 
-        Vector2 hitDirection = end - start;
-        float zRotation = Vector2.SignedAngle(Vector2.right, hitDirection);
+        Vector2 attackDirection = end - start;
+        float zRotation = Vector2.SignedAngle(Vector2.right, attackDirection);
         Quaternion rotation = Quaternion.Euler(0, 0, zRotation);
 
-        Vector3 hitPosition = new(transform.position.x + playerLookDirectionVector.x * 0.5f,
-                                  transform.position.y + playerLookDirectionVector.y * 0.5f,
-                                  transform.position.z); // TODO: разобраться с магическими числами
-        GameObject hitObject = Instantiate(hitPrefab, hitPosition, rotation, transform);
-        HitInfo hitInfo = new(hitObject, zRotation);
+        Vector3 attackObjectPosition =
+        new(transform.position.x + playerLookDirectionVector.x * 0.5f,
+            transform.position.y + playerLookDirectionVector.y * 0.5f,
+            transform.position.z); // TODO: разобраться с магическими числами
+        GameObject attackObject = Instantiate(attackObjectPrefab, attackObjectPosition, rotation, transform);
 
-        StartCoroutine(PhysicsHitOccured(hitInfo));
-        StartCoroutine(DestroyHitObject(hitObject, attackData.HitDuration));
+        StartCoroutine(PhysicsAttackObjectOccured(attackObject, zRotation));
+        StartCoroutine(DestroyAttackObject(attackObject, attackData.AttackDuration));
         StartCooldown();
 
         IsAttacking = true;
-        HitStarted?.Invoke(hitInfo);
+        AttackInfo attackInfo = new(zRotation);
+        AttackStarted?.Invoke(attackInfo);
     }
 
     // MAYBE TODO: если будет задержка что-нибудь придумать без енумератора
-    private IEnumerator PhysicsHitOccured(HitInfo hit)
+    private IEnumerator PhysicsAttackObjectOccured(GameObject attackObject, float angle)
     {
         yield return new WaitForFixedUpdate();
-        ApplyHit(hit);
+        ApplyHit(attackObject, angle);
     }
 
-    private IEnumerator DestroyHitObject(GameObject hitObject, float interval)
+    private IEnumerator DestroyAttackObject(GameObject attackObject, float interval)
     {
         yield return new WaitForSeconds(interval);
-        Destroy(hitObject);
+        Destroy(attackObject);
         IsAttacking = false;
     }
 
@@ -164,19 +163,21 @@ public class PlayerCombat : MonoBehaviour
         AllowAttack();
     }
 
-    private void ApplyHit(HitInfo hit)
+    private void ApplyHit(GameObject attackObject, float angle)
     {
         List<Collider2D> colliders = new();
-        var hitCollider = hit.Obj.GetComponent<Collider2D>();
-        hitCollider.Overlap(colliders);
+        var attackCollider = attackObject.GetComponent<Collider2D>();
+        attackCollider.Overlap(colliders);
         foreach (var collider in colliders) if (playerCollider != collider) // TODO: При задевании колайдера-тригера тоже будет проходить удар?
         {   
-            if (collider.TryGetComponent<IHittable>(out var hittable))
+            if (collider.TryGetComponent<HitReceiver>(out var hitReceiver))
             {
-                Debug.Log(hit.Angle);
-                var objAttackInfo = AddHitAngleForObject(collider.gameObject, hit.Angle);
-                ApplyCombinationEffects(objAttackInfo);
-                hittable.ReceiveHit(transform, attackData.BaseDamage * objAttackInfo.DamageCoef * damageMultiplier);
+                Debug.Log(angle);
+                var objAttackSequence = AddAttackAngleForObject(collider.gameObject, angle);
+                ApplyCombinationEffects(objAttackSequence);
+                float hitDamage = attackData.BaseDamage * objAttackSequence.DamageCoef * damageMultiplier;
+                PlayerHitInfo hitInfo = new(transform, hitDamage, attackObject, angle);
+                hitReceiver.ReceiveHit(hitInfo);
                 // Debug.Log(CanBreakShield(collider.gameObject));
                 // Debug.Log(string.Join("; ", objectsHitAngles[collider.gameObject]));
                 if (collider.TryGetComponent<Shield>(out var shield) &&
@@ -191,42 +192,42 @@ public class PlayerCombat : MonoBehaviour
     // obj: object with shield
     private bool CanBreakShield(GameObject objectWithShield) 
     {
-        var currentAngles = objectsAttackInfo[objectWithShield].HitAngles;
+        var currentAngles = objectsAttackSequence[objectWithShield].AttackAngles;
         return Angles.EndsWithPatternWithinTolerance(currentAngles,
                                                      attackData.ShieldBreakAngles,
                                                      attackData.AngleTolerance);
     }
 
-    private AttackInfo AddHitAngleForObject(GameObject obj, float angle)
+    private AttackSequenceInfo AddAttackAngleForObject(GameObject obj, float angle)
     {
-        if (objectsAttackInfo.TryGetValue(obj, out var attackInfo))
+        if (objectsAttackSequence.TryGetValue(obj, out var attackInfo))
             attackInfo.RegisterHit(angle);
         else
             attackInfo = new(angle, attackData);
-            objectsAttackInfo[obj] = attackInfo;
+            objectsAttackSequence[obj] = attackInfo;
 
         return attackInfo;
     }
 
-    private IEnumerator CleanupObjectsHitAngles()
+    private IEnumerator CleanupObjectsAttackSequence()
     {
         while (true)
         {
-            var destroyedObjects = objectsAttackInfo.Keys
+            var destroyedObjects = objectsAttackSequence.Keys
             .Where(obj => obj == null)
             .ToList();
 
             foreach (var destroyedObject in destroyedObjects)
             {
-                objectsAttackInfo.Remove(destroyedObject);
+                objectsAttackSequence.Remove(destroyedObject);
             }
-            yield return new WaitForSeconds(attackData.ObjectsAttackInfoCleanupInterval);
+            yield return new WaitForSeconds(attackData.ObjectsAttackSequenceCleanupInterval);
         }
     }
 
-    public void ResetObjectsHitAngles() // TODO: использовать при загрузке другой сцены?
+    public void ResetObjectsAttackSequence() // TODO: использовать при загрузке другой сцены?
     {
-        objectsAttackInfo = new();
+        objectsAttackSequence = new();
     }
 
     public void AddCombinationEffect(AnglesCombinationEffect combinationEffect)
@@ -243,11 +244,11 @@ public class PlayerCombat : MonoBehaviour
         anglesCombinationEffects.Remove(combinationEffect);
     }
 
-    private void ApplyCombinationEffects(AttackInfo attackInfo)
+    private void ApplyCombinationEffects(AttackSequenceInfo attackInfo)
     {
         foreach (var combinationEffect in anglesCombinationEffects)
         {
-            combinationEffect.TryApply(attackInfo.HitAngles, attackData.AngleTolerance);
+            combinationEffect.TryApply(attackInfo.AttackAngles, attackData.AngleTolerance);
         }
     }
 
@@ -271,9 +272,9 @@ public class PlayerCombat : MonoBehaviour
         damageMultiplier /= factor;
     }
 
-    public float GetHitDuration()
+    public float GetAttackDuration()
     {
-        return attackData.HitDuration;
+        return attackData.AttackDuration;
     }
 }
 

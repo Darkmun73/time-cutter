@@ -32,7 +32,7 @@ public class PlayerAnimationController : AnimationController
         
         currentState = PlayerAnimationState.Idle;
 
-        animator.SetFloat("HitSpeedMultiplier", 1/attackData.HitDuration);
+        animator.SetFloat("HitSpeedMultiplier", 1/attackData.AttackDuration);
         animator.SetFloat("HitReactionSpeedMultiplier", 1/knockbackData.Duration);
     }
 
@@ -40,7 +40,7 @@ public class PlayerAnimationController : AnimationController
     {
         playerController.RunningStarted += HandleStartRunning;
         playerController.RunningStopped += HandleStopRunning;
-        playerCombat.HitStarted += HandleHitStarted;
+        playerCombat.AttackStarted += HandleAttackStarted;
         movement.Jumped += HandleJump;
         knockbackController.KnockedBack += HandleHitReaction;
     }
@@ -49,7 +49,7 @@ public class PlayerAnimationController : AnimationController
     {
         playerController.RunningStarted -= HandleStartRunning;
         playerController.RunningStopped -= HandleStopRunning;
-        playerCombat.HitStarted -= HandleHitStarted;
+        playerCombat.AttackStarted -= HandleAttackStarted;
         movement.Jumped -= HandleJump;
         knockbackController.KnockedBack -= HandleHitReaction;
     }
@@ -119,12 +119,12 @@ public class PlayerAnimationController : AnimationController
         Play(PlayerAnimationState.Idle);
     }
 
-    private void HandleHitStarted(PlayerCombat.HitInfo hitInfo)
+    private void HandleAttackStarted(PlayerCombat.AttackInfo attackInfo)
     {
         //Debug.Log("hit performing");
         if (IsCurrentStateLocked()) return;
 
-        if (Mathf.Abs(hitInfo.Angle) is >= 45 and <= 135)
+        if (Mathf.Abs(attackInfo.Angle) is >= 45 and <= 135)
             PlayAndLock(PlayerAnimationState.AttackTopBottom);
         else
             PlayAndLock(PlayerAnimationState.AttackRightLeft);

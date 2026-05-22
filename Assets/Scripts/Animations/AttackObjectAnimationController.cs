@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [RequireComponent(typeof(Animator))]
-public class HitAnimationController : AnimationController
+public class AttackObjectAnimationController : AnimationController
 {
     [SerializeField] private PlayerAttackData playerAttackData;
 
@@ -9,8 +9,8 @@ public class HitAnimationController : AnimationController
     {
         animator = GetComponent<Animator>();
         
-        animator.SetFloat("HitSpeedMultiplier", 1/playerAttackData.HitDuration);
+        animator.SetFloat("HitSpeedMultiplier", 1/playerAttackData.AttackDuration);
         currentState = EnemyAnimationState.Idle;
-        Play(HitAnimationState.Hit);
+        Play(AttackObjectAnimationState.Hit);
     }
 }

@@ -17,8 +17,8 @@ MonoBehaviour:
   - -45
   - -90
   - -135
-  <ObjectsAttackInfoCleanupInterval>k__BackingField: 2
-  <HitDuration>k__BackingField: 0.3
+  <ObjectsAttackSequenceCleanupInterval>k__BackingField: 2
+  <AttackDuration>k__BackingField: 0.3
   <Cooldown>k__BackingField: 0.3
   <MaxHitAngles>k__BackingField: 7
   <AngleTolerance>k__BackingField: 16.2

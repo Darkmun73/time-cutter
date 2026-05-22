@@ -1,20 +1,20 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AttackInfo
+public class AttackSequenceInfo
 {
     private readonly PlayerAttackData data;
     private int numberOfHits = 0;
 
-    public List<float> HitAngles {get; private set;} // TODO: сделать приватным, и добавить сюда методы, через которые и изменять HitAngles
+    public List<float> AttackAngles {get; private set;} // TODO: сделать приватным, и добавить сюда методы, через которые и изменять HitAngles
     public float DamageCoef {get; private set;}
 
     
-    public AttackInfo(float firstHitAngle, PlayerAttackData data)
+    public AttackSequenceInfo(float firstAttackAngle, PlayerAttackData data)
     {
         this.data = data;
 
-        HitAngles = new() { firstHitAngle };
+        AttackAngles = new() { firstAttackAngle };
         DamageCoef = data.MinDamageCoef;
         numberOfHits++;
     }
@@ -24,17 +24,17 @@ public class AttackInfo
     public void RegisterHit(float angle)
     {
         // Always have at least two hits before recalculating (from constructor + first call of this RegisterHit method)
-        HitAngles.Add(angle);
+        AttackAngles.Add(angle);
         numberOfHits++;
-        if (HitAngles.Count > data.MaxHitAngles)
-            HitAngles.RemoveAt(0);
+        if (AttackAngles.Count > data.MaxHitAngles)
+            AttackAngles.RemoveAt(0);
         RecalculateDamageCoef();
     }
 
     private void RecalculateDamageCoef()
     {
-        float lastAngle = HitAngles[^1];
-        float preLastAngle = HitAngles[^2];
+        float lastAngle = AttackAngles[^1];
+        float preLastAngle = AttackAngles[^2];
 
         float acuteAngleDiff = Angles.GetAcuteAngleBetween(lastAngle, preLastAngle);
         
@@ -66,13 +66,13 @@ public class AttackInfo
 
     private float CalculateRepetitionMultiplier()
     {
-        float lastAngle = HitAngles[^1];
+        float lastAngle = AttackAngles[^1];
         float totalPenalty = 0f;
         
-        var anglesCountWithoutLastTwo = HitAngles.Count - 2;
+        var anglesCountWithoutLastTwo = AttackAngles.Count - 2;
         for (int i = 0; i < anglesCountWithoutLastTwo; i++)
         {
-            float historicAngle = HitAngles[i];
+            float historicAngle = AttackAngles[i];
             float acuteAngleDiff = Angles.GetAcuteAngleBetween(lastAngle, historicAngle);
             
             if (acuteAngleDiff < data.DamageThresholdAngle)

@@ -25,8 +25,11 @@ public class EnemyCombat : MonoBehaviour
         var playerColliders = Physics2D.OverlapCircleAll(attackPoint.position, attackData.HitRadius, playerMask);
         foreach (var playerCollider in playerColliders)
         {
-            Player player = playerCollider.GetComponent<Player>();
-            player.ReceiveHit(transform, attackData.BaseDamage);
+            if (playerCollider.TryGetComponent<HitReceiver>(out var hitReceiver))
+            {
+                EnemyHitInfo hitInfo = new(transform, attackData.BaseDamage);
+                hitReceiver.ReceiveHit(hitInfo);
+            }
         }
         StartCooldown();
         

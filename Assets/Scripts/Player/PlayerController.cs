@@ -1,8 +1,9 @@
 using UnityEngine;
 using UnityEngine.Events;
 
-[RequireComponent(typeof(Player))]
+[RequireComponent(typeof(HitReceiver))]
 [RequireComponent(typeof(Movement))]
+[RequireComponent(typeof(Health))]
 [RequireComponent(typeof(DirectionsController))]
 [RequireComponent(typeof(KnockbackController))]
 [RequireComponent(typeof(PlayerCombat))]
@@ -10,10 +11,11 @@ public class PlayerController : MonoBehaviour
 {
     [SerializeField] private InputReader inputReader;
 
-    private Player player;
-    private KnockbackController knockbackController;
+    private HitReceiver hitReceiver;
     private Movement movement;
+    private Health health;
     private DirectionsController directions;
+    private KnockbackController knockbackController;
     private PlayerCombat playerCombat;
 
     public event UnityAction RunningStarted;
@@ -40,8 +42,9 @@ public class PlayerController : MonoBehaviour
 
     void Awake()
     {
-        player = GetComponent<Player>();
+        hitReceiver = GetComponent<HitReceiver>();
         movement = GetComponent<Movement>();
+        health = GetComponent<Health>();
         directions = GetComponent<DirectionsController>();
         knockbackController = GetComponent<KnockbackController>();
         playerCombat = GetComponent<PlayerCombat>();
@@ -51,22 +54,22 @@ public class PlayerController : MonoBehaviour
     {
         inputReader.MovingAndLooking += OnDirectionInput;
         inputReader.Jumping += movement.TryJump;
-        player.HitReceived += knockbackController.Knockback;
+        hitReceiver.HitReceived += OnHitReceived;
         knockbackController.KnockedBack += ProhibitAttackWhileKnockedback;
         movement.GroundLeft += playerCombat.ProhibitAttack;
         movement.GroundTouched += playerCombat.AllowAttack;
-        playerCombat.HitStarted += ProhibitJumpWhileAttacking;
+        playerCombat.AttackStarted += ProhibitJumpWhileAttacking;
     }
 
     void OnDisable()
     {
         inputReader.MovingAndLooking -= OnDirectionInput;
         inputReader.Jumping -= movement.TryJump;
-        player.HitReceived -= knockbackController.Knockback;
+        hitReceiver.HitReceived -= OnHitReceived;
         knockbackController.KnockedBack -= ProhibitAttackWhileKnockedback;
         movement.GroundLeft -= playerCombat.ProhibitAttack;
         movement.GroundTouched -= playerCombat.AllowAttack;
-        playerCombat.HitStarted -= ProhibitJumpWhileAttacking;
+        playerCombat.AttackStarted -= ProhibitJumpWhileAttacking;
     }
 
     void Update()
@@ -103,15 +106,21 @@ public class PlayerController : MonoBehaviour
         shouldRun = horizontal != 0;
     }
 
+    private void OnHitReceived(HitInfo hitInfo)
+    {
+        health.TakeDamage(hitInfo.Damage);
+        knockbackController.Knockback(hitInfo.Source);
+    }
+
     private void ProhibitAttackWhileKnockedback()
     {
         float duration = knockbackController.GetDuration();
         playerCombat.ProhibitAttack(duration);
     }
 
-    private void ProhibitJumpWhileAttacking(PlayerCombat.HitInfo hitInfo)
+    private void ProhibitJumpWhileAttacking(PlayerCombat.AttackInfo attackInfo)
     {
-        float duration = playerCombat.GetHitDuration();
+        float duration = playerCombat.GetAttackDuration();
         movement.ProhibitJump(duration);
     }
 }

@@ -27,6 +27,7 @@ GameObject:
   - component: {fileID: 9193119169310926677}
   - component: {fileID: 5637549986704171691}
   - component: {fileID: 7134843513256558554}
+  - component: {fileID: 3667866473832884044}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -271,7 +272,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerAttackController
   attackData: {fileID: 11400000, guid: a717aaa7c9104a84c9e2aa492fabb34f, type: 2}
   inputReader: {fileID: 11400000, guid: 01ae7333c40c0ed419dfa404d1df66b7, type: 2}
-  hitPrefab: {fileID: 4061355782550997067, guid: ccee5df19bc790f4db95e585023732cb, type: 3}
+  attackObjectPrefab: {fileID: 4061355782550997067, guid: ccee5df19bc790f4db95e585023732cb, type: 3}
 --- !u!114 &3839196942615991497
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -391,3 +392,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a103a61c629a464083f9683edc5cba9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CharactersRenderOrderController
+--- !u!114 &3667866473832884044
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4020881174240702802}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a8dfcceb60c02b4aa81291071787287, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HitReceiver

@@ -140,7 +140,7 @@ GameObject:
   - component: {fileID: 1450599176297565463}
   - component: {fileID: -2613862351536724064}
   m_Layer: 0
-  m_Name: Hit
+  m_Name: AttackObject
   m_TagString: Hit
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

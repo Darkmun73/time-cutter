@@ -119,6 +119,8 @@ GameObject:
   - component: {fileID: 5711777049756047511}
   - component: {fileID: 5509275156964090928}
   - component: {fileID: 178856964335314398}
+  - component: {fileID: 179205501568407902}
+  - component: {fileID: 4383979830047371709}
   m_Layer: 7
   m_Name: SimpleEnemy_1
   m_TagString: Enemy
@@ -341,6 +343,30 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::KnockbackController
   data: {fileID: 11400000, guid: 391a4b3dacbae0943bfb03152cf1c522, type: 2}
+--- !u!114 &179205501568407902
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3027296071230477865}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a8dfcceb60c02b4aa81291071787287, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HitReceiver
+--- !u!114 &4383979830047371709
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3027296071230477865}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2a51c75b5a2e9614d80c54808efa5c79, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HitBloodSplasher
 --- !u!1 &4044323099849745541
 GameObject:
   m_ObjectHideFlags: 0

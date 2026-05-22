@@ -2,10 +2,12 @@ using UnityEngine;
 using UnityEngine.Events;
 
 [RequireComponent(typeof(Movement))]
+[RequireComponent(typeof(Health))]
 [RequireComponent(typeof(DirectionsController))]
 [RequireComponent(typeof(KnockbackController))]
 [RequireComponent(typeof(EnemyCombat))]
 [RequireComponent(typeof(Navigator))]
+[RequireComponent(typeof(HitReceiver))]
 public class EnemyController : StateMachine
 {
     public readonly struct TargetInfo // TODO: GameObject в конструктор
@@ -27,9 +29,13 @@ public class EnemyController : StateMachine
     [SerializeField] private Transform attackPoint;
 
     public Movement Movement {get; private set;}
+    private Health health;
     public DirectionsController Directions {get; private set;}
     public Navigator Navigator {get; private set;}
     public EnemyCombat Combat {get; private set;}
+    private KnockbackController knockbackController;
+    private HitReceiver hitReceiver;
+    private Shield shield;
 
     private TargetInfo target;
     public TargetInfo Target {
@@ -44,8 +50,6 @@ public class EnemyController : StateMachine
     [SerializeField] private float detectionRadius = 5f;
     private float attackRadius;
 
-    private KnockbackController knockbackController;
-
     private EnemyIdleState idleState;
     private EnemyChasingState chasingState;
     private EnemyAttackState attackState;
@@ -56,10 +60,13 @@ public class EnemyController : StateMachine
     void Awake()
     {
         Movement = GetComponent<Movement>();
+        health = GetComponent<Health>();
         Directions = GetComponent<DirectionsController>();
         Navigator = GetComponent<Navigator>();
         Combat = GetComponent<EnemyCombat>();
         knockbackController = GetComponent<KnockbackController>();
+        hitReceiver = GetComponent<HitReceiver>();
+        shield = GetComponent<Shield>();
         
         var player = FindFirstObjectByType<Player>();
         Target = new TargetInfo(player.gameObject);
@@ -78,6 +85,7 @@ public class EnemyController : StateMachine
         Directions.MovementDirectionFlipped += FlipAttackPoint;
         chasingState.ChasingStarted += OnChasingStarted;
         chasingState.ChasingStopped += OnChasingStopped;
+        hitReceiver.HitReceived += OnHitReceived;
     }
 
     void OnDisable()
@@ -107,6 +115,14 @@ public class EnemyController : StateMachine
     private void OnChasingStopped()
     {
         ChasingStopped?.Invoke();
+    }
+
+    private void OnHitReceived(HitInfo hitInfo)
+    {
+        if (shield != null && shield.TryBlock()) return;
+        
+        health.TakeDamage(hitInfo.Damage);
+        knockbackController.Knockback(hitInfo.Source);
     }
 
     private void HandleStateTransition()
