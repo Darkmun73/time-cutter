@@ -367,6 +367,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a51c75b5a2e9614d80c54808efa5c79, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HitBloodSplasher
+  BloodSplashParticlesPrefab: {fileID: 7650250203061328189, guid: 06cbe59f18323db47862e82a447e8617, type: 3}
 --- !u!1 &4044323099849745541
 GameObject:
   m_ObjectHideFlags: 0
@@ -628,7 +629,6 @@ GameObject:
   - component: {fileID: 3457910307611557236}
   - component: {fileID: 5097336295696719476}
   - component: {fileID: 8220945756968730020}
-  - component: {fileID: 5227434838400592682}
   - component: {fileID: 3453189740701182518}
   - component: {fileID: 3680805521677174898}
   - component: {fileID: 930903205415160600}
@@ -700,7 +700,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -1280764407
-  m_SortingLayer: 1
+  m_SortingLayer: 2
   m_SortingOrder: 2
   m_MaskInteraction: 0
   m_Sprite: {fileID: 21300000, guid: ed584c65f12f016468fb4821217be0d0, type: 3}
@@ -765,20 +765,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &5227434838400592682
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9106256467103506261}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e8c1ed0537d09c44fbe4bc1879b1d598, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::HealthColorChanger
-  fromColor: {r: 0.6442353, g: 0.87058824, b: 0.73945963, a: 1}
-  toColor: {r: 0.825, g: 0.609675, b: 0.609675, a: 1}
 --- !u!114 &3453189740701182518
 MonoBehaviour:
   m_ObjectHideFlags: 0

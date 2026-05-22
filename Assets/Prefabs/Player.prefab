@@ -28,6 +28,7 @@ GameObject:
   - component: {fileID: 5637549986704171691}
   - component: {fileID: 7134843513256558554}
   - component: {fileID: 3667866473832884044}
+  - component: {fileID: 5478235461384428050}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -96,7 +97,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -1280764407
-  m_SortingLayer: 1
+  m_SortingLayer: 2
   m_SortingOrder: 2
   m_MaskInteraction: 0
   m_Sprite: {fileID: 21300000, guid: 5082f27dd7816f14fa92e47584509ec7, type: 3}
@@ -404,3 +405,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a8dfcceb60c02b4aa81291071787287, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HitReceiver
+--- !u!114 &5478235461384428050
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4020881174240702802}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2a51c75b5a2e9614d80c54808efa5c79, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HitBloodSplasher
+  BloodSplashParticlesPrefab: {fileID: 7650250203061328189, guid: 06cbe59f18323db47862e82a447e8617, type: 3}
