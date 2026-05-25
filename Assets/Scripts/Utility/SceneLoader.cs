@@ -7,7 +7,10 @@ public class SceneLoader
         SceneManager.LoadScene("MainMenu");
     }
 
-    public void LoadTutorial() {}
+    public void LoadTutorial()
+    {
+        SceneManager.LoadScene("Tutorial");
+    }
 
     public static void LoadLevel1()
     {

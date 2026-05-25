@@ -2,7 +2,6 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
 
-#if UNITY_EDITOR || DEVELOPMENT_BUILD
 public class DebugTools : MonoBehaviour
 {
     public event UnityAction DebugToolsEnabled;
@@ -177,4 +176,3 @@ public class DebugTools : MonoBehaviour
         FindFirstObjectByType<Player>().GetComponent<PlayerLifecycleHandler>().Revive();
     }
 }
-#endif

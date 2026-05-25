@@ -93,6 +93,7 @@ public class EnemyController : StateMachine
         Directions.MovementDirectionFlipped -= FlipAttackPoint;
         chasingState.ChasingStarted -= OnChasingStarted;
         chasingState.ChasingStopped -= OnChasingStopped;
+        hitReceiver.HitReceived -= OnHitReceived;
     }
 
     protected override void Update()

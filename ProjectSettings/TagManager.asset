@@ -52,6 +52,9 @@ TagManager:
   - name: Characters
     uniqueID: 3014202889
     locked: 0
+  - name: Characters Top
+    uniqueID: 1615138045
+    locked: 0
   - name: UIIndicators
     uniqueID: 666670127
     locked: 0

@@ -1,5 +1,3 @@
-using UnityEngine;
-
 public class SimpleEnemyAttackState : EnemyAttackState
 {
     private readonly EnemyController enemyController;
