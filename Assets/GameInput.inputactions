@@ -113,6 +113,62 @@
                     "isPartOfComposite": false
                 }
             ]
+        },
+        {
+            "name": "UpgradeMenu",
+            "id": "af11fa69-dcb7-40d9-b1c8-a97200d8bc27",
+            "actions": [
+                {
+                    "name": "UpgradeMenu",
+                    "type": "Button",
+                    "id": "fe87d22b-0956-4f6a-a14e-8d7280d70336",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "fd7d3a97-8837-4502-a595-f6c37d65065f",
+                    "path": "<Keyboard>/tab",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "UpgradeMenu",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "PauseMenu",
+            "id": "8789218e-7fd6-4144-bf64-30d099b7b995",
+            "actions": [
+                {
+                    "name": "PauseMenu",
+                    "type": "Button",
+                    "id": "f2312067-ada1-4081-8777-685fbd74eea2",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "2660b08d-7376-4a9d-bfbd-5ea6c02b63cb",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "PauseMenu",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
         }
     ],
     "controlSchemes": []

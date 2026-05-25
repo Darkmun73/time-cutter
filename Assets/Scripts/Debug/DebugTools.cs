@@ -166,5 +166,15 @@ public class DebugTools : MonoBehaviour
     {
         Instantiate(playerPrefab, new Vector3(-12.71f, -2.938f, 0), Quaternion.identity);
     }
+
+    public void KillPlayer()
+    {
+        FindFirstObjectByType<Player>().GetComponent<PlayerLifecycleHandler>().Die();
+    }
+
+    public void RevivePlayer()
+    {
+        FindFirstObjectByType<Player>().GetComponent<PlayerLifecycleHandler>().Revive();
+    }
 }
 #endif

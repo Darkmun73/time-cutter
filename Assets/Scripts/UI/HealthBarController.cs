@@ -11,9 +11,12 @@ public class HealthBarController : MonoBehaviour
     void Awake()
     {
         healthBar = GetComponent<Slider>();
+    }
 
+    void Start()
+    {
         SetMaxHealth(health.MaxHealth);
-        SetHealth(health.MaxHealth);
+        SetHealth(health.CurrentHealth);
     }
 
     void OnEnable()

@@ -59,6 +59,8 @@ public class DebugGUI : MonoBehaviour
         bool launch = GUI.Button(new Rect(130, 40, 125, 35), "Launch up", buttonStyle);
 
         bool spawnPlayer = GUI.Button(new Rect(260, 0, 160, 35), "Spawn player", buttonStyle);
+        bool killPlayer = GUI.Button(new Rect(425, 0, 160, 35), "Kill player", buttonStyle);
+        bool revivePlayer = GUI.Button(new Rect(425, 40, 160, 35), "Revive player", buttonStyle);
 
         if (increasing)
             tools.IncreaseAmountOfPlayerCurrency(int.Parse(currencyAmount));
@@ -69,9 +71,11 @@ public class DebugGUI : MonoBehaviour
             tools.LaunchPlayerUp(int.Parse(launchForce));
 
         if (spawnPlayer)
-        {
             tools.SpawnPlayer();
-        }
+        if (killPlayer)
+            tools.KillPlayer();
+        if (revivePlayer)
+            tools.RevivePlayer();
     }
 
 }

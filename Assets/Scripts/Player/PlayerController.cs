@@ -7,6 +7,7 @@ using UnityEngine.Events;
 [RequireComponent(typeof(DirectionsController))]
 [RequireComponent(typeof(KnockbackController))]
 [RequireComponent(typeof(PlayerCombat))]
+[RequireComponent(typeof(PlayerLifecycleHandler))]
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] private InputReader inputReader;
@@ -14,6 +15,7 @@ public class PlayerController : MonoBehaviour
     private HitReceiver hitReceiver;
     private Movement movement;
     private Health health;
+    private PlayerLifecycleHandler lifecycleHandler;
     private DirectionsController directions;
     private KnockbackController knockbackController;
     private PlayerCombat playerCombat;
@@ -45,6 +47,7 @@ public class PlayerController : MonoBehaviour
         hitReceiver = GetComponent<HitReceiver>();
         movement = GetComponent<Movement>();
         health = GetComponent<Health>();
+        lifecycleHandler = GetComponent<PlayerLifecycleHandler>();
         directions = GetComponent<DirectionsController>();
         knockbackController = GetComponent<KnockbackController>();
         playerCombat = GetComponent<PlayerCombat>();
@@ -59,6 +62,7 @@ public class PlayerController : MonoBehaviour
         movement.GroundLeft += playerCombat.ProhibitAttack;
         movement.GroundTouched += playerCombat.AllowAttack;
         playerCombat.AttackStarted += ProhibitJumpWhileAttacking;
+        health.HealthDepleted += lifecycleHandler.Die;
     }
 
     void OnDisable()
@@ -70,6 +74,7 @@ public class PlayerController : MonoBehaviour
         movement.GroundLeft -= playerCombat.ProhibitAttack;
         movement.GroundTouched -= playerCombat.AllowAttack;
         playerCombat.AttackStarted -= ProhibitJumpWhileAttacking;
+        health.HealthDepleted -= lifecycleHandler.Die;
     }
 
     void Update()
@@ -97,6 +102,12 @@ public class PlayerController : MonoBehaviour
         }
             
         movement.ClampFallSpeed();
+    }
+
+    public void Reset()
+    {
+        IsRunning = false;
+        shouldRun = false;
     }
 
     private void OnDirectionInput(Vector2 values)

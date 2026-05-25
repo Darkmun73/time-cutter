@@ -17,7 +17,7 @@ public class UpgradeUI : MonoBehaviour
         descriptionTextField.text = upgrade.Description;
         priceField.text = $"Стоимость: {price}"; // TODO: исправить захардкоженную строку
         
-        applyButton.onClick.AddListener(() => HandleUpgradeApplying(upgrade));
+        applyButton.onClick.AddListener(() => HandleUpgradeApplying(upgrade)); // TODO: придумать, где делать RemoveListener
     }
 
     private void HandleUpgradeApplying(Upgrade upgrade)

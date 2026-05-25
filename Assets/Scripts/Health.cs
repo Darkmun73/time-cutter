@@ -25,10 +25,10 @@ public class Health : MonoBehaviour
 
     public float MaxHealth => data.MaxHealth * MaxHealthMultiplier;
 
-    private float CurrentHealth
+    public float CurrentHealth
     {
         get { return currentHealth; }
-        set
+        private set
         {
             if (value <= 0)
                 currentHealth = 0;
@@ -57,6 +57,11 @@ public class Health : MonoBehaviour
     public void Heal(float value)
     {
         CurrentHealth += value;
+    }
+
+    public void Reset()
+    {
+        CurrentHealth = MaxHealth;
     }
 
     public void IncreaseMaxHealthByFactor(float factor, bool restoreHealthToFull = true)
