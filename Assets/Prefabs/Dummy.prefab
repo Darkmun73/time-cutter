@@ -110,6 +110,8 @@ GameObject:
   - component: {fileID: 2357685225502194155}
   - component: {fileID: 7266933158409241721}
   - component: {fileID: 5212272805357793152}
+  - component: {fileID: 4247839016868945030}
+  - component: {fileID: 4142632210777706200}
   m_Layer: 7
   m_Name: Sprite
   m_TagString: Untagged
@@ -131,7 +133,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4962904062132908585}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -0, y: 0, z: 0}
 --- !u!212 &7266933158409241721
 SpriteRenderer:
   serializedVersion: 2
@@ -203,6 +205,41 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a103a61c629a464083f9683edc5cba9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CharactersRenderOrderController
+--- !u!95 &4247839016868945030
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2416871640106968162}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 316005eb87e798347b699f360793af80, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &4142632210777706200
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2416871640106968162}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80b4ea9e32287d94db696517dcd27e68, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DummyAnimationController
+  hitReceiver: {fileID: 6364271365162134170}
 --- !u!1 &2552684258834163511
 GameObject:
   m_ObjectHideFlags: 0
