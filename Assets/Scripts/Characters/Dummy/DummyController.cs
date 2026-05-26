@@ -16,11 +16,13 @@ public class DummyController : MonoBehaviour
     void OnEnable()
     {
         hitReceiver.HitReceived += OnHitReceived;
+        health.HealthDepleted += health.Reset;
     }
 
     void OnDisable()
     {
         hitReceiver.HitReceived -= OnHitReceived;
+        health.HealthDepleted -= health.Reset;
     }
 
     private void OnHitReceived(HitInfo hitInfo)
