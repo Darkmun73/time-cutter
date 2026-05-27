@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -5,6 +6,8 @@ using UnityEngine.UI;
 public class HealthBarController : MonoBehaviour
 {
     private Slider healthBar;
+    [SerializeField] private bool showHPNumbers = false;
+    [SerializeField] private TextMeshProUGUI hpNumbersTextField;
 
     [SerializeField] private Health health;
 
@@ -34,10 +37,14 @@ public class HealthBarController : MonoBehaviour
     void SetMaxHealth(float value)
     {
         healthBar.maxValue = value;
+        if (showHPNumbers)
+            hpNumbersTextField.text = $"{healthBar.value}/{healthBar.maxValue}";
     }
 
     void SetHealth(float value)
     {
         healthBar.value = value;
+        if (showHPNumbers)
+            hpNumbersTextField.text = $"{healthBar.value}/{healthBar.maxValue}";
     }
 }
