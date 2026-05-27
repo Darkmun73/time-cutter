@@ -4,7 +4,7 @@ public class MainMenuController : MonoBehaviour
 {
     public void NewGame()
     {
-        SceneLoader.LoadLevel1();
+        SceneLoader.LoadTutorial();
     }
 
     public void Exit()

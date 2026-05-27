@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public static class CanvasGroupExtensions 
+public static class CanvasGroupExtensions // TODO: убрать?
 {
     public static void SetVisible(this CanvasGroup canvasGroup, bool visible) 
     {

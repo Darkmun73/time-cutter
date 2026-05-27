@@ -1,12 +1,93 @@
+using System.Collections;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.Video;
 
-public class TutorialController : MonoBehaviour
+public class TutorialController : MonoBehaviour // TODO: Переделать на StatePattern?
 {
     [SerializeField] private VideoPlayer videoPlayer;
+    [SerializeField] private InputReader inputReader;
+
+    [SerializeField] private TutorialPage empty;
+    [SerializeField] private TutorialPage page1;
+    [SerializeField] private TutorialPage page2p1;
+    [SerializeField] private TutorialPage page2p2;
+    [SerializeField] private TutorialPage page3;
+
+    [SerializeField] private float tutorialStartTime;
+
+    private TutorialPage currentPage = null;
 
     void Awake()
     {
         videoPlayer.clip = null;
+    }
+
+    void Start()
+    {
+        StartTutorial();
+    }
+
+    void OnEnable()
+    {
+        inputReader.Continuing += TurnPage;
+    }
+
+    void OnDisable()
+    {
+        inputReader.Continuing -= TurnPage;
+    }
+
+    private void OpenPage(TutorialPage page)
+    {
+        page.gameObject.SetActive(true);
+        page.Activate(videoPlayer);
+
+        if (page != empty)
+            inputReader.ToggleTutorial();
+
+        currentPage = page;
+    }
+
+    private void StartTutorial()
+    {
+        StartCoroutine(StartTutorialRoutine());
+    }
+
+    private IEnumerator StartTutorialRoutine()
+    {
+        yield return new WaitForSeconds(tutorialStartTime);
+        OpenPage(page1);
+    }
+
+    private void CloseCurrentPage()
+    {
+        currentPage.gameObject.SetActive(false);
+        currentPage.Deactivate(videoPlayer);
+
+        if (currentPage != empty)
+            inputReader.ToggleTutorial();
+
+        currentPage = null;
+    }
+
+    private void TurnPage()
+    {
+        TutorialPage newPage = null;
+        if (currentPage == page1)
+            newPage = page2p1;
+        else if (currentPage == page2p1)
+            newPage = page2p2;
+        else if (currentPage == page2p2)
+            newPage = empty;
+        else if (currentPage == empty)
+            newPage = page3;
+        
+        CloseCurrentPage();
+        if (newPage != null)
+            OpenPage(newPage);
+        else
+            SceneLoader.LoadLevel1(); // TODO: выглядит захардкожено. Делал через ивенты, но статик не применить
+            
     }
 }

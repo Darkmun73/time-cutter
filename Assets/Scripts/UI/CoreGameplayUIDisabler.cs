@@ -1,7 +1,8 @@
 using UnityEngine;
 
+// TODO: это не disabler, а hider, выходит. Ведь можно все еще нажать на tab и поставить на паузу игру. Вообще надо паузу из UI меню апгрейдов перенести
 [RequireComponent(typeof(CanvasGroup))]
-public class CoreGameplayUIDisabler : MonoBehaviour
+public class CoreGameplayUIDisabler : MonoBehaviour  
 {
     private CanvasGroup canvasGroup;
     [SerializeField] private PlayerLifecycleHandler lifecycleHandler;
@@ -28,12 +29,12 @@ public class CoreGameplayUIDisabler : MonoBehaviour
         pauseMenu.PauseMenuClosed -= EnableUI;
     }
 
-    private void DisableUI()
+    public void DisableUI()
     {
         canvasGroup.SetVisible(false);
     }
 
-    private void EnableUI()
+    public void EnableUI()
     {
         canvasGroup.SetVisible(true);
     }
