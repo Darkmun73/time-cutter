@@ -29,6 +29,7 @@ GameObject:
   - component: {fileID: 7134843513256558554}
   - component: {fileID: 3667866473832884044}
   - component: {fileID: 5478235461384428050}
+  - component: {fileID: 1404449918245005962}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -313,6 +314,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerAnglesCombinationEffects
   data: {fileID: 11400000, guid: d15ff4d54b02d07419511d74af29eaf9, type: 2}
+  uIChannel: {fileID: 11400000, guid: 5bf7189d311ab204cb63352dbf50531e, type: 2}
 --- !u!114 &-3705969888606277762
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -418,3 +420,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HitBloodSplasher
   BloodSplashParticlesPrefab: {fileID: 7650250203061328189, guid: 06cbe59f18323db47862e82a447e8617, type: 3}
+--- !u!114 &1404449918245005962
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4020881174240702802}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7d75d771d3a0fa478b18e3223787a9a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerLifecycleHandler

@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "HealAttackUpgrade", menuName = "Scriptable Objects/Player Upgrades/Heal Attack Upgrade")]
-public class HealAttackUpgrade : Upgrade
+public class HealAttackUpgrade : ComboUpgrade
 {
     public override void Apply(PlayerUpgradeSystem upgradeSystem)
     {

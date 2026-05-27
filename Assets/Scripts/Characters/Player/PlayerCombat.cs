@@ -172,7 +172,7 @@ public class PlayerCombat : MonoBehaviour
         {   
             if (collider.TryGetComponent<HitReceiver>(out var hitReceiver))
             {
-                Debug.Log(angle);
+                //Debug.Log(angle);
                 var objAttackSequence = AddAttackAngleForObject(collider.gameObject, angle);
                 ApplyCombinationEffects(objAttackSequence);
                 float hitDamage = attackData.BaseDamage * objAttackSequence.DamageCoef * damageMultiplier;

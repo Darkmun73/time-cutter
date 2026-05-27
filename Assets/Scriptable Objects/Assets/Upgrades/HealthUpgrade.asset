@@ -12,9 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 88d7a76cde2452448a35f6c830968b0c, type: 3}
   m_Name: HealthUpgrade
   m_EditorClassIdentifier: Assembly-CSharp::HealthUpgrade
-  <Name>k__BackingField: "\u041F\u043E\u0432\u044B\u0448\u0435\u043D\u0438\u0435
-    \u043C\u0430\u043A\u0441\u0438\u043C\u0430\u043B\u044C\u043D\u043E\u0433\u043E
-    \u0445\u043F"
-  <Description>k__BackingField: "\u041F\u043E\u0432\u044B\u0448\u0430\u0435\u0442
-    \u043C\u0430\u043A\u0441\u0438\u043C\u0443\u043C \u0445\u043F \u0432 1.2 \u0440\u0430\u0437\u0430"
+  <Name>k__BackingField: Max HP Increase
+  <Description>k__BackingField: 'Increases max HP: +20%'
   multiplier: 1.2

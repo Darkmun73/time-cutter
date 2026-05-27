@@ -8,14 +8,32 @@ public class UpgradeUI : MonoBehaviour
     
     [SerializeField] private TextMeshProUGUI nameTextField;
     [SerializeField] private TextMeshProUGUI descriptionTextField;
+    [SerializeField] private GameObject comboContainer;
     [SerializeField] private TextMeshProUGUI priceField;
     [SerializeField] private Button applyButton;
+    
+    [SerializeField] private GameObject attackObjectUIPrefab;
 
     public void Initialize(Upgrade upgrade, int price)
     {
         nameTextField.text = upgrade.Name;
         descriptionTextField.text = upgrade.Description;
-        priceField.text = $"Стоимость: {price}"; // TODO: исправить захардкоженную строку
+        priceField.text = $"Price: {price}"; // TODO: исправить захардкоженную строку
+        comboContainer.SetActive(false);
+
+        if (upgrade is ComboUpgrade comboUpgrade)
+        {
+            comboContainer.SetActive(true);
+            uiChannel.RequestComboAngles(comboUpgrade, comboAngles =>
+            {
+                foreach (var angle in comboAngles)
+                {
+                    var attackObjectUI = Instantiate(attackObjectUIPrefab, comboContainer.transform);
+                    attackObjectUI.transform.rotation = Quaternion.Euler(0, 0, -45); // TODO: убрать хардкод (45 градусов, потому что так спрайт будет как горизонтальная линия)
+                    attackObjectUI.transform.Rotate(Vector3.forward, angle);
+                }
+            });
+        }
         
         applyButton.onClick.AddListener(() => HandleUpgradeApplying(upgrade)); // TODO: придумать, где делать RemoveListener
     }
