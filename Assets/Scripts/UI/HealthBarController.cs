@@ -38,13 +38,13 @@ public class HealthBarController : MonoBehaviour
     {
         healthBar.maxValue = value;
         if (showHPNumbers)
-            hpNumbersTextField.text = $"{healthBar.value}/{healthBar.maxValue}";
+            hpNumbersTextField.text = $"{healthBar.value:F0}/{healthBar.maxValue:F0}";
     }
 
     void SetHealth(float value)
     {
         healthBar.value = value;
         if (showHPNumbers)
-            hpNumbersTextField.text = $"{healthBar.value}/{healthBar.maxValue}";
+            hpNumbersTextField.text = $"{healthBar.value:F0}/{healthBar.maxValue:F0}";
     }
 }

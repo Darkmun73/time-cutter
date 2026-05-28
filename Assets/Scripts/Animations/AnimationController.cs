@@ -18,10 +18,17 @@ public abstract class AnimationController : MonoBehaviour
         animator.Play(state.GetHash(), 0, 0f);
     }
 
-    protected void Unlock()
+    public void Unlock()
     {
         currentLockedState = AnimationState.NoState;
         Play(currentState);
+    }
+
+    protected void ResetState(AnimationState state)
+    {
+        currentState = state;
+        currentLockedState = AnimationState.NoState;
+        Play(state);
     }
 
     protected bool IsCurrentStateLocked()

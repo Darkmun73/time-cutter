@@ -23,8 +23,8 @@ public class PlayerController : MonoBehaviour
     public event UnityAction RunningStarted;
     public event UnityAction RunningStopped;
 
+    private Vector3 lastSavePosition;
     private bool shouldRun = false;
-
     private bool isRunning = false;
     private bool IsRunning
     {
@@ -51,6 +51,8 @@ public class PlayerController : MonoBehaviour
         directions = GetComponent<DirectionsController>();
         knockbackController = GetComponent<KnockbackController>();
         playerCombat = GetComponent<PlayerCombat>();
+
+        lastSavePosition = transform.position;
     }
 
     void OnEnable()
@@ -63,6 +65,7 @@ public class PlayerController : MonoBehaviour
         movement.GroundTouched += playerCombat.AllowAttack;
         playerCombat.AttackStarted += ProhibitJumpWhileAttacking;
         health.HealthDepleted += lifecycleHandler.Die;
+        lifecycleHandler.Revived += OnRevived;
     }
 
     void OnDisable()
@@ -75,6 +78,7 @@ public class PlayerController : MonoBehaviour
         movement.GroundTouched -= playerCombat.AllowAttack;
         playerCombat.AttackStarted -= ProhibitJumpWhileAttacking;
         health.HealthDepleted -= lifecycleHandler.Die;
+        lifecycleHandler.Revived -= OnRevived;
     }
 
     void Update()
@@ -121,6 +125,11 @@ public class PlayerController : MonoBehaviour
     {
         health.TakeDamage(hitInfo.Damage);
         knockbackController.Knockback(hitInfo.Source);
+    }
+
+    private void OnRevived()
+    {
+        transform.position = lastSavePosition;
     }
 
     private void ProhibitAttackWhileKnockedback()

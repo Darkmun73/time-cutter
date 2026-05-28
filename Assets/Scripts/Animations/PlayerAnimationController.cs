@@ -32,8 +32,6 @@ public class PlayerAnimationController : AnimationController
         
         currentState = PlayerAnimationState.Idle;
 
-        animator.SetFloat("HitSpeedMultiplier", 1/attackData.AttackDuration);
-        animator.SetFloat("HitReactionSpeedMultiplier", 1/knockbackData.Duration);
     }
 
     void OnEnable()
@@ -43,6 +41,9 @@ public class PlayerAnimationController : AnimationController
         playerCombat.AttackStarted += HandleAttackStarted;
         movement.Jumped += HandleJump;
         knockbackController.KnockedBack += HandleHitReaction;
+        
+        animator.SetFloat("HitSpeedMultiplier", 1/attackData.AttackDuration);
+        animator.SetFloat("HitReactionSpeedMultiplier", 1/knockbackData.Duration);
     }
 
     void OnDisable()

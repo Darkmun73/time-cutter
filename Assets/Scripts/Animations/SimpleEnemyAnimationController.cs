@@ -18,8 +18,6 @@ public class SimpleEnemyAnimationController : AnimationController
         
         currentState = EnemyAnimationState.Idle;
 
-        animator.SetFloat("HitReactionSpeedMultiplier", 1/knockbackData.Duration);
-
         Debug.Assert(enemyController != null, "EnemyAnimationController: Parent object must have EnemyController!");
         Debug.Assert(enemyCombat != null, "EnemyAnimationController: Parent object must have EnemyCombat!");
     }
@@ -30,6 +28,9 @@ public class SimpleEnemyAnimationController : AnimationController
         enemyController.ChasingStopped += HandleStopRunning;
         enemyCombat.Hit += HandleHitPerformed;
         knockbackController.KnockedBack += HandleHitReaction;
+        
+        ResetState(EnemyAnimationState.Idle);
+        animator.SetFloat("HitReactionSpeedMultiplier", 1/knockbackData.Duration);
     }
 
     void OnDisable()

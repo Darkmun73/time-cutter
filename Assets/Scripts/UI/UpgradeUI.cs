@@ -35,6 +35,7 @@ public class UpgradeUI : MonoBehaviour
             });
         }
         
+        //TODO: UI должен отображать логику, а не делать её самим, поэтому нужно писать applied в зависимости от того, применен ли upgrade у игрока, а не просто по клику на кнопку
         applyButton.onClick.AddListener(() => HandleUpgradeApplying(upgrade)); // TODO: придумать, где делать RemoveListener
     }
 

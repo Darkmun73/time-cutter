@@ -7,7 +7,8 @@ public class DebugTools : MonoBehaviour
     public event UnityAction DebugToolsEnabled;
     public event UnityAction DebugToolsDisabled;
 
-    [SerializeField] private GameObject simpleEnemyPrefab;
+    [SerializeField] private GameObject simpleEnemy1Prefab;
+    [SerializeField] private GameObject simpleEnemy2Prefab;
     [SerializeField] private GameObject playerPrefab;
 
     [Header("Keys")]
@@ -114,7 +115,7 @@ public class DebugTools : MonoBehaviour
 
     private void SpawnSimpleEnemyAtCursor()
     {
-        if (simpleEnemyPrefab == null)
+        if (simpleEnemy1Prefab == null)
         {
             Debug.LogWarning("SimpleEnemy prefab is not assigned in DebugTools.");
             return;
@@ -136,9 +137,10 @@ public class DebugTools : MonoBehaviour
         Vector2 cursorScreenPosition = Pointer.current.position.ReadValue();
         Vector3 cursorWorldPosition = currentCamera.ScreenToWorldPoint(
             new Vector3(cursorScreenPosition.x, cursorScreenPosition.y, currentCamera.nearClipPlane));
-        cursorWorldPosition.z = simpleEnemyPrefab.transform.position.z;
+        cursorWorldPosition.z = simpleEnemy1Prefab.transform.position.z;
 
-        Instantiate(simpleEnemyPrefab, cursorWorldPosition, Quaternion.identity);
+        var enemyPrefab = Random.value >= 0.5f ? simpleEnemy1Prefab : simpleEnemy2Prefab;
+        Instantiate(enemyPrefab, cursorWorldPosition, Quaternion.identity);
     }
 
     public void IncreaseAmountOfPlayerCurrency(int value)

@@ -8,6 +8,7 @@ using UnityEngine.Events;
 [RequireComponent(typeof(EnemyCombat))]
 [RequireComponent(typeof(Navigator))]
 [RequireComponent(typeof(HitReceiver))]
+[RequireComponent(typeof(Enemy))]
 public class EnemyController : StateMachine
 {
     public readonly struct TargetInfo // TODO: GameObject в конструктор
@@ -49,7 +50,6 @@ public class EnemyController : StateMachine
 
     [SerializeField] private float detectionRadius = 5f;
     private float attackRadius;
-
     private EnemyIdleState idleState;
     private EnemyChasingState chasingState;
     private EnemyAttackState attackState;
@@ -67,11 +67,10 @@ public class EnemyController : StateMachine
         knockbackController = GetComponent<KnockbackController>();
         hitReceiver = GetComponent<HitReceiver>();
         shield = GetComponent<Shield>();
-        
-        var player = FindFirstObjectByType<Player>();
-        Target = new TargetInfo(player.gameObject);
 
         attackRadius = Combat.GetHitRadius() + Combat.DistanceToAttackPoint();
+        var player = FindFirstObjectByType<Player>();
+        Target = new TargetInfo(player.gameObject);
 
         idleState = new EnemyIdleState(this);
         chasingState = new EnemyChasingState(this);
@@ -146,6 +145,11 @@ public class EnemyController : StateMachine
         var currPosition = attackPoint.localPosition;
         currPosition.x = -currPosition.x;
         attackPoint.localPosition = currPosition;
+    }
+
+    public void Reset()
+    {
+        CurrentState = idleState;
     }
 
     void OnDrawGizmosSelected()

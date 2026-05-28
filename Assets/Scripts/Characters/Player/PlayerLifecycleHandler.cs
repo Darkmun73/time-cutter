@@ -1,9 +1,10 @@
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 
 [RequireComponent(typeof(Health))]
 [RequireComponent(typeof(PlayerController))]
-public class PlayerLifecycleHandler : MonoBehaviour
+public class PlayerLifecycleHandler : MonoBehaviour // TODO: переделать в более generic LifycycleHandler
 {
     public bool IsDead {get; private set;} = false;
 
@@ -23,29 +24,16 @@ public class PlayerLifecycleHandler : MonoBehaviour
     {
         IsDead = true;
         playerController.Reset();
-        SetAllComponentsEnabled(false);
+        gameObject.SetAllComponentsEnabled(false, this);
         Died?.Invoke();
     }
 
     public void Revive()
     {
         IsDead = false;
-        SetAllComponentsEnabled(true);
+        gameObject.SetAllComponentsEnabled(true);
         health.Reset();
+        //SceneLoader.LoadLevel1();
         Revived?.Invoke();
-    }
-
-    private void SetAllComponentsEnabled(bool enable)
-    {
-        var components = GetComponents<Component>();
-        foreach (var component in components)
-        {
-            if (component is Behaviour behaviour)
-                behaviour.enabled = enable;
-            else if (component is Renderer renderer)
-                renderer.enabled = enable;
-            else if (component is Rigidbody2D rigidbody2D)
-                rigidbody2D.simulated = enable;
-        }
     }
 }
