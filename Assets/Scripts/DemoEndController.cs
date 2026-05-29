@@ -3,6 +3,7 @@ using UnityEngine;
 public class DemoEndController : MonoBehaviour
 {
     [SerializeField] private GameObject endText;
+    [SerializeField] private GameObject nextWayText;
     [SerializeField] private GameObject coreCanvases;
 
     void Awake()
@@ -16,5 +17,6 @@ public class DemoEndController : MonoBehaviour
         var player = FindFirstObjectByType<Player>();
         player.gameObject.SetActive(false);
         coreCanvases.SetActive(false);
+        nextWayText.SetActive(false);
     }
 }

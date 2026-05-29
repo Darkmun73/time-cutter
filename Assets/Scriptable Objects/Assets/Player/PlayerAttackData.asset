@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf670695ee7990147aefa9553a08316d, type: 3}
   m_Name: PlayerAttackData
   m_EditorClassIdentifier: Assembly-CSharp::PlayerAttackData
-  <BaseDamage>k__BackingField: 10
+  <BaseDamage>k__BackingField: 1000
   <ShieldBreakAngles>k__BackingField:
   - -45
   - -90

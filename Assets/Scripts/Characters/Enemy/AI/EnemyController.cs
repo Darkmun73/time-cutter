@@ -49,7 +49,11 @@ public class EnemyController : StateMachine
     }
 
     [field: SerializeField] public float DetectionRadius {get; set;} = 5f;
+    [field: SerializeField] public bool DestroyOnPlayerRevive {get; set;} = false;
     private float attackRadius;
+    private PlayerLifecycleHandler playerLifecycleHandler;
+
+
     private EnemyIdleState idleState;
     private EnemyChasingState chasingState;
     private EnemyAttackState attackState;
@@ -70,6 +74,7 @@ public class EnemyController : StateMachine
 
         attackRadius = Combat.GetHitRadius() + Combat.DistanceToAttackPoint();
         var player = FindFirstObjectByType<Player>();
+        playerLifecycleHandler = player.GetComponent<PlayerLifecycleHandler>();
         Target = new TargetInfo(player.gameObject);
 
         idleState = new EnemyIdleState(this);
@@ -85,6 +90,7 @@ public class EnemyController : StateMachine
         chasingState.ChasingStarted += OnChasingStarted;
         chasingState.ChasingStopped += OnChasingStopped;
         hitReceiver.HitReceived += OnHitReceived;
+        playerLifecycleHandler.Revived += OnPlayerRevived;
     }
 
     void OnDisable()
@@ -93,6 +99,7 @@ public class EnemyController : StateMachine
         chasingState.ChasingStarted -= OnChasingStarted;
         chasingState.ChasingStopped -= OnChasingStopped;
         hitReceiver.HitReceived -= OnHitReceived;
+        playerLifecycleHandler.Revived -= OnPlayerRevived;
     }
 
     protected override void Update()
@@ -123,6 +130,12 @@ public class EnemyController : StateMachine
         
         health.TakeDamage(hitInfo.Damage);
         knockbackController.Knockback(hitInfo.Source);
+    }
+
+    private void OnPlayerRevived()
+    {
+        if (DestroyOnPlayerRevive)
+            Destroy(gameObject);
     }
 
     private void HandleStateTransition()

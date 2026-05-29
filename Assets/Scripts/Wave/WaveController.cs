@@ -15,7 +15,8 @@ public class WaveController : MonoBehaviour
         public float spawnTime;
     }
 
-    [SerializeField] private GameObject textObject;
+    [SerializeField] private GameObject getReadyTextObject;
+    [SerializeField] private GameObject nextWayTextObject;
     [SerializeField] private GameObject simpleEnemy1Prefab;
     [SerializeField] private GameObject simpleEnemy2Prefab;
     [SerializeField] private CinemachineCamera cinemachineCamera;
@@ -26,6 +27,7 @@ public class WaveController : MonoBehaviour
     [SerializeField] private List<GameObject> invisibleWalls = new();
     [SerializeField] private List<EnemySpawnInfo> waveEnemySpawnInfos = new();
 
+    private PlayerLifecycleHandler playerLifecycleHandler;
     private Transform cameraFollow;
     private bool shouldEndWave = false;
 
@@ -34,14 +36,30 @@ public class WaveController : MonoBehaviour
     void Awake()
     {
         SetWallsActive(false);
+        playerLifecycleHandler = FindAnyObjectByType<PlayerLifecycleHandler>();
+        nextWayTextObject.SetActive(false);
+    }
+
+    void OnEnable()
+    {
+        playerLifecycleHandler.Died += OnPlayerDied;
+    }
+
+    void OnDisable()
+    {
+        playerLifecycleHandler.Died -= OnPlayerDied;
     }
 
     public void Initialize()
     {
-        cameraFollow = cinemachineCamera.Follow;
-        cinemachineCamera.Follow = null;
+        SetCameraStatic();
         StartCoroutine(StartPreparationRoutine());
         SetWallsActive(true);
+    }
+
+    private void OnPlayerDied()
+    {
+        EndWave();
     }
 
     private void SetWallsActive(bool active)
@@ -52,10 +70,10 @@ public class WaveController : MonoBehaviour
 
     private IEnumerator StartPreparationRoutine()
     {
-        textObject.SetActive(true);
+        getReadyTextObject.SetActive(true);
         yield return new WaitForSeconds(preparationTime);
         StartWave();
-        textObject.SetActive(false);
+        getReadyTextObject.SetActive(false);
     }
 
     private void StartWave()
@@ -73,8 +91,10 @@ public class WaveController : MonoBehaviour
 
     private void EndWave()
     {
-        cinemachineCamera.Follow = cameraFollow;
+        SetCameraFollow();
         SetWallsActive(false);
+        StopAllCoroutines();
+        nextWayTextObject.SetActive(true);
         Debug.Log("wave ended");
     }
 
@@ -95,6 +115,7 @@ public class WaveController : MonoBehaviour
         var enemyController = enemyObject.GetComponent<EnemyController>();
         var enemy = enemyObject.GetComponent<Enemy>();
         enemyController.DetectionRadius = 20f;
+        enemyController.DestroyOnPlayerRevive = true;
         enemy.DestroyOnDeath = true;
         livingEnemiesCount += 1;
 
@@ -113,5 +134,17 @@ public class WaveController : MonoBehaviour
         livingEnemiesCount -= 1;
         if (livingEnemiesCount == 0 && shouldEndWave)
             EndWave();
+    }
+
+    private void SetCameraFollow()
+    {
+        if (cameraFollow != null)
+            cinemachineCamera.Follow = cameraFollow;
+    }
+
+    private void SetCameraStatic()
+    {
+        cameraFollow = cinemachineCamera.Follow;
+        cinemachineCamera.Follow = null;
     }
 }
