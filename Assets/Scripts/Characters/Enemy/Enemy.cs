@@ -15,6 +15,7 @@ public class Enemy : MonoBehaviour, IMortal
 
     [SerializeField] private int currencyReward;
     private Vector3 lastSavePosition;
+    public bool DestroyOnDeath {get; set;} = false;
 
     public bool IsDead {get; private set;} = false;
     
@@ -52,12 +53,17 @@ public class Enemy : MonoBehaviour, IMortal
             Debug.Assert(playerCurrency != null, "Enemy: Player must have currency!");
             playerCurrency.Amount += currencyReward;
         }
+
         IsDead = true;
         enemyController.Reset();
         childObjectsActivator.SetActive(false);
         gameObject.SetAllComponentsEnabled(false, this);
+
         Died?.Invoke();
-        //Destroy(gameObject);
+        if (DestroyOnDeath)
+        {
+            Destroy(gameObject);
+        }
     }
 
     public void Revive()

@@ -1,5 +1,6 @@
 public class EnemyAttackState : IState
 {
+    private float initialCooldownTime;
     private readonly EnemyController enemyController;
     public EnemyAttackState(EnemyController controller)
     {
@@ -9,7 +10,7 @@ public class EnemyAttackState : IState
     public void Enter()
     {
         //Debug.Log("in attack state");
-        enemyController.Combat.StartCooldown();
+        enemyController.Combat.StartInitialCooldown();
     }
 
     public void Exit() {}

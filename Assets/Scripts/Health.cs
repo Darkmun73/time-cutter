@@ -10,7 +10,6 @@ public class Health : MonoBehaviour
 
     [SerializeField] private HealthData data;
     
-    private float currentHealth;
 
     private float maxHealthMultiplier = 1f;
     private float MaxHealthMultiplier
@@ -25,6 +24,7 @@ public class Health : MonoBehaviour
 
     public float MaxHealth => data.MaxHealth * MaxHealthMultiplier;
 
+    private float currentHealth;
     public float CurrentHealth
     {
         get { return currentHealth; }
@@ -38,7 +38,7 @@ public class Health : MonoBehaviour
                 currentHealth = value;
             HealthChanged?.Invoke(currentHealth);
 
-            if (currentHealth == 0)
+            if (Mathf.Abs(currentHealth) < Mathf.Epsilon)
                 HealthDepleted?.Invoke();
         }
     }

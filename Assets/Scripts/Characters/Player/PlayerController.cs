@@ -130,6 +130,7 @@ public class PlayerController : MonoBehaviour
     private void OnRevived()
     {
         transform.position = lastSavePosition;
+        playerCombat.ResetObjectsAttackSequence();
     }
 
     private void ProhibitAttackWhileKnockedback()

@@ -15,5 +15,5 @@ MonoBehaviour:
   <HealHitAnglesCombination>k__BackingField:
   - 90
   - 0
-  - 135
-  <HealValue>k__BackingField: 10
+  - -90
+  <HealValue>k__BackingField: 15

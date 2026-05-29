@@ -1,0 +1,13 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!221 &22100000
+AnimatorOverrideController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: TextBlink
+  m_Controller: {fileID: 9100000, guid: 01bc1f9befdd34b48aa233b32a9598d4, type: 2}
+  m_Clips:
+  - m_OriginalClip: {fileID: 7400000, guid: e5cf9aae784c5d144b2e8d86fe902021, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 686273d054f84c54c9099ae5ddf68989, type: 2}

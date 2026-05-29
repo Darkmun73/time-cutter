@@ -96,6 +96,7 @@ public class Movement : MonoBehaviour
     public void MoveHorizontal(Direction direction)
     {
         rigidBody.linearVelocityX = direction.ToVector().x * data.MovementSpeed;
+        //rigidBody.Slide(new(direction.ToVector().x * data.MovementSpeed, 0f), Time.fixedDeltaTime, data.SlideMovement);
     }
 
     public void AdjustHorizontalSpeed(Direction direction, float delta)
@@ -106,6 +107,7 @@ public class Movement : MonoBehaviour
     public void StopHorizontalMovement()
     {
         rigidBody.linearVelocityX = 0;
+        //rigidBody.Slide(new(0f, 0f), Time.fixedDeltaTime, data.SlideMovement);
     }
 
     public void ClampFallSpeed()

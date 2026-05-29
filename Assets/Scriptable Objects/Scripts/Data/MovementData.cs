@@ -9,4 +9,5 @@ public class MovementData : ScriptableObject
     [field: SerializeField] public float JumpTime {get; private set;} = 1f;
     
     [field: SerializeField] public ContactFilter2D Ground {get; private set;} // TODO: перенести отсюда куда-нибудь в другое место
+    //[field: SerializeField] public Rigidbody2D.SlideMovement SlideMovement {get; private set;}
 }

@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 178856964335314398}
   - component: {fileID: 179205501568407902}
   - component: {fileID: 4383979830047371709}
+  - component: {fileID: 7629858260054181189}
   m_Layer: 7
   m_Name: SimpleEnemy_1
   m_TagString: Enemy
@@ -175,7 +176,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyStateMachine
   attackPoint: {fileID: 5102578355674726587}
-  detectionRadius: 3.84
+  <DetectionRadius>k__BackingField: 3.84
 --- !u!114 &6034896089712310973
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -269,6 +270,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HitBloodSplasher
   BloodSplashParticlesPrefab: {fileID: 7650250203061328189, guid: 06cbe59f18323db47862e82a447e8617, type: 3}
+--- !u!114 &7629858260054181189
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3027296071230477865}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b32e3190d948d7342bc04a54e6fe58f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ChildObjectsActivator
 --- !u!1 &4499398360642741282
 GameObject:
   m_ObjectHideFlags: 0

@@ -29,8 +29,6 @@ public class InputReader : ScriptableObject, GameInput.IPlayerActions, GameInput
         gameInput.PauseMenu.Enable();
         gameInput.UpgradeMenu.Enable();
         gameInput.Tutorial.Enable();
-
-        DebugLogMapsEnabled();
     }
 
     private void OnDisable()

@@ -48,7 +48,7 @@ public class EnemyController : StateMachine
         }
     }
 
-    [SerializeField] private float detectionRadius = 5f;
+    [field: SerializeField] public float DetectionRadius {get; set;} = 5f;
     private float attackRadius;
     private EnemyIdleState idleState;
     private EnemyChasingState chasingState;
@@ -133,9 +133,9 @@ public class EnemyController : StateMachine
         
         if (CurrentState != attackState && distanceToNearestTargetEdge <= attackRadius * 0.75f)
             CurrentState = attackState;
-        else if (CurrentState != chasingState && distanceToNearestTargetEdge > attackRadius && distanceToTargetCenter <= detectionRadius)
+        else if (CurrentState != chasingState && distanceToNearestTargetEdge > attackRadius && distanceToTargetCenter <= DetectionRadius)
             CurrentState = chasingState;
-        else if (CurrentState != idleState && distanceToTargetCenter > detectionRadius)
+        else if (CurrentState != idleState && distanceToTargetCenter > DetectionRadius)
             CurrentState = idleState;
     }
 
@@ -156,7 +156,7 @@ public class EnemyController : StateMachine
     {
         var previousColor = Gizmos.color;
         Gizmos.color = Color.green;
-        Gizmos.DrawWireSphere(transform.position, detectionRadius);
+        Gizmos.DrawWireSphere(transform.position, DetectionRadius);
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, attackRadius);
         Gizmos.color = previousColor;

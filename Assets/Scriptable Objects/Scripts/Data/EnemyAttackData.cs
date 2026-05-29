@@ -5,4 +5,5 @@ public class EnemyAttackData : AttackData
 {
     [field: SerializeField] public float HitRadius {get; private set;} = 2f;
     [field: SerializeField] public float Cooldown {get; private set;} = 0.5f;
+    [field: SerializeField] public float InitialCooldown {get; private set;} = 0.5f;
 }

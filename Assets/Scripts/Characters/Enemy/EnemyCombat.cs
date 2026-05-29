@@ -32,16 +32,26 @@ public class EnemyCombat : MonoBehaviour
             }
         }
         StartCooldown();
-        
+    }
+
+    public void StartInitialCooldown()
+    {
+        StopAllCoroutines();
+        ProhibitAttack(attackData.InitialCooldown);
     }
 
     public void StartCooldown()
     {
         StopAllCoroutines();
-        StartCoroutine(ProhibitAttack(attackData.Cooldown));
+        ProhibitAttack(attackData.Cooldown);
     }
 
-    private IEnumerator ProhibitAttack(float seconds)
+    private void ProhibitAttack(float seconds)
+    {
+        StartCoroutine(ProhibitAttackRoutine(seconds));
+    }
+
+    private IEnumerator ProhibitAttackRoutine(float seconds)
     {
         CanAttack = false;
         yield return new WaitForSeconds(seconds);

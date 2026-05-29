@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: HealAttackUpgrade
   m_EditorClassIdentifier: Assembly-CSharp::HealAttackUpgrade
   <Name>k__BackingField: Heal Combo
-  <Description>k__BackingField: Unlock a combo for healing 10 HP
+  <Description>k__BackingField: Unlock a combo for healing 15 HP
