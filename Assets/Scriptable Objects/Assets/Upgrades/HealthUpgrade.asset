@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: HealthUpgrade
   m_EditorClassIdentifier: Assembly-CSharp::HealthUpgrade
   <Name>k__BackingField: Max HP Increase
-  <Description>k__BackingField: 'Increases max HP: +20%'
+  <Description>k__BackingField: 'Increases max HP: +20% and also restores HP '
   multiplier: 1.2

@@ -12,7 +12,8 @@ public class TutorialController : MonoBehaviour // TODO: Переделать н
     [SerializeField] private TutorialPage page1;
     [SerializeField] private TutorialPage page2p1;
     [SerializeField] private TutorialPage page2p2;
-    [SerializeField] private TutorialPage page3;
+    [SerializeField] private TutorialPage page3p1;
+    [SerializeField] private TutorialPage page3p2;
 
     [SerializeField] private float tutorialStartTime;
 
@@ -81,7 +82,9 @@ public class TutorialController : MonoBehaviour // TODO: Переделать н
         else if (currentPage == page2p2)
             newPage = empty;
         else if (currentPage == empty)
-            newPage = page3;
+            newPage = page3p1;
+        else if (currentPage == page3p1)
+            newPage = page3p2;
         
         CloseCurrentPage();
         if (newPage != null)
