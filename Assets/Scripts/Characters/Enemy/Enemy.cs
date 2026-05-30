@@ -58,6 +58,7 @@ public class Enemy : MonoBehaviour, IMortal
         enemyController.Reset();
         childObjectsActivator.SetActive(false);
         gameObject.SetAllComponentsEnabled(false, this);
+        EnemyDieCounter.count++;
 
         Died?.Invoke();
         if (DestroyOnDeath)

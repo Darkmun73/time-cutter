@@ -131,6 +131,7 @@ public class PlayerController : MonoBehaviour
     {
         transform.position = lastSavePosition;
         playerCombat.ResetObjectsAttackSequence();
+        EnemyDieCounter.count = 0;
     }
 
     private void ProhibitAttackWhileKnockedback()

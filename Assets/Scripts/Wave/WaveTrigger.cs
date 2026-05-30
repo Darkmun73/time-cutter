@@ -9,6 +9,6 @@ public class WaveTrigger : MonoBehaviour
         if (!collision.CompareTag("Player")) return;
         
         waveController.Initialize();
-        Destroy(gameObject);
+        //Destroy(gameObject);
     }
 }

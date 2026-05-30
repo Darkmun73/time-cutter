@@ -20,22 +20,27 @@ public class WaveController : MonoBehaviour
     [SerializeField] private GameObject simpleEnemy1Prefab;
     [SerializeField] private GameObject simpleEnemy2Prefab;
     [SerializeField] private CinemachineCamera cinemachineCamera;
+    [SerializeField] private GameObject trigger;
 
     [SerializeField] private float preparationTime = 3f;
     [SerializeField] private Transform leftSpawnPosition;
     [SerializeField] private Transform rightSpawnPosition;
     [SerializeField] private List<GameObject> invisibleWalls = new();
+    [SerializeField] private List<WaveWallsCollideController> invisibleWallsCollideControllers = new();
     [SerializeField] private List<EnemySpawnInfo> waveEnemySpawnInfos = new();
 
     private PlayerLifecycleHandler playerLifecycleHandler;
     private Transform cameraFollow;
     private bool shouldEndWave = false;
+    public bool IsWaveGoing {get; private set;} = false;
 
     private int livingEnemiesCount = 0;
 
     void Awake()
     {
-        SetWallsActive(false);
+        foreach (var wall in invisibleWalls)
+            invisibleWallsCollideControllers.Add(wall.GetComponent<WaveWallsCollideController>());
+        SetWallsActive(true);
         playerLifecycleHandler = FindAnyObjectByType<PlayerLifecycleHandler>();
         nextWayTextObject.SetActive(false);
     }
@@ -55,11 +60,41 @@ public class WaveController : MonoBehaviour
         SetCameraStatic();
         StartCoroutine(StartPreparationRoutine());
         SetWallsActive(true);
+        //SetWallsCollideControllerEnable(false);
+        trigger.SetActive(false);
+        IsWaveGoing = true;
+    }
+
+    void Update()
+    {
+        if (EnemyDieCounter.count == 6 && IsWallsActive())
+        {
+            SetWallsActive(false);
+            EnemyDieCounter.count = 0;
+        }
     }
 
     private void OnPlayerDied()
     {
-        EndWave();
+        EndWave(true);
+        //SetWallsCollideControllerEnable(true);
+    }
+
+    // private void SetWallsCollideControllerEnable(bool enable)
+    // {
+    //     foreach (var controller in invisibleWallsCollideControllers)
+    //     {
+    //         Debug.Log(controller);
+    //         controller.enabled = enable;
+    //     }
+    // }
+
+    private bool IsWallsActive()
+    {
+        bool active = true;
+        foreach (var wall in invisibleWalls)
+            active &= wall.activeInHierarchy;
+        return active;
     }
 
     private void SetWallsActive(bool active)
@@ -89,12 +124,19 @@ public class WaveController : MonoBehaviour
         }
     }
 
-    private void EndWave()
+    private void EndWave(bool loosing)
     {
         SetCameraFollow();
         SetWallsActive(false);
         StopAllCoroutines();
-        nextWayTextObject.SetActive(true);
+        IsWaveGoing = false;
+        if (loosing)
+        {
+            SetWallsActive(false);
+            trigger.SetActive(true);
+        }
+        else
+            nextWayTextObject.SetActive(true);
         Debug.Log("wave ended");
     }
 
@@ -133,7 +175,7 @@ public class WaveController : MonoBehaviour
     {
         livingEnemiesCount -= 1;
         if (livingEnemiesCount == 0 && shouldEndWave)
-            EndWave();
+            EndWave(false);
     }
 
     private void SetCameraFollow()

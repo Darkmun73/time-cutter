@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class PauseMenuUI : MonoBehaviour
 {
     [SerializeField] private Button continueButton;
-    [SerializeField] private Button settingsButton;
+    //[SerializeField] private Button settingsButton;
     [SerializeField] private Button mainMenuButton;
 
     [SerializeField] private InputReader inputReader;

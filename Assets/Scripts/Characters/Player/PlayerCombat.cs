@@ -32,6 +32,7 @@ public class PlayerCombat : MonoBehaviour
     private Vector2 attackVectorEndCoords = Vector2.zero;
     private bool canAttack = true;
     private float damageMultiplier = 1f;
+    private Coroutine prohibitAttackRoutine = null;
 
     public bool IsAttacking {get; private set;} = false;
 
@@ -153,7 +154,8 @@ public class PlayerCombat : MonoBehaviour
 
     public void ProhibitAttack(float seconds)
     {
-        StartCoroutine(ProhibitAttackRoutine(seconds));
+        if (prohibitAttackRoutine == null)
+            StartCoroutine(ProhibitAttackRoutine(seconds));
     }
 
     private IEnumerator ProhibitAttackRoutine(float seconds)
@@ -161,6 +163,7 @@ public class PlayerCombat : MonoBehaviour
         ProhibitAttack();
         yield return new WaitForSeconds(seconds);
         AllowAttack();
+        prohibitAttackRoutine = null;
     }
 
     private void ApplyHit(GameObject attackObject, float angle)

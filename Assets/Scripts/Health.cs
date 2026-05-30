@@ -38,7 +38,7 @@ public class Health : MonoBehaviour
                 currentHealth = value;
             HealthChanged?.Invoke(currentHealth);
 
-            if (Mathf.Abs(currentHealth) < Mathf.Epsilon)
+            if (Mathf.Approximately(currentHealth, 0f))
                 HealthDepleted?.Invoke();
         }
     }
