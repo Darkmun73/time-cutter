@@ -1,4 +1,5 @@
 using System;
+using GameAnalyticsSDK;
 using UnityEngine;
 
 [RequireComponent(typeof(PlayerUpgradeSystem))]
@@ -48,6 +49,7 @@ public class PlayerUpgradesShop : MonoBehaviour
         {
             upgradeSystem.AddUpgrade(upgrade);
             currency.Amount -= (int)cost;
+            GameAnalytics.NewDesignEvent($"upgrade:{upgrade.GetType().Name}");
             return true;
         }
         return false;

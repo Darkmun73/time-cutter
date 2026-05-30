@@ -1,4 +1,5 @@
 using System.Collections;
+using GameAnalyticsSDK;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Video;
@@ -53,6 +54,7 @@ public class TutorialController : MonoBehaviour // TODO: Переделать н
     private void StartTutorial()
     {
         StartCoroutine(StartTutorialRoutine());
+        GameAnalytics.NewProgressionEvent(GAProgressionStatus.Start, "Tutorial");
     }
 
     private IEnumerator StartTutorialRoutine()
@@ -90,7 +92,10 @@ public class TutorialController : MonoBehaviour // TODO: Переделать н
         if (newPage != null)
             OpenPage(newPage);
         else
+        {
+            GameAnalytics.NewProgressionEvent(GAProgressionStatus.Complete, "Tutorial");
             SceneLoader.LoadLevel1(); // TODO: выглядит захардкожено. Делал через ивенты, но статик не применить
+        }
             
     }
 }

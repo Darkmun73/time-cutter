@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using GameAnalyticsSDK;
 using TMPro;
 using Unity.Cinemachine;
 using UnityEngine;
@@ -63,6 +64,7 @@ public class WaveController : MonoBehaviour
         //SetWallsCollideControllerEnable(false);
         trigger.SetActive(false);
         IsWaveGoing = true;
+        GameAnalytics.NewProgressionEvent(GAProgressionStatus.Start, "Wave");
     }
 
     void Update()
@@ -134,9 +136,13 @@ public class WaveController : MonoBehaviour
         {
             SetWallsActive(false);
             trigger.SetActive(true);
+            GameAnalytics.NewProgressionEvent(GAProgressionStatus.Fail, "Wave");
         }
         else
+        {
             nextWayTextObject.SetActive(true);
+            GameAnalytics.NewProgressionEvent(GAProgressionStatus.Complete, "Wave");
+        }
         Debug.Log("wave ended");
     }
 
