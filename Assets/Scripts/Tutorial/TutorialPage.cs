@@ -7,20 +7,26 @@ public class TutorialPage : MonoBehaviour
 {
     private ChildObjectsActivator childObjectsActivator;
 
-    [SerializeField] private VideoClip videoClip;
+    //[SerializeField] private VideoClip videoClip;
+    [SerializeField] private string videoClipName = null;
 
     public UnityEvent Activated;
     public UnityEvent Deactivated;
 
     void Awake()
     {
-        childObjectsActivator = GetComponent<ChildObjectsActivator>();    
+        childObjectsActivator = GetComponent<ChildObjectsActivator>();
+        
     }
 
     public void Activate(VideoPlayer videoPlayer)
     {
-        if (videoClip != null)
-            videoPlayer.clip = videoClip;
+        if (videoClipName != null)
+        {
+            string videoPath = System.IO.Path.Combine(Application.streamingAssetsPath, videoClipName);
+            videoPlayer.url = videoPath;
+            //videoPlayer.clip = videoClip;
+        }
         childObjectsActivator.SetActive(true);
         Activated?.Invoke();
     }

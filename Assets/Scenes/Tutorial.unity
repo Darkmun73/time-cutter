@@ -813,6 +813,78 @@ MonoBehaviour:
   - {x: 0.5, y: -0.5, z: 0}
   - {x: 0.5, y: 0.5, z: 0}
   - {x: -0.5, y: 0.5, z: 0}
+--- !u!1 &317320549
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 317320550}
+  - component: {fileID: 317320552}
+  - component: {fileID: 317320551}
+  m_Layer: 5
+  m_Name: VideoFrameTest
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!224 &317320550
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 317320549}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 827720250}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -524, y: 24}
+  m_SizeDelta: {x: 700, y: 767}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &317320551
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 317320549}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1344c3c82d62a2a41a3576d8abb8e3ea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.RawImage
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Texture: {fileID: 8400000, guid: 9d9db79b5abe8bb4a9a2aa55eb2b02ea, type: 2}
+  m_UVRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1
+    height: 1
+--- !u!222 &317320552
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 317320549}
+  m_CullTransparentMesh: 1
 --- !u!1 &353477871
 GameObject:
   m_ObjectHideFlags: 0
@@ -1114,7 +1186,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cbd439a3ca0f9d04fa9dca0eea39866f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TutorialPage
-  videoClip: {fileID: 0}
+  videoClipName: 
   Activated:
     m_PersistentCalls:
       m_Calls:
@@ -1335,10 +1407,10 @@ Camera:
   m_LensShift: {x: 0, y: 0}
   m_NormalizedViewPortRect:
     serializedVersion: 2
-    x: 0.03125
-    y: 0.03125
-    width: 0.9375
-    height: 0.9375
+    x: 0
+    y: 0
+    width: 1
+    height: 1
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 34
@@ -2737,6 +2809,7 @@ RectTransform:
   - {fileID: 2101094942}
   - {fileID: 500534782}
   - {fileID: 1707689288}
+  - {fileID: 317320550}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -3309,7 +3382,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cbd439a3ca0f9d04fa9dca0eea39866f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TutorialPage
-  videoClip: {fileID: 32900000, guid: b4eb0b9f77d579c47a65490bc8717eb9, type: 3}
+  videoClipName: tutorial_same_angle.mp4
   Activated:
     m_PersistentCalls:
       m_Calls:
@@ -3723,7 +3796,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cbd439a3ca0f9d04fa9dca0eea39866f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TutorialPage
-  videoClip: {fileID: 0}
+  videoClipName: 
   Activated:
     m_PersistentCalls:
       m_Calls:
@@ -4395,7 +4468,7 @@ VideoPlayer:
   m_TargetMaterialProperty: <noninit>
   m_RenderMode: 2
   m_AspectRatio: 2
-  m_DataSource: 0
+  m_DataSource: 1
   m_TimeUpdateMode: 2
   m_PlaybackSpeed: 1
   m_AudioOutputMode: 0
@@ -4403,7 +4476,7 @@ VideoPlayer:
   - {fileID: 0}
   m_DirectAudioVolumes:
   - 1
-  m_Url: 
+  m_Url: file://C:/Users/mrgam/Projects/Unity/Time Cutter/Assets/Streaming Assets/tutorial_same_angle.mp4
   m_EnabledAudioTracks: 01
   m_DirectAudioMutes: 00
   m_ControlledAudioTrackCount: 1
@@ -4530,7 +4603,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cbd439a3ca0f9d04fa9dca0eea39866f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TutorialPage
-  videoClip: {fileID: 0}
+  videoClipName: 
   Activated:
     m_PersistentCalls:
       m_Calls:
@@ -5155,7 +5228,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cbd439a3ca0f9d04fa9dca0eea39866f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TutorialPage
-  videoClip: {fileID: 32900000, guid: fba77cd2fa017584b9dd48015b481126, type: 3}
+  videoClipName: 
   Activated:
     m_PersistentCalls:
       m_Calls: []
@@ -5690,7 +5763,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cbd439a3ca0f9d04fa9dca0eea39866f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TutorialPage
-  videoClip: {fileID: 32900000, guid: fba77cd2fa017584b9dd48015b481126, type: 3}
+  videoClipName: tutorial_different_angles.mp4
   Activated:
     m_PersistentCalls:
       m_Calls:

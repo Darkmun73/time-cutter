@@ -41,7 +41,7 @@ public class AttackSequenceInfo
         if (acuteAngleDiff > data.DamageThresholdAngle)
         {
             var normalizedDiff = (acuteAngleDiff - data.DamageThresholdAngle) / (Angles.RightAngle - data.DamageThresholdAngle);
-            float baseGrowth = Mathf.Lerp(0f, data.DamageReward, normalizedDiff);
+            float baseGrowth = Mathf.Lerp(0f, data.DamageReward, normalizedDiff); //TODO: Lerp то и не нужен, можно просто перемножить
 
             float repetitionMultiplier = CalculateRepetitionMultiplier();
             float growth = baseGrowth * repetitionMultiplier;
@@ -53,7 +53,7 @@ public class AttackSequenceInfo
         else
         {
             var normalizedAngleDiff = 1f - (acuteAngleDiff / data.DamageThresholdAngle);
-            float penalty = Mathf.Lerp(0f, data.DamagePenalty, normalizedAngleDiff);
+            float penalty = Mathf.Lerp(0f, data.DamagePenalty, normalizedAngleDiff);//TODO: Lerp то и не нужен, можно просто перемножить
             DamageCoef -= penalty;
             
             //Debug.Log($"✗ Num: {numberOfHits} Last angle: {lastAngle}° Diff:{acuteAngleDiff:F1}° Penalty:{penalty:F3} → {DamageCoef:F3}");
